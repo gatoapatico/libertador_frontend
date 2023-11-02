@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Marcellus+SC&display=swap');
+/* 
+font-family: 'Inter', sans-serif;
+font-family: 'Marcellus SC', serif;
+ */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: #232323;
+}
+
+h1,h2,h3,h4,h5,p,ul {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    font-family: inherit;
+    color: inherit;
+}
+
+section {
+    & h1 {
+        font-size: 2rem;
+    }
+}
+
+.body-container {
+    
+    & .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em 2em;
+        flex-wrap: wrap;
+
+        & .logo {
+            width: 15vw;
+        }
+
+        & .navbar {
+
+            & ul {
+                list-style: none;
+                display: flex;
+                align-items: center;
+                font-weight: 600;
+                gap: 5em;
+                flex-wrap: wrap;
+
+                & li {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        & .btn-reserva {
+            background-color: #333050;
+            color: white;
+            border-radius: 50px;
+            padding: 0.8em 1.6em;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
+        }
+
+        & .btn-reserva:active {
+            background-color: #27253d;
+        }
+    }
+
+    & .landing {
+        height: 90vh;
+        background-image: url('images/landing_bg.png');
+        background-position-x: center;
+        background-position-y: center;
+        background-color: #6b6b6b;
+        background-blend-mode: multiply;
+
+        & .landing-content {
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+
+            & h1 {
+                font-family: 'Marcellus SC', serif;
+                font-size: 4rem;
+                font-weight: 100;
+                letter-spacing: 0.2rem;
+
+                & span {
+                    font-size: 1.2em;
+                }
+            }
+
+            & h3 {
+                font-family: 'Marcellus SC', serif;
+                font-weight: 100;
+                letter-spacing: 0.4em;
+            }
+
+            & .availability-section {
+                margin-top: 3em;
+                width: 811px;
+                height: 50px;
+                background-color: transparent;
+                border-radius: 5px;
+                color: #232323;
+                display: flex;
+                box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
+
+                & h2 {
+                    flex-grow: 1;
+                    font-size: 1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: 500;
+                    background-color: white;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+
+                    & i {
+                        margin-right: 1em;
+                    }
+                }
+
+                & .date-select {
+                    border-left: 2px solid rgb(179, 179, 179);
+                    cursor: pointer;
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+
+                & .date-select:active {
+                    background-color: rgb(219, 219, 219);
+                }
+
+                & .btn-availability {
+                    background-color: #333050;
+                    color: white;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                    cursor: pointer;
+                }
+
+                & .btn-availability:active {
+                    background-color: #28263f;
+                }
+            }
+        }
+    }
+}
