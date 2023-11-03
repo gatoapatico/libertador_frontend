@@ -56,6 +56,10 @@ section {
                 & li {
                     cursor: pointer;
                 }
+
+                & li:active {
+                    color: #444444;
+                }
             }
         }
 
@@ -82,6 +86,8 @@ section {
         background-position-y: center;
         background-color: #6b6b6b;
         background-blend-mode: multiply;
+        background-repeat: no-repeat;
+        background-size: cover;
 
         & .landing-content {
             color: white;
@@ -96,6 +102,7 @@ section {
                 font-size: 4rem;
                 font-weight: 100;
                 letter-spacing: 0.2rem;
+                pointer-events: none;
 
                 & span {
                     font-size: 1.2em;
@@ -106,6 +113,7 @@ section {
                 font-family: 'Marcellus SC', serif;
                 font-weight: 100;
                 letter-spacing: 0.4em;
+                pointer-events: none;
             }
 
             & .availability-section {
@@ -156,6 +164,208 @@ section {
                 & .btn-availability:active {
                     background-color: #28263f;
                 }
+            }
+        }
+    }
+
+    & .services {
+        text-align: center;
+        margin-top: 4em;
+        
+
+        & .services-cards {
+            margin: 4em 0;
+            display: flex;
+            gap: 2em;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            & .service {
+                background-color: #fafafa;
+                text-align: center;
+                padding: 2em 0;
+                width: 20vw;
+
+                & img {
+                    filter: grayscale(100) brightness(0%);
+                    margin-bottom: 0.5em;
+                }
+
+            }
+        }
+    }
+
+    & .rooms {
+        padding: 3em 0;
+        text-align: center;
+        background-color: #fafafa;
+
+        --borde-room-card: 25px;
+
+        & .room-cards {
+            /* border: 1px solid red; */
+            width: 70vw;
+            margin: 1em auto;
+            display: flex;
+            gap: 2em;
+            overflow: scroll;
+            padding: 2em 0;
+
+            & .room {
+                border-radius: var(--borde-room-card);
+                box-shadow: 0 2px 20px rgb(0, 0, 0,20%);
+                padding: 0 0 2em 0;
+                text-align: start;
+
+                & img {
+                    display: block;
+                    width: 30vw;
+                    border-top-left-radius: var(--borde-room-card);
+                    border-top-right-radius: var(--borde-room-card);
+                    height: 260px;
+                }
+
+                & h2 {
+                    margin: 1em 1em 0 1em;
+                }
+            }
+        }
+
+        & .room-cards::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    & .footer {
+        background-color: #232323;
+        color: white;
+        padding: 3em 5em;
+
+        & .footer-content {
+            /* border: 1px solid blue; */
+            font-weight: 300;
+
+            & .footer-section1 {
+                display: flex;
+                height: 300px;
+                justify-content: space-around;
+
+                & .info {
+                    width: 30%;
+                }
+
+                & .info1 {
+                    /* border: 1px solid yellow; */
+
+                    & .logo {
+                        filter: invert(100%);
+                        width: 300px;
+                        margin-bottom: 1.5em;
+                    }
+
+                    & h3 {
+                        margin: 1em 0;
+                        font-weight: 300;
+                        font-size: 1rem;
+                        
+                        & i {
+                            margin-right: 0.5em;
+                        }
+                    }
+                }
+    
+                & .info2 {
+                    /* border: 1px solid lightcoral; */
+                    display: flex;
+                    align-items: start;
+
+                    & ul {
+                        list-style: none;
+
+                        & li {
+                            margin: 0 2em 1em 0;
+                            cursor: pointer;
+                        }
+
+                        & li:active {
+                            color: rgb(219, 219, 219);
+                        }
+                    }
+                }
+    
+                & .info3 {
+                    /* border: 1px solid cyan; */
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.5em;
+                    width: 20%;
+                    color: #232323;
+
+                    & h2 {
+                        color: white;
+                        font-weight: 500;
+                    }
+
+                    & input {
+                        padding: 0.8em;
+                        border-radius: 5px;
+                        font-family: inherit;
+                        border: none;
+                    }
+
+                    & input:focus {
+                        outline: none;
+                        box-shadow: 0 2px 10px #333050;
+                    }
+
+                    & button {
+                        padding: 0.8em;
+                        border: none;
+                        border-radius: 10px;
+                        color: white;
+                        background-color: #333050;
+                        font-weight: 600;
+                        box-shadow: 0 2px 10px rgb(0, 0, 0,30%);
+                    }
+
+                    & button:active {
+                        background-color: #1f1d31;
+                    }
+                }
+            }
+
+            & .footer-section2 {
+                display: flex;
+                height: 200px;
+                margin: 1em 3.5em;
+                
+                & .info4 {
+                    /* border: 1px solid cyan; */
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 1em;
+
+
+                    & .medios-pagos {
+                        display: flex;
+                        align-items: center;
+                        gap: 1em;
+                    }
+
+                    & iframe {
+                        border: none;
+                        border-radius: 10px;
+                        width: 500px;
+                        height: 200px;
+                    }
+
+                }
+            }
+
+            & h4 {
+                font-weight: 300;
             }
         }
     }

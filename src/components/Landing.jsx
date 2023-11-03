@@ -6,6 +6,7 @@ export default function Landing() {
                 <h3>descubre el lujo que trasciende el tiempo</h3>
                 <div className="availability-section">
                     <h2>Reserva directa</h2>
+                    {/* <input type="date" /> */}
                     <h2 className="date-select"><i className="bi bi-calendar-week-fill"></i>fecha llegada - fecha salida</h2>
                     <h2 className="btn-availability">Comprobar disponibilidad</h2>
                 </div>
