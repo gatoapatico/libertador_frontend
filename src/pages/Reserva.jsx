@@ -11,7 +11,18 @@ export default function Reserva() {
 
     function handleLogin(e) {
         e.preventDefault();
-        console.log("enviando datos del formulario login");
+        const email = "laura.perez@example.com";
+        const contrasena = "pass123";
+        const usuario = {email, contrasena};
+
+        fetch('http://localhost:8080/api/usuarios/login',{
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(usuario),
+        })
+        .then(res => res.json())
+        .then(data => console.log(data));
+
     }
 
     function handleRegister(e) {
