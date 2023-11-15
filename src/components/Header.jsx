@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
     return (
         <header className="header">
@@ -11,7 +13,7 @@ export default function Header() {
                     <li>Galeria</li>
                 </ul>
             </nav>
-            <button className="btn-reserva">RESERVA YA</button>
+            <Link to={"/reserva"}><button className="btn-reserva">RESERVA YA</button></Link>
         </header>
     )
 }

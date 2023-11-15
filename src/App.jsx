@@ -1,17 +1,14 @@
-import Header from "./components/Header"
-import Landing from "./components/Landing"
-import Services from "./components/Services"
-import Rooms from "./components/Rooms"
-import Footer from "./components/Footer"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Home from "./pages/Home"
+import Reserva from "./pages/Reserva"
 
 export default function App() {
     return (
-        <div className='body-container'>
-            <Header />
-            <Landing />
-            <Services />
-            <Rooms />
-            <Footer />
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/reserva" element={<Reserva />}/>
+            </Routes>
+        </BrowserRouter>
     )
 }

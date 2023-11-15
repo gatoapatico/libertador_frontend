@@ -210,12 +210,14 @@ section {
             gap: 2em;
             overflow: scroll;
             padding: 2em 0;
+            cursor:grab;
 
             & .room {
                 border-radius: var(--borde-room-card);
                 box-shadow: 0 2px 20px rgb(0, 0, 0,20%);
                 padding: 0 0 2em 0;
                 text-align: start;
+                user-select: none;
 
                 & img {
                     display: block;
@@ -223,12 +225,18 @@ section {
                     border-top-left-radius: var(--borde-room-card);
                     border-top-right-radius: var(--borde-room-card);
                     height: 260px;
+                    user-select: none;
+                    -webkit-user-drag: none;
                 }
 
                 & h2 {
                     margin: 1em 1em 0 1em;
                 }
             }
+        }
+
+        & .room-cards:active {
+            cursor:grabbing;
         }
 
         & .room-cards::-webkit-scrollbar {
