@@ -9,22 +9,6 @@ export default function Reserva() {
     const [isLogin, setIsLogin] = useState(false);
     const [isRegistro, setIsRegistro] = useState(false);
 
-    function handleLogin(e) {
-        e.preventDefault();
-        const email = "laura.perez@example.com";
-        const contrasena = "pass123";
-        const usuario = {email, contrasena};
-
-        fetch('http://localhost:8080/api/usuarios/login',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(usuario),
-        })
-        .then(res => res.json())
-        .then(data => console.log(data));
-
-    }
-
     function handleRegister(e) {
         e.preventDefault();
         console.log("Enviando datos del formulario de registro!");
@@ -219,7 +203,7 @@ export default function Reserva() {
                 <div className={`blur-layout ${isPopup?"" : "hidden"}`} onClick={handleExit}>
                 </div>
             </div>
-            { isLogin ? <Login handleExit={handleExit} handleLogin={handleLogin} openRegistro={openRegistro}/> : "" }
+            { isLogin ? <Login handleExit={handleExit} openRegistro={openRegistro}/> : "" }
             { isRegistro ? <Registro handleExit={handleExit} handleRegister={handleRegister} openLogin={openLogin}/> : "" }
         </div>
     )
