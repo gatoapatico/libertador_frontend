@@ -9,11 +9,6 @@ export default function Reserva() {
     const [isLogin, setIsLogin] = useState(false);
     const [isRegistro, setIsRegistro] = useState(false);
 
-    function handleRegister(e) {
-        e.preventDefault();
-        console.log("Enviando datos del formulario de registro!");
-    }
-
     function openLogin() {
         setIsRegistro(false);
         setIsPopup(true);
@@ -204,7 +199,7 @@ export default function Reserva() {
                 </div>
             </div>
             { isLogin ? <Login handleExit={handleExit} openRegistro={openRegistro}/> : "" }
-            { isRegistro ? <Registro handleExit={handleExit} handleRegister={handleRegister} openLogin={openLogin}/> : "" }
+            { isRegistro ? <Registro handleExit={handleExit} openLogin={openLogin}/> : "" }
         </div>
     )
 }
