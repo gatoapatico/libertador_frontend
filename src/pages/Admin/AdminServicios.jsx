@@ -30,6 +30,42 @@ export default function AdminServicios() {
       // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
   };
+
+  const [nombre, setNombre] = useState("");
+  const [costo, setCosto] = useState("");
+  const [fechaAlta, setFechaAlta] = useState("");
+
+  const servicio = {
+    nombre: nombre,
+    costo: costo,
+    fechaAlta: fechaAlta,
+    fechaBaja: null,
+    foto: null,
+    estado: "Activo",
+  };
+
+  function servicioRegistrado(e) {
+    e.preventDefault();
+    console.log(servicio);
+
+    fetch("http://localhost:8080/api/servicios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(servicio),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP Error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(() => {
+        console.log("servicio Agregado!");
+      })
+      .catch((error) => {
+        console.error("Error: ", error.message);
+      });
+  }
   return (
     <div className="admin-usuarios">
       <h1>SERVICIOS</h1>
@@ -88,59 +124,40 @@ export default function AdminServicios() {
           </table>
         </div>
         <div className="usuarios-form">
-          <h3>Crea-Modifica Usuarios</h3>
+          <h3>Crea un Servicio</h3>
           <form action="">
             <br></br>
-            <div className="input-form">
-              <input type="text" id="txtEmail" placeholder="Ingrese un email" />
-              {/* <label htmlFor="txtEmail">Email</label> */}
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtContrasena"
-                placeholder="Ingrese una contraseña"
-              />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtDni"
-                placeholder="Ingrese un número de dni"
-              />
-            </div>
             <div className="input-form">
               <input
                 type="text"
                 id="txtNombre"
-                placeholder="Ingrese un nombre"
+                placeholder="Ingrese el nombre del servicio"
+                onChange={(e) => setNombre(e.target.value)}
+              />
+              {/* <label htmlFor="txtEmail">Email</label> */}
+            </div>
+            <div className="input-form">
+              <input
+                type="number"
+                id="txtCosto"
+                placeholder="Ingrese el costo del servicio"
+                onChange={(e) => setCosto(e.target.value)}
               />
             </div>
             <div className="input-form">
               <input
-                type="text"
-                id="txtApellido"
-                placeholder="Ingrese un apellido"
+                type="date"
+                id="txtFechaAlta"
+                placeholder="Ingrese la fecha"
+                onChange={(e) => setFechaAlta(e.target.value)}
               />
             </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtTelefono"
-                placeholder="Ingrese un número de teléfono"
-              />
-            </div>
-            <div className="input-form">
-              <select id="txtTipo" required>
-                <option value="Cliente">Cliente</option>
-                <option value="Adminsitrador">Administrador</option>
-              </select>
-            </div>
+
             <button
               className="btn-crear-actualizar"
-              onClick={(e) => handleForm(e)}
+              onClick={(e) => servicioRegistrado(e)}
             >
-              Crear/Actualizar
+              Crear Servicio
             </button>
           </form>
         </div>
