@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-export default function AdminUsuariosModificar({ id }) {
+export default function AdminUsuariosModificar({ id, cargarUsuarios }) {
   const urlBase = "http://localhost:8080/api/usuarios";
-  let navegacion = useNavigate();
   const [usuario, setUsuario] = useState({
     email: "",
     contrasena: "",
@@ -45,7 +43,7 @@ export default function AdminUsuariosModificar({ id }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`${urlBase}/${id}`, usuario);
-    navegacion("/Admin");
+    cargarUsuarios();
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>

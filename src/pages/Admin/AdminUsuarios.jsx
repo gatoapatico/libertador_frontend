@@ -107,7 +107,10 @@ export default function AdminUsuarios() {
           <div className="usuarios-form">
             <h3>{isModifying ? "Modificar Usuario" : "Crear Usuario"}</h3>
             {isModifying && (
-              <AdminUsuariosModificar id={usuarioSeleccionado.id} />
+              <AdminUsuariosModificar
+                id={usuarioSeleccionado.id}
+                cargarUsuarios={cargarUsuarios}
+              />
             )}
             {isModifying && (
               <button onClick={crearUsuario}>Crear Usuario</button>
@@ -117,7 +120,7 @@ export default function AdminUsuarios() {
         ) : (
           <div className="usuarios-form">
             <h3>Crear Usuario</h3>
-            <AdminUsuariosRegistro />
+            <AdminUsuariosRegistro cargarUsuarios={cargarUsuarios} />
           </div>
         )}
       </div>

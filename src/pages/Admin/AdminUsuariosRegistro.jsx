@@ -2,9 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function AdminUsuariosRegistro() {
+export default function AdminUsuariosRegistro({ cargarUsuarios }) {
   const urlBase = "http://localhost:8080/api/usuarios";
-  let navegacion = useNavigate();
   const [usuario, setUsuario] = useState({
     email: "",
     contrasena: "",
@@ -53,7 +52,7 @@ export default function AdminUsuariosRegistro() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post(urlBase, usuario);
-    navegacion("/Admin");
+    cargarUsuarios();
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>
