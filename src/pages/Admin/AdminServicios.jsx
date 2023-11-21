@@ -1,23 +1,36 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import AdminServiciosRegistro from "./AdminServiciosRegistro";
+import AdminServiciosModificar from "./AdminServiciosModificar";
 
 export default function AdminServicios() {
   const urlBase = "http://localhost:8080/api/servicios";
   const [servicios, setServicios] = useState([]);
-
+  const [servicioSeleccionado, setServicioSeleccionado] = useState(null);
+  const [isModifying, setIsModifying] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
     cargarServicios();
-  }, []);
+  }, [currentPage]);
+
   const cargarServicios = async () => {
     try {
-      const resultado = await axios.get(urlBase);
+      const resultado = await axios.get(`${urlBase}/page/${currentPage}`);
       console.log("Resultado cargar servicios");
       console.log(resultado.data);
-      setServicios(resultado.data);
+      setServicios(resultado.data.content); // Asegúrate de que tu backend devuelve los datos en una propiedad 'content'
     } catch (error) {
       console.error("Error al cargar servicios:", error);
       // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
+  };
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
   };
 
   const cambiarEstado = async (id) => {
@@ -31,41 +44,22 @@ export default function AdminServicios() {
     }
   };
 
-  const [nombre, setNombre] = useState("");
-  const [costo, setCosto] = useState("");
-  const [fechaAlta, setFechaAlta] = useState("");
-
-  const servicio = {
-    nombre: nombre,
-    costo: costo,
-    fechaAlta: fechaAlta,
-    fechaBaja: null,
-    foto: null,
-    estado: "Activo",
+  const ModificarServicio = async (id) => {
+    try {
+      const resultado = await axios.get(`${urlBase}/${id}`);
+      setServicioSeleccionado(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
+      setIsModifying(true);
+      setIsCreating(false); // Establece que estamos en modo de modificación
+    } catch (error) {
+      console.error("Error al obtener los datos del usuario:", error);
+      // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
+    }
   };
-
-  function servicioRegistrado(e) {
-    e.preventDefault();
-    console.log(servicio);
-
-    fetch("http://localhost:8080/api/servicios", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(servicio),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP Error! Status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then(() => {
-        console.log("servicio Agregado!");
-      })
-      .catch((error) => {
-        console.error("Error: ", error.message);
-      });
-  }
+  const crearServicio = () => {
+    setIsCreating(true);
+    setServicioSeleccionado(null); // Restablece el usuario seleccionado al crear uno nuevo
+    setIsModifying(false); // Asegúrate de que estás en modo de creación y no modificación
+  };
   return (
     <div className="admin-usuarios">
       <h1>SERVICIOS</h1>
@@ -83,17 +77,6 @@ export default function AdminServicios() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>DESAYUNO</td>
-                <td>45</td>
-                <td>2023-11-10</td>
-                <td></td>
-                <td className="celda-estado">
-                  <button>Desactivar</button>
-                  <button>Modificar</button>
-                </td>
-              </tr>
               {servicios.map((servicio) => (
                 <tr key={servicio.id}>
                   <td>{servicio.id}</td>
@@ -105,62 +88,41 @@ export default function AdminServicios() {
                       ? servicio.fechaBaja
                       : "El servicio está activo"}
                   </td>
-                  <td>
-                    <a
-                      className="buttonTabla"
-                      href="#"
-                      id="boton1"
-                      onClick={() => cambiarEstado(servicio.id)}
-                    >
+                  <td className="celda-estado">
+                    <button onClick={() => cambiarEstado(servicio.id)}>
                       {servicio.estado === "Activo" ? "Desactivar" : "Activar"}
-                    </a>
-                    <a className="buttonTabla" href="#">
+                    </button>
+                    <button onClick={() => ModificarServicio(servicio.id)}>
                       Modificar
-                    </a>
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
+            <button onClick={prevPage}>Página anterior</button>
+            <button onClick={nextPage}>Página siguiente</button>
           </table>
         </div>
-        <div className="usuarios-form">
-          <h3>Crea un Servicio</h3>
-          <form action="">
-            <br></br>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtNombre"
-                placeholder="Ingrese el nombre del servicio"
-                onChange={(e) => setNombre(e.target.value)}
+        {isModifying || isCreating ? (
+          <div className="usuarios-form">
+            <h3>{isModifying ? "Modificar Servicio" : "Crear Servicio"}</h3>
+            {isModifying && (
+              <AdminServiciosModificar
+                id={servicioSeleccionado.id}
+                cargarServicios={cargarServicios}
               />
-              {/* <label htmlFor="txtEmail">Email</label> */}
-            </div>
-            <div className="input-form">
-              <input
-                type="number"
-                id="txtCosto"
-                placeholder="Ingrese el costo del servicio"
-                onChange={(e) => setCosto(e.target.value)}
-              />
-            </div>
-            <div className="input-form">
-              <input
-                type="date"
-                id="txtFechaAlta"
-                placeholder="Ingrese la fecha"
-                onChange={(e) => setFechaAlta(e.target.value)}
-              />
-            </div>
-
-            <button
-              className="btn-crear-actualizar"
-              onClick={(e) => servicioRegistrado(e)}
-            >
-              Crear Servicio
-            </button>
-          </form>
-        </div>
+            )}
+            {isModifying && (
+              <button onClick={crearServicio}>Crear Servicio</button>
+            )}
+            {isCreating && <AdminServiciosRegistro />}
+          </div>
+        ) : (
+          <div className="usuarios-form">
+            <h3>Crear Servicio</h3>
+            <AdminServiciosRegistro cargarServicios={cargarServicios} />
+          </div>
+        )}
       </div>
     </div>
   );
