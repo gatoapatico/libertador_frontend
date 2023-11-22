@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "../components/popups/Login";
 import Registro from "../components/popups/Registro";
+import { nanoid } from "nanoid";
+
 
 export default function Reserva() {
 
@@ -26,6 +28,65 @@ export default function Reserva() {
         setIsPopup(false);
         setIsRegistro(false);
     }
+
+
+    const [categorias, setCategorias] = useState([]);
+
+    console.log(categorias);
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/categorias')
+            .then(res => res.json())
+            .then(data => setCategorias(data));
+
+        /* fetch('http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=2023-11-21&fechaCheckOut=2023-11-30')
+            .then(res => res.json())
+            .then(data => {
+                console.log([...new Set(data.map(habitacion => { return habitacion.tipoHabitacion.id}))])
+            }); */
+    }, []);
+
+    /* console.log(categorias); */
+    
+
+    const categoriasEl = categorias.map(categoria => {
+
+        const serviciosEl = categoria.servicios.map(servicio => {
+            return (
+                <li key={nanoid()}>{servicio.nombre}</li>
+            )
+        })
+
+        return (
+            <div key={nanoid()} className="habitacion">
+                <div className="habitacion-imagen">
+                    <img src="images/rooms/deluxe-king-1.png" alt="Deluxe, King 1" />
+                </div>
+                <div className="habitacion-info">
+                    <h3>{categoria.nombre}</h3>
+                    <h4 className="descripcion">{categoria.descripcion_breve}</h4>
+                    <p className="habtc-disponibles">Solo quedan 2 habitaciones</p>
+                    <ul>
+                        {serviciosEl}
+                    </ul>
+                    <button className="btn-detalles">Detalles de la habitación</button>
+                    <div className="reserva-info">
+                        <div className="info-adicional">
+                            <button className="btn-terminos">Términos y condiciones</button>
+                            <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
+                        </div>
+                        <div className="precio-reserva">
+                            <h1>S/{categoria.costoServicios.toFixed(2)}</h1>
+                            <p>Por noche</p>
+                            <p>Impuestos y tasas excluidos</p>
+                            <button className="btn-reservar">RESERVAR AHORA</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    });
+
 
     return (
         <div className="contenedor-reservas">
@@ -66,7 +127,8 @@ export default function Reserva() {
                         </div>
                         <h2 className="subtitulo">Seleccione una habitación</h2>
                         <div className="habitaciones">
-                            <div className="habitacion">
+                            {categoriasEl}
+                            {/* <div className="habitacion">
                                 <div className="habitacion-imagen">
                                     <img src="images/rooms/deluxe-king-1.png" alt="Deluxe, King 1" />
                                 </div>
@@ -172,7 +234,7 @@ export default function Reserva() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className="reservas-resumen">

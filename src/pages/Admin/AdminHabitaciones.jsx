@@ -70,18 +70,13 @@ export default function AdminHabitaciones() {
             : "La habitacion esta activa"}
         </td>
         <td>{habitacion.ocupante}</td>
-        <td>
-          <a
-            className="buttonTabla"
-            href="#"
-            id="boton1"
-            onClick={() => cambiarEstado(habitacion.id)}
-          >
-            {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
-          </a>
-          <a className="buttonTabla" href="#">
-            Modificar
-          </a>
+        <td className="celda-estado">
+            <button onClick={() => cambiarEstado(habitacion.id)}>
+                {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
+            </button>
+            <button onClick={() => ModificarUsuario(habitacion.id)}>
+                Modificar
+            </button>
         </td>
       </tr>
     );
