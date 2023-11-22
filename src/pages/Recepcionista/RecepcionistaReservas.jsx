@@ -20,28 +20,30 @@ const RecepcionistaReservas = () => {
     <div className="recepcionista-reservas">
       <h1>RESERVAS</h1>
       <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>checkIn</th>
-            <th>checkOut</th>
-            <th>Usuario</th>
-          </tr>
-        </thead>
-        <tbody>
-        {reservas.map((reserva) => (
-  <tr key={reserva.id}>
-    <td>{reserva.id}</td>
-    <td>{reserva.detalleReserva.checkIn}</td>
-    <td>{reserva.detalleReserva.chackOut}</td>
-    <td>{reserva.usuario.nombre}</td>
-  </tr>
-))}
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Total</th>
+      <th>Fecha Reserva</th>
+      <th>Usuario</th>
+      <th>Check In</th>
+      <th>Check Out</th>
+    </tr>
+  </thead>
+  <tbody>
+    {reservas.map((reserva) => (
+      <tr key={reserva.id}>
+        <td>{reserva.id}</td>
+        <td>{reserva.total}</td>
+        <td>{reserva.fechaReserva}</td>
+        <td>{reserva.usuario.nombre}</td>
+        <td>{reserva.detalleReserva[0].checkIn}</td>
+        <td>{reserva.detalleReserva[0].chackOut}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
-
-
-        </tbody>
-      </table>
     </div>
   );
 };
