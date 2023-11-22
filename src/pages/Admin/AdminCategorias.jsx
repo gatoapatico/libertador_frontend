@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AdminCategoriasRegistro from "./AdminCategoriasRegistro";
+import AdminCategoriasModificar from "./AdminCategoriasModificar";
 export default function AdminCategorias() {
   const urlBase = "http://localhost:8080/api/categorias";
   const [categorias, setCategorias] = useState([]);
-
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+  const [isModifying, setIsModifying] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   useEffect(() => {
     cargarCategorias();
   }, []);
+
   const cargarCategorias = async () => {
     try {
       const resultado = await axios.get(urlBase);
@@ -27,6 +32,22 @@ export default function AdminCategorias() {
       console.error("Error al cambiar estado de la categoría:", error);
       // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
+  };
+  const modificarCategoria = async (id) => {
+    try {
+      const resultado = await axios.get(`${urlBase}/${id}`);
+      setCategoriaSeleccionada(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
+      setIsModifying(true);
+      setIsCreating(false); // Establece que estamos en modo de modificación
+    } catch (error) {
+      console.error("Error al obtener los datos del usuario:", error);
+      // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
+    }
+  };
+  const crearCategoria = () => {
+    setIsCreating(true);
+    setCategoriaSeleccionada(null); // Restablece el usuario seleccionado al crear uno nuevo
+    setIsModifying(false); // Asegúrate de que estás en modo de creación y no modificación
   };
   const listaCategorias = categorias.map((categoria) => {
     return (
@@ -55,18 +76,13 @@ export default function AdminCategorias() {
             ? categoria.fechaBaja
             : "La categoria está activa"}
         </td>
-        <td>
-          <a
-            className="buttonTabla"
-            href="#"
-            id="boton1"
-            onClick={() => cambiarEstado(categoria.id)}
-          >
+        <td className="celda-estado">
+          <button onClick={() => cambiarEstado(categoria.id)}>
             {categoria.estado === "Activo" ? "Desactivar" : "Activar"}
-          </a>
-          <a className="buttonTabla" href="#">
+          </button>
+          <button onClick={() => modificarCategoria(categoria.id)}>
             Modificar
-          </a>
+          </button>
         </td>
       </tr>
     );
@@ -92,63 +108,26 @@ export default function AdminCategorias() {
             <tbody>{listaCategorias}</tbody>
           </table>
         </div>
-        <div className="usuarios-form">
-          <h3>Crea-Modifica Usuarios</h3>
-          <form action="">
-            <br></br>
-            <div className="input-form">
-              <input type="text" id="txtEmail" placeholder="Ingrese un email" />
-              {/* <label htmlFor="txtEmail">Email</label> */}
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtContrasena"
-                placeholder="Ingrese una contraseña"
+        {isModifying || isCreating ? (
+          <div className="usuarios-form">
+            <h3>{isModifying ? "Modificar Categoria" : "Crear Categoria"}</h3>
+            {isModifying && (
+              <AdminCategoriasModificar
+                id={categoriaSeleccionada.id}
+                cargarCategorias={cargarCategorias}
               />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtDni"
-                placeholder="Ingrese un número de dni"
-              />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtNombre"
-                placeholder="Ingrese un nombre"
-              />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtApellido"
-                placeholder="Ingrese un apellido"
-              />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtTelefono"
-                placeholder="Ingrese un número de teléfono"
-              />
-            </div>
-            <div className="input-form">
-              <select id="txtTipo" required>
-                <option value="Cliente">Cliente</option>
-                <option value="Adminsitrador">Administrador</option>
-              </select>
-            </div>
-            <button
-              className="btn-crear-actualizar"
-              onClick={(e) => handleForm(e)}
-            >
-              Crear/Actualizar
-            </button>
-          </form>
-        </div>
+            )}
+            {isModifying && (
+              <button onClick={cargarCategorias}>Crear Categoria</button>
+            )}
+            {isCreating && <AdminCategoriasRegistro />}
+          </div>
+        ) : (
+          <div className="usuarios-form">
+            <h3>Crear Categoria</h3>
+            <AdminCategoriasRegistro cargarUsuarios={cargarCategorias} />
+          </div>
+        )}
       </div>
     </div>
   );
