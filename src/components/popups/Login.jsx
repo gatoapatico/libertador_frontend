@@ -10,26 +10,33 @@ export default function Login({handleExit, openRegistro}) {
 
     function userlogin(e) {
         e.preventDefault();
-        const usuario = {email, contrasena};
-        
-        fetch('http://localhost:8080/api/usuarios/login',{
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(usuario),
+        const usuario = { email, contrasena };
+      
+        fetch('http://localhost:8080/api/usuarios/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(usuario),
         })
-        .then(res => {
-            if(!res.ok) {
-                throw new Error(`HTTP error! Status: ${res.status}`);
+          .then(res => {
+            if (!res.ok) {
+              throw new Error(`HTTP error! Status: ${res.status}`);
             }
             return res.json();
-        })
-        .then(() => {
-            navigate("/admin", { replace: true })
-        })
-        .catch(error => {
-            console.error("Error: ", error.message);
-        });
-    }
+          })
+          .then(data => {
+            if (data.tipo === 'Recepcionista') {
+              navigate("/recepcionista", { replace: true });
+            } else if (data.tipo === 'Admin') {
+              navigate("/admin", { replace: true });
+            } else {
+              console.error('Invalid user type:', data.tipo);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error.message);
+          });
+      }
+      
 
     return (
         <div className="popup-login">
