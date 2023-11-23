@@ -60,6 +60,11 @@ export default function AdminServicios() {
     setServicioSeleccionado(null); // Restablece el usuario seleccionado al crear uno nuevo
     setIsModifying(false); // Asegúrate de que estás en modo de creación y no modificación
   };
+
+  const finalizarModificacion = () => {
+    setIsModifying(false);
+    setIsCreating(true);
+  };
   return (
     <div className="admin-usuarios">
       <h1>SERVICIOS</h1>
@@ -110,12 +115,15 @@ export default function AdminServicios() {
               <AdminServiciosModificar
                 id={servicioSeleccionado.id}
                 cargarServicios={cargarServicios}
+                finalizarModificacion={finalizarModificacion}
               />
             )}
             {isModifying && (
               <button onClick={crearServicio}>Crear Servicio</button>
             )}
-            {isCreating && <AdminServiciosRegistro />}
+            {isCreating && (
+              <AdminServiciosRegistro cargarServicios={cargarServicios} />
+            )}
           </div>
         ) : (
           <div className="usuarios-form">

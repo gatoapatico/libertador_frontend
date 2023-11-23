@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function AdminServiciosModificar({ cargarServicios, id }) {
+export default function AdminServiciosModificar({
+  cargarServicios,
+  id,
+  finalizarModificacion,
+}) {
   const urlBase = "http://localhost:8080/api/servicios";
   const [servicio, setServicio] = useState({
     nombre: "",
@@ -31,10 +35,7 @@ export default function AdminServiciosModificar({ cargarServicios, id }) {
     e.preventDefault();
     await axios.put(`${urlBase}/${id}`, servicio);
     cargarServicios();
-    setServicio({
-      nombre: "",
-      costo: "",
-    });
+    finalizarModificacion();
   };
 
   return (
