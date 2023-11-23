@@ -6,7 +6,7 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
   const [listaServicios, setListaServicios] = useState([]);
   const [categorias, setCategorias] = useState({
     nombre: "",
-    servicios: "",
+    servicios: [],
     cantPersonas: "",
     fechaAlta: "",
     fechaBaja: "null",
@@ -16,12 +16,36 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
     categorias;
 
   const onInputChange = (e) => {
-    setCategorias({ ...categorias, [e.target.name]: e.target.value });
+    if (e.target.name === "servicios") {
+      const selectedServices = Array.from(
+        e.target.selectedOptions,
+        (option) => option.value
+      );
+      setCategorias({ ...categorias, servicios: selectedServices });
+    } else {
+      setCategorias({ ...categorias, [e.target.name]: e.target.value });
+    }
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(urlBase, categorias);
+    let serviciosCompletos = [];
+
+    for (let id of categorias.servicios) {
+      const response = await axios.get(
+        `http://localhost:8080/api/servicios/${id}`
+      );
+      serviciosCompletos.push(response.data.id);
+    }
+
+    let categoriasConServiciosCompletos = {
+      ...categorias,
+      servicios: serviciosCompletos,
+    };
+
+    console.log(categoriasConServiciosCompletos);
+    await axios.post(urlBase, categoriasConServiciosCompletos);
+
     cargarCategorias();
   };
 
@@ -60,22 +84,25 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
         />
       </div>
       <div className="input-form">
-        <select
-          id="txtServicios"
-          name="servicios"
-          required
-          value={servicios}
-          onChange={(e) => onInputChange(e)}
-        >
-          <option value="" disabled>
-            Seleccione los servicios
-          </option>
-          {listaServicios.map((servicio) => (
-            <option key={servicio.id} value={servicio.id}>
-              {servicio.nombre}
+        <div className="input-form">
+          <select
+            id="txtServicios"
+            name="servicios"
+            required
+            value={servicios}
+            onChange={(e) => onInputChange(e)}
+            multiple
+          >
+            <option value="" disabled>
+              Seleccione los servicios
             </option>
-          ))}
-        </select>
+            {listaServicios.map((servicio) => (
+              <option key={servicio.id} value={servicio.id}>
+                {servicio.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       <div className="input-form">
         <input

@@ -44,6 +44,14 @@ export default function AdminUsuariosModificar({ id, cargarUsuarios }) {
     e.preventDefault();
     await axios.put(`${urlBase}/${id}`, usuario);
     cargarUsuarios();
+    setUsuario({
+      email: "",
+      contrasena: "",
+      nombre: "",
+      apellido: "",
+      telefono: "",
+      tipo: "",
+    });
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>
