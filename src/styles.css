@@ -552,6 +552,17 @@ section {
     
                         & .habitacion-info {
                             flex-grow: 1;
+
+                            & .descripcion {
+                                font-weight: 400;
+                                margin-bottom: 1em;
+                            }
+
+                            & .habtc-disponibles {
+                                font-size: 0.7rem;
+                                color: #333050;
+                                font-weight: bold;
+                            }
     
                             & ul {
                                 padding:1em;
