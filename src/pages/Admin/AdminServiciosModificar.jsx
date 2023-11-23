@@ -31,6 +31,10 @@ export default function AdminServiciosModificar({ cargarServicios, id }) {
     e.preventDefault();
     await axios.put(`${urlBase}/${id}`, servicio);
     cargarServicios();
+    setServicio({
+      nombre: "",
+      costo: "",
+    });
   };
 
   return (

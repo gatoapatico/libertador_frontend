@@ -13,6 +13,7 @@ export default function AdminUsuarios() {
   useEffect(() => {
     cargarUsuarios();
   }, []);
+
   const cargarUsuarios = async () => {
     try {
       const resultado = await axios.get(urlBase);

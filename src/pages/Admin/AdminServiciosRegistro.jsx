@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function AdminServiciosRegistro(cargarServicios) {
+export default function AdminServiciosRegistro({ cargarServicios }) {
   const urlBase = "http://localhost:8080/api/servicios";
   const [servicio, setServicio] = useState({
     nombre: "",
@@ -16,10 +16,21 @@ export default function AdminServiciosRegistro(cargarServicios) {
   const onInputChange = (e) => {
     setServicio({ ...servicio, [e.target.name]: e.target.value });
   };
+
+  const reiniciarFormulario = () => {
+    setServicio({
+      nombre: "",
+      costo: "",
+      fechaAlta: "",
+      fechaBaja: "null",
+      estado: "Activo",
+    });
+  };
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post(urlBase, servicio);
     cargarServicios();
+    reiniciarFormulario();
   };
 
   return (
@@ -33,6 +44,7 @@ export default function AdminServiciosRegistro(cargarServicios) {
           value={nombre}
           placeholder="Ingrese el nombre del servicio"
           onChange={(e) => onInputChange(e)}
+          required
         />
         {/* <label htmlFor="txtEmail">Email</label> */}
       </div>
@@ -44,6 +56,7 @@ export default function AdminServiciosRegistro(cargarServicios) {
           value={costo}
           placeholder="Ingrese el costo del servicio"
           onChange={(e) => onInputChange(e)}
+          required
         />
       </div>
       <div className="input-form">
@@ -54,6 +67,7 @@ export default function AdminServiciosRegistro(cargarServicios) {
           value={fechaAlta}
           placeholder="Ingrese la fecha"
           onChange={(e) => onInputChange(e)}
+          required
         />
       </div>
 

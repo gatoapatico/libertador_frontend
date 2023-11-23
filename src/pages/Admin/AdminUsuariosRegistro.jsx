@@ -49,10 +49,27 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
     setUsuario({ ...usuario, tipo: e.target.value });
   };
 
+  const reiniciarFormulario = () => {
+    setUsuario({
+      email: "",
+      contrasena: "",
+      dni: "",
+      nombre: "",
+      apellido: "",
+      telefono: "",
+      fechaAlta: "",
+      fechaBaja: "null",
+      tipo: "",
+      foto: "null",
+      estado: "Activo",
+    });
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post(urlBase, usuario);
     cargarUsuarios();
+    reiniciarFormulario();
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>
