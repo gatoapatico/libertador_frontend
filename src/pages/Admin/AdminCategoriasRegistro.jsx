@@ -3,56 +3,60 @@ import { useEffect, useState } from "react";
 
 export default function AdminCategoriasRegistro({ cargarCategorias }) {
   const urlBase = "http://localhost:8080/api/categorias";
+  const [servicios, setServicios] = useState([]);
   const [listaServicios, setListaServicios] = useState([]);
   const [categorias, setCategorias] = useState({
     nombre: "",
-    servicios: [],
     cantPersonas: "",
     fechaAlta: "",
     fechaBaja: "null",
     estado: "Activo",
   });
-  const { nombre, servicios, cantPersonas, fechaAlta, fechaBaja, estado } =
-    categorias;
+  const { nombre, cantPersonas, fechaAlta, fechaBaja, estado } = categorias;
 
   const onInputChange = (e) => {
-    if (e.target.name === "servicios") {
-      const selectedServices = Array.from(
-        e.target.selectedOptions,
-        (option) => option.value
-      );
-      setCategorias({ ...categorias, servicios: selectedServices });
-    } else {
-      setCategorias({ ...categorias, [e.target.name]: e.target.value });
-    }
+    setCategorias({ ...categorias, [e.target.name]: e.target.value });
   };
 
+  const onServiciosChange = (e) => {
+    const selectedServicios = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setServicios(selectedServicios);
+  };
+  console.log("Servicios:", servicios);
+
   const onSubmit = async (e) => {
-    e.preventDefault();
-    let serviciosCompletos = [];
+    const response = await axios.post(urlBase, categorias);
+    console.log("Categoría creada:", response.data);
 
-    for (let id of categorias.servicios) {
-      const response = await axios.get(
-        `http://localhost:8080/api/servicios/${id}`
-      );
-      serviciosCompletos.push(response.data.id);
-    }
+    const responseCategoria = await axios.get(
+      `http://localhost:8080/api/categorias/nombre/${categorias.nombre}`
+    );
+    const categoriaId = responseCategoria.data.id;
 
-    let categoriasConServiciosCompletos = {
-      ...categorias,
-      servicios: serviciosCompletos,
-    };
+    console.log("Categoría ID:", categoriaId);
+    console.log("Servicios:", servicios);
 
-    console.log(categoriasConServiciosCompletos);
-    await axios.post(urlBase, categoriasConServiciosCompletos);
+    await axios.put(
+      `http://localhost:8080/api/categorias/${categoriaId}/servicios`,
+      servicios
+    );
+
+    console.log("Categoría actualizada con servicios.");
 
     cargarCategorias();
   };
 
   useEffect(() => {
     async function fetchServicios() {
-      const response = await axios.get("http://localhost:8080/api/servicios");
-      setListaServicios(response.data);
+      try {
+        const response = await axios.get("http://localhost:8080/api/servicios");
+        setListaServicios(response.data);
+      } catch (error) {
+        console.error("Error fetching servicios:", error);
+      }
     }
 
     fetchServicios();
@@ -90,7 +94,7 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
             name="servicios"
             required
             value={servicios}
-            onChange={(e) => onInputChange(e)}
+            onChange={onServiciosChange}
             multiple
           >
             <option value="" disabled>
