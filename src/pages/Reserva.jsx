@@ -11,6 +11,8 @@ export default function Reserva() {
     const [isLogin, setIsLogin] = useState(false);
     const [isRegistro, setIsRegistro] = useState(false);
 
+    const [categorias, setCategorias] = useState([]);
+
     function openLogin() {
         setIsRegistro(false);
         setIsPopup(true);
@@ -29,25 +31,31 @@ export default function Reserva() {
         setIsRegistro(false);
     }
 
-
-    const [categorias, setCategorias] = useState([]);
-
-    console.log(categorias);
-
     useEffect(() => {
-        fetch('http://localhost:8080/api/categorias')
-            .then(res => res.json())
-            .then(data => setCategorias(data));
 
-        /* fetch('http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=2023-11-21&fechaCheckOut=2023-11-30')
-            .then(res => res.json())
-            .then(data => {
-                console.log([...new Set(data.map(habitacion => { return habitacion.tipoHabitacion.id}))])
-            }); */
+        async function getCategoriasByHabitaciones() {
+            const res = await fetch('http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=2023-11-21&fechaCheckOut=2023-11-30');
+            const data = await res.json();
+
+            const indexCategorias = data
+                .filter(habitacion => habitacion.disponibilidad === "Disponible")
+                .map(habitacion => habitacion.tipoHabitacion.id);
+
+            const arrayIndexCategorias = [...new Set(indexCategorias)];
+            seteoDeCategorias(arrayIndexCategorias);
+        }
+
+        async function seteoDeCategorias(arrayIndexCategorias) {
+            const res = await fetch('http://localhost:8080/api/categorias');
+            const data = await res.json();
+
+            const categoriasDisponibles = data.filter(categoria => arrayIndexCategorias.includes(categoria.id));
+            setCategorias(categoriasDisponibles);
+        }
+
+        getCategoriasByHabitaciones();
+        
     }, []);
-
-    /* console.log(categorias); */
-    
 
     const categoriasEl = categorias.map(categoria => {
 
