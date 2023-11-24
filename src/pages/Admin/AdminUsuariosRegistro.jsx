@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function AdminUsuariosRegistro({ cargarUsuarios }) {
   const urlBase = "http://localhost:8080/api/usuarios";

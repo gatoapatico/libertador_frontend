@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export default function AdminUsuariosModificar({ id, cargarUsuarios }) {
+export default function AdminUsuariosModificar({
+  id,
+  cargarUsuarios,
+  finalizarModificacion,
+}) {
   const urlBase = "http://localhost:8080/api/usuarios";
   const [usuario, setUsuario] = useState({
     email: "",
@@ -42,16 +46,14 @@ export default function AdminUsuariosModificar({ id, cargarUsuarios }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`${urlBase}/${id}`, usuario);
-    cargarUsuarios();
-    setUsuario({
-      email: "",
-      contrasena: "",
-      nombre: "",
-      apellido: "",
-      telefono: "",
-      tipo: "",
-    });
+    try {
+      await axios.post(urlBase, usuario);
+      cargarUsuarios();
+      finalizarModificacion();
+    } catch (error) {
+      console.error("Error al crear el usuario:", error);
+      // Aquí puedes manejar el error como mejor te parezca
+    }
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>

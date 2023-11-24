@@ -125,7 +125,7 @@ export default function AdminCategorias() {
         ) : (
           <div className="usuarios-form">
             <h3>Crear Categoria</h3>
-            <AdminCategoriasRegistro cargarUsuarios={cargarCategorias} />
+            <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
           </div>
         )}
       </div>

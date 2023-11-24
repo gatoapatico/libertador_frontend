@@ -53,6 +53,11 @@ export default function AdminUsuarios() {
     setIsModifying(false); // Asegúrate de que estás en modo de creación y no modificación
   };
 
+  const finalizarModificacion = () => {
+    setIsModifying(false);
+    setIsCreating(true);
+  };
+
   return (
     <div className="admin-usuarios">
       <h1>USUARIOS</h1>
@@ -111,12 +116,15 @@ export default function AdminUsuarios() {
               <AdminUsuariosModificar
                 id={usuarioSeleccionado.id}
                 cargarUsuarios={cargarUsuarios}
+                finalizarModificacion={finalizarModificacion}
               />
             )}
             {isModifying && (
               <button onClick={crearUsuario}>Crear Usuario</button>
             )}
-            {isCreating && <AdminUsuariosRegistro />}
+            {isCreating && (
+              <AdminUsuariosRegistro cargarUsuarios={cargarUsuarios} />
+            )}
           </div>
         ) : (
           <div className="usuarios-form">
