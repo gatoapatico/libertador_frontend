@@ -60,7 +60,7 @@ export default function Reserva() {
         return (
             <div key={nanoid()} className="habitacion">
                 <div className="habitacion-imagen">
-                    <img src="images/rooms/deluxe-king-1.png" alt="Deluxe, King 1" />
+                    <img src={`images/rooms/${categoria.foto}`} alt={`foto ${categoria.nombre}`} />
                 </div>
                 <div className="habitacion-info">
                     <h3>{categoria.nombre}</h3>
@@ -76,7 +76,7 @@ export default function Reserva() {
                             <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
                         </div>
                         <div className="precio-reserva">
-                            <h1>S/{categoria.costoServicios.toFixed(2)}</h1>
+                            <h1>S/{categoria.precioCategoria.toFixed(2)}</h1>
                             <p>Por noche</p>
                             <p>Impuestos y tasas excluidos</p>
                             <button className="btn-reservar">RESERVAR AHORA</button>
@@ -128,113 +128,6 @@ export default function Reserva() {
                         <h2 className="subtitulo">Seleccione una habitación</h2>
                         <div className="habitaciones">
                             {categoriasEl}
-                            {/* <div className="habitacion">
-                                <div className="habitacion-imagen">
-                                    <img src="images/rooms/deluxe-king-1.png" alt="Deluxe, King 1" />
-                                </div>
-                                <div className="habitacion-info">
-                                    <h3>Deluxe, King 1</h3>
-                                    <p>Solo quedan 2 habitaciones</p>
-                                    <ul>
-                                        <li>1 cama de tamaño king - De 19 a 22m² / de 205 a 236 pies²</li>
-                                        <li>Zona de esta con sofá de una plaza, escritorio con silla y guardarropa y armario clásicos</li>
-                                    </ul>
-                                    <button className="btn-detalles">Detalles de la habitación</button>
-                                    <div className="reserva-info">
-                                        <div className="info-adicional">
-                                            <button className="btn-terminos">Términos y condiciones</button>
-                                            <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
-                                        </div>
-                                        <div className="precio-reserva">
-                                            <h1>S/228.00</h1>
-                                            <p>Por noche</p>
-                                            <p>Impuestos y tasas excluidos</p>
-                                            <button className="btn-reservar">RESERVAR AHORA</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="habitacion">
-                                <div className="habitacion-imagen">
-                                    <img src="images/rooms/deluxe-queen-2.png" alt="Deluxe, Queen 2" />
-                                </div>
-                                <div className="habitacion-info">
-                                    <h3>Deluxe, Queen 2</h3>
-                                    <p>Solo quedan 3 habitaciones</p>
-                                    <ul>
-                                        <li>Baño de marmol</li>
-                                        <li>Bañera y ducha por separado</li>
-                                    </ul>
-                                    <button className="btn-detalles">Detalles de la habitación</button>
-                                    <div className="reserva-info">
-                                        <div className="info-adicional">
-                                            <button className="btn-terminos">Términos y condiciones</button>
-                                            <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
-                                        </div>
-                                        <div className="precio-reserva">
-                                            <h1>S/308.00</h1>
-                                            <p>Por noche</p>
-                                            <p>Impuestos y tasas excluidos</p>
-                                            <button className="btn-reservar">RESERVAR AHORA</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="habitacion">
-                                <div className="habitacion-imagen">
-                                    <img src="images/rooms/standard-doble.jpg" alt="Standard Doble" />
-                                </div>
-                                <div className="habitacion-info">
-                                    <h3>Standard, Doble</h3>
-                                    <p></p>
-                                    <ul>
-                                        <li>1 cama 2 plazas + 1 Cama 1.5 plaza</li>
-                                        <li>Servicio al cuarto</li>
-                                    </ul>
-                                    <button className="btn-detalles">Detalles de la habitación</button>
-                                    <div className="reserva-info">
-                                        <div className="info-adicional">
-                                            <button className="btn-terminos">Términos y condiciones</button>
-                                            <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
-                                        </div>
-                                        <div className="precio-reserva">
-                                            <h1>S/158.00</h1>
-                                            <p>Por noche</p>
-                                            <p>Impuestos y tasas excluidos</p>
-                                            <button className="btn-reservar">RESERVAR AHORA</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="habitacion">
-                                <div className="habitacion-imagen">
-                                    <img src="images/rooms/standard-matrimonial.jpg" alt="Standard Matrimonial" />
-                                </div>
-                                <div className="habitacion-info">
-                                    <h3>Standard, Matrimonial</h3>
-                                    <p></p>
-                                    <ul>
-                                        <li>1 cama 2 plazas</li>
-                                        <li>Agua caliente</li>
-                                    </ul>
-                                    <button className="btn-detalles">Detalles de la habitación</button>
-                                    <div className="reserva-info">
-                                        <div className="info-adicional">
-                                            <button className="btn-terminos">Términos y condiciones</button>
-                                            <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
-                                        </div>
-                                        <div className="precio-reserva">
-                                            <h1>S/158.00</h1>
-                                            <p>Por noche</p>
-                                            <p>Impuestos y tasas excluidos</p>
-                                            <button className="btn-reservar">RESERVAR AHORA</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                     <div className="reservas-resumen">
