@@ -19,10 +19,8 @@ export default function Landing({startDate, setStartDate, endDate, setEndDate}) 
         setIsCalendar(prevIsCalendar => !prevIsCalendar);
     }
 
-    function goToReservas() {
-        console.log(startDate);
-        console.log(endDate);
-        /* navigate("/reserva"); */
+    function goToReserva() {
+        navigate("/reserva");
     }
 
     return (
@@ -34,7 +32,7 @@ export default function Landing({startDate, setStartDate, endDate, setEndDate}) 
                 <div className="availability-section">
                     <h2>Reserva directa</h2>
                     <h2 className="date-select" onClick={abrir}><i className="bi bi-calendar-week-fill"></i>fecha llegada - fecha salida</h2>
-                    <h2 className="btn-availability" onClick={goToReservas}>Comprobar disponibilidad</h2>
+                    <h2 className="btn-availability" onClick={goToReserva}>Comprobar disponibilidad</h2>
                     {
                         isCalendar ?
                         <div className="fechas-popup">
@@ -45,7 +43,7 @@ export default function Landing({startDate, setStartDate, endDate, setEndDate}) 
                                 minDate={new Date()}
                                 calendarType="gregory"
                                 className={"calendario"}
-                                value={[startDate, endDate]}
+                                defaultValue={[startDate, endDate]}
                                 onChange={handleDateChange}
                             />
                         </div>

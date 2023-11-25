@@ -1,10 +1,10 @@
+import { useOutletContext } from "react-router-dom"
 import Landing from "../components/Landing"
 import { useState } from "react"
 
 export default function Home() {
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
 
     return (
         <div className='home'>
