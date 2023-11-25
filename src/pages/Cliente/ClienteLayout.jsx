@@ -7,6 +7,9 @@ import Registro from "../../components/popups/Registro";
 
 export default function ClienteLayout() {
 
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
     const [isPopup, setIsPopup] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegistro, setIsRegistro] = useState(false);
@@ -32,7 +35,9 @@ export default function ClienteLayout() {
     return (
         <div className='contenedor-cliente'>
             <Header openLogin={openLogin}/>
-            <Outlet />
+            <Outlet
+                context={[startDate, setStartDate, endDate, setEndDate]}
+            />
             <Footer />
             <div className={`blur-layout ${isPopup?"" : "hidden"}`} onClick={handleExit}>
             </div>

@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Login from "../components/popups/Login";
-import Registro from "../components/popups/Registro";
 import { nanoid } from "nanoid";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
+import { useOutletContext } from "react-router-dom";
 
 
 export default function Reserva() {
+
+    const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
 
     const [categorias, setCategorias] = useState([]);
     const [isCalendar, setIsCalendar] = useState(false);
 
     function handleCalendar() {
         setIsCalendar(prevValue => !prevValue);
+    }
+
+    function handleDateChange(fechas) {
+        const [startDate,endDate] = fechas;
+        setStartDate(startDate);
+        setEndDate(endDate);
+        handleCalendar();
     }
 
     useEffect(() => {
@@ -84,15 +91,6 @@ export default function Reserva() {
     return (
         <div className="contenedor-reservas">
             <div className="main-reservas">
-                {/* <header className="header">
-                    <Link to={"/"}><img className="logo" src="images/libertador_logo.png" alt="Libertador Logo" /></Link>
-                    <nav className="navbar">
-                        <ul>
-                            <li>Mis reservas</li>
-                            <li><button className="btn-login"><i className="bi bi-person-fill"></i>INICIAR SESIÓN</button></li>
-                        </ul>
-                    </nav>
-                </header> */}
                 <main className="reservas-container">
                     <div className="reservas-user">
                         <div className="inputs-user">
@@ -107,17 +105,16 @@ export default function Reserva() {
                                 <i className="bi bi-calendar-week-fill"></i>
                                 <div className="input-info">
                                     <h4>Fecha de entrada</h4>
-                                    <p>lun, 6 nov 2023</p>
+                                    <p>{startDate.toLocaleDateString()}</p>
                                 </div>
                             </div>
                             <div className="fechas">
                                 <i className="bi bi-calendar-week-fill"></i>
                                 <div className="input-info">
                                     <h4>Fecha de salida</h4>
-                                    <p>mar, 7 nov 2023</p>
+                                    <p>{endDate.toLocaleDateString()}</p>
                                 </div>
                             </div>
-
                             <div className="input cambiar-fecha" onClick={handleCalendar}>
                                 <i className="bi bi-calendar-week-fill"></i>
                                 <div className="input-info">
@@ -135,8 +132,8 @@ export default function Reserva() {
                                         minDate={new Date()}
                                         calendarType="gregory"
                                         className={"calendario"}
-                                        /* value={[startDate, endDate]}
-                                        onChange={handleDateChange} */
+                                        defaultValue={[startDate, endDate]}
+                                        onChange={handleDateChange}
                                     />
                                 </div>
                                 : ""
