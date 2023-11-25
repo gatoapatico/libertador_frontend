@@ -1,24 +1,28 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
+import { useNavigate } from "react-router-dom";
 
-export default function Landing() {
+export default function Landing({startDate, setStartDate, endDate, setEndDate}) {
 
     const [isCalendar, setIsCalendar] = useState(false);
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const navigate = useNavigate();
 
     function handleDateChange(fechas) {
         const [startDate,endDate] = fechas;
         setStartDate(startDate);
         setEndDate(endDate);
-        console.log(startDate);
-        console.log(endDate);
     }
 
     function abrir() {
         setIsCalendar(prevIsCalendar => !prevIsCalendar);
+    }
+
+    function goToReservas() {
+        console.log(startDate);
+        console.log(endDate);
+        /* navigate("/reserva"); */
     }
 
     return (
@@ -30,7 +34,7 @@ export default function Landing() {
                 <div className="availability-section">
                     <h2>Reserva directa</h2>
                     <h2 className="date-select" onClick={abrir}><i className="bi bi-calendar-week-fill"></i>fecha llegada - fecha salida</h2>
-                    <h2 className="btn-availability">Comprobar disponibilidad</h2>
+                    <h2 className="btn-availability" onClick={goToReservas}>Comprobar disponibilidad</h2>
                     {
                         isCalendar ?
                         <div className="fechas-popup">

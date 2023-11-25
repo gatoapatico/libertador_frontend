@@ -3,32 +3,17 @@ import { Link } from "react-router-dom";
 import Login from "../components/popups/Login";
 import Registro from "../components/popups/Registro";
 import { nanoid } from "nanoid";
+import Calendar from "react-calendar";
+import 'react-calendar/dist/Calendar.css';
 
 
 export default function Reserva() {
 
-    const [isPopup, setIsPopup] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
-    const [isRegistro, setIsRegistro] = useState(false);
-
     const [categorias, setCategorias] = useState([]);
+    const [isCalendar, setIsCalendar] = useState(false);
 
-    function openLogin() {
-        setIsRegistro(false);
-        setIsPopup(true);
-        setIsLogin(true);
-    }
-
-    function openRegistro() {
-        setIsPopup(true);
-        setIsLogin(false);
-        setIsRegistro(true);
-    }
-
-    function handleExit() {
-        setIsLogin(false);
-        setIsPopup(false);
-        setIsRegistro(false);
+    function handleCalendar() {
+        setIsCalendar(prevValue => !prevValue);
     }
 
     useEffect(() => {
@@ -99,15 +84,15 @@ export default function Reserva() {
     return (
         <div className="contenedor-reservas">
             <div className="main-reservas">
-                <header className="header">
+                {/* <header className="header">
                     <Link to={"/"}><img className="logo" src="images/libertador_logo.png" alt="Libertador Logo" /></Link>
                     <nav className="navbar">
                         <ul>
                             <li>Mis reservas</li>
-                            <li><button className="btn-login" onClick={openLogin}><i className="bi bi-person-fill"></i>INICIAR SESIÓN</button></li>
+                            <li><button className="btn-login"><i className="bi bi-person-fill"></i>INICIAR SESIÓN</button></li>
                         </ul>
                     </nav>
-                </header>
+                </header> */}
                 <main className="reservas-container">
                     <div className="reservas-user">
                         <div className="inputs-user">
@@ -118,20 +103,45 @@ export default function Reserva() {
                                     <p>1 adulto</p>
                                 </div>
                             </div>
-                            <div className="input">
+                            <div className="fechas">
                                 <i className="bi bi-calendar-week-fill"></i>
                                 <div className="input-info">
                                     <h4>Fecha de entrada</h4>
                                     <p>lun, 6 nov 2023</p>
                                 </div>
                             </div>
-                            <div className="input">
+                            <div className="fechas">
                                 <i className="bi bi-calendar-week-fill"></i>
                                 <div className="input-info">
                                     <h4>Fecha de salida</h4>
                                     <p>mar, 7 nov 2023</p>
                                 </div>
                             </div>
+
+                            <div className="input cambiar-fecha" onClick={handleCalendar}>
+                                <i className="bi bi-calendar-week-fill"></i>
+                                <div className="input-info">
+                                    <h4>Cambiar fecha</h4>
+                                </div>
+                            </div>
+
+                            {
+                                isCalendar ?
+                                <div className="fechas-popup">
+                                    <Calendar
+                                        showDoubleView={true}
+                                        selectRange
+                                        minDetail="year"
+                                        minDate={new Date()}
+                                        calendarType="gregory"
+                                        className={"calendario"}
+                                        /* value={[startDate, endDate]}
+                                        onChange={handleDateChange} */
+                                    />
+                                </div>
+                                : ""
+                            }
+
                         </div>
                         <h2 className="subtitulo">Seleccione una habitación</h2>
                         <div className="habitaciones">
@@ -157,12 +167,7 @@ export default function Reserva() {
                         </div>
                     </div>
                 </main>
-
-                <div className={`blur-layout ${isPopup?"" : "hidden"}`} onClick={handleExit}>
-                </div>
             </div>
-            { isLogin ? <Login handleExit={handleExit} openRegistro={openRegistro}/> : "" }
-            { isRegistro ? <Registro handleExit={handleExit} openLogin={openLogin}/> : "" }
         </div>
     )
 }

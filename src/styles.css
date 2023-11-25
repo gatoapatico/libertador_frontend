@@ -30,7 +30,8 @@ section {
     }
 }
 
-.contenedor-home {
+.contenedor-cliente {
+    position: relative;
 
     & .header {
         display: flex;
@@ -63,233 +64,260 @@ section {
             }
         }
 
-        & .btn-reserva {
-            background-color: #333050;
-            color: white;
-            border-radius: 50px;
-            padding: 0.8em 1.6em;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
-        }
+        & .user {
+            display: flex;
+            gap: 1em;
 
-        & .btn-reserva:active {
-            background-color: #27253d;
+            & .btn-login {
+                background-color: #232323;
+                border: 1px solid rgb(100, 100, 100);
+                color: white;
+                border-radius: 50px;
+                padding: 0.8em 1.6em;
+                letter-spacing: 0.05em;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
+    
+                & i {
+                    margin-right: 0.5em;
+                }
+            }
+    
+            & .btn-login:active {
+                background-color: #414141;
+            }
+
+            & .btn-reserva {
+                background-color: #333050;
+                color: white;
+                border-radius: 50px;
+                padding: 0.8em 1.6em;
+                letter-spacing: 0.05em;
+                cursor: pointer;
+                border: none;
+                box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
+            }
+    
+            & .btn-reserva:active {
+                background-color: #27253d;
+            }
         }
     }
 
-    & .landing {
-        height: 90vh;
-        background-image: url('images/landing_bg.png');
-        background-position-x: center;
-        background-position-y: center;
-        background-color: #6b6b6b;
-        background-blend-mode: multiply;
-        background-repeat: no-repeat;
-        background-size: cover;
+    & .home {
 
-        & .landing-content {
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            position: relative;
-
-            & h1 {
-                font-family: 'Marcellus SC', serif;
-                font-size: 4rem;
-                font-weight: 100;
-                letter-spacing: 0.2rem;
-                pointer-events: none;
-
-                & span {
-                    font-size: 1.2em;
-                }
-            }
-
-            & h3 {
-                font-family: 'Marcellus SC', serif;
-                font-weight: 100;
-                letter-spacing: 0.4em;
-                pointer-events: none;
-            }
-
-            & .availability-section {
-                margin-top: 3em;
-                width: 811px;
-                height: 50px;
-                background-color: transparent;
-                border-radius: 5px;
-                color: #232323;
+        & .landing {
+            height: 90vh;
+            background-image: url('images/landing_bg.png');
+            background-position-x: center;
+            background-position-y: center;
+            background-color: #6b6b6b;
+            background-blend-mode: multiply;
+            background-repeat: no-repeat;
+            background-size: cover;
+    
+            & .landing-content {
+                color: white;
                 display: flex;
-                box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
                 position: relative;
-
-                & h2 {
-                    flex-grow: 1;
-                    font-size: 1rem;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-weight: 500;
-                    background-color: white;
-                    border-top-left-radius: 5px;
-                    border-bottom-left-radius: 5px;
-
-                    & i {
-                        margin-right: 1em;
+    
+                & h1 {
+                    font-family: 'Marcellus SC', serif;
+                    font-size: 4rem;
+                    font-weight: 100;
+                    letter-spacing: 0.2rem;
+                    pointer-events: none;
+    
+                    & span {
+                        font-size: 1.2em;
                     }
                 }
-
-                & .date-select {
-                    border-left: 2px solid rgb(179, 179, 179);
-                    cursor: pointer;
-                    border-top-left-radius: 0;
-                    border-bottom-left-radius: 0;
+    
+                & h3 {
+                    font-family: 'Marcellus SC', serif;
+                    font-weight: 100;
+                    letter-spacing: 0.4em;
+                    pointer-events: none;
                 }
-
-                & .date-select:active {
-                    background-color: rgb(219, 219, 219);
-                }
-
-                & .btn-availability {
-                    background-color: #333050;
-                    color: white;
-                    border-top-right-radius: 5px;
-                    border-bottom-right-radius: 5px;
-                    cursor: pointer;
-                }
-
-                & .btn-availability:active {
-                    background-color: #28263f;
-                }
-            }
-
-            & .fechas-popup {
-                border-radius: 5px;
-                position: absolute;
-                top: 100%;
-                margin-top: 1em;
-                background-color: white;
-                width: auto;
-                color: #232323;
-                display: flex;
-                padding: 2em;
-                gap: 2em;
-                box-shadow: 0 10px 50px rgb(0, 0, 0,50%);
-
-                & .calendario {
-                    width: auto;
-                    font-size: 1em;
-                    border: 1px solid rgb(226, 226, 226);
-                    font-family: 'Inter', sans-serif;
-                }
-
-                & .react-calendar__navigation__label {
-                    font-size: 1.5rem;
-                    font-family: 'Inter', sans-serif;
-                    font-weight: bold;
-                }
-
-                & .react-calendar__month-view__weekdays {
-
-                    & .react-calendar__month-view__weekdays__weekday {
-
-                        & abbr {
-                            text-decoration: none;
+    
+                & .availability-section {
+                    margin-top: 3em;
+                    width: 811px;
+                    height: 50px;
+                    background-color: transparent;
+                    border-radius: 5px;
+                    color: #232323;
+                    display: flex;
+                    box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
+                    position: relative;
+    
+                    & h2 {
+                        flex-grow: 1;
+                        font-size: 1rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-weight: 500;
+                        background-color: white;
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+    
+                        & i {
+                            margin-right: 1em;
                         }
                     }
+    
+                    & .date-select {
+                        border-left: 2px solid rgb(179, 179, 179);
+                        cursor: pointer;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                    }
+    
+                    & .date-select:active {
+                        background-color: rgb(219, 219, 219);
+                    }
+    
+                    & .btn-availability {
+                        background-color: #333050;
+                        color: white;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        cursor: pointer;
+                    }
+    
+                    & .btn-availability:active {
+                        background-color: #28263f;
+                    }
                 }
-
-                & .react-calendar__tile--active {
-                    background-color: #333050;
+    
+                & .fechas-popup {
+                    border-radius: 5px;
+                    position: absolute;
+                    top: 100%;
+                    margin-top: 1em;
+                    background-color: white;
+                    width: auto;
+                    color: #232323;
+                    display: flex;
+                    padding: 2em;
+                    gap: 2em;
+                    box-shadow: 0 10px 50px rgb(0, 0, 0,50%);
+    
+                    & .calendario {
+                        width: auto;
+                        font-size: 1em;
+                        border: 1px solid rgb(226, 226, 226);
+                        font-family: 'Inter', sans-serif;
+                    }
+    
+                    & .react-calendar__navigation__label {
+                        font-size: 1.5rem;
+                        font-family: 'Inter', sans-serif;
+                        font-weight: bold;
+                    }
+    
+                    & .react-calendar__month-view__weekdays {
+    
+                        & .react-calendar__month-view__weekdays__weekday {
+    
+                            & abbr {
+                                text-decoration: none;
+                            }
+                        }
+                    }
+    
+                    & .react-calendar__tile--active {
+                        background-color: #333050;
+                    }
+    
+                    
                 }
-
-                
+    
+                .hidden {
+                    display: none;
+                }
             }
-
-            .hidden {
+        }
+    
+        & .services {
+            text-align: center;
+            margin-top: 4em;
+    
+    
+            & .services-cards {
+                margin: 4em 0;
+                display: flex;
+                gap: 2em;
+                flex-wrap: wrap;
+                justify-content: center;
+    
+                & .service {
+                    background-color: #fafafa;
+                    text-align: center;
+                    padding: 2em 0;
+                    width: 20vw;
+    
+                    & img {
+                        filter: grayscale(100) brightness(0%);
+                        margin-bottom: 0.5em;
+                    }
+    
+                }
+            }
+        }
+    
+        & .rooms {
+            padding: 3em 0;
+            text-align: center;
+            background-color: #fafafa;
+    
+            --borde-room-card: 25px;
+    
+            & .room-cards {
+                /* border: 1px solid red; */
+                width: 70vw;
+                margin: 1em auto;
+                display: flex;
+                gap: 2em;
+                overflow: scroll;
+                padding: 2em;
+                cursor: grab;
+    
+                & .room {
+                    border-radius: var(--borde-room-card);
+                    box-shadow: 0 2px 20px rgb(0, 0, 0,20%);
+                    padding: 0 0 2em 0;
+                    text-align: start;
+                    user-select: none;
+    
+                    & img {
+                        display: block;
+                        width: 30vw;
+                        border-top-left-radius: var(--borde-room-card);
+                        border-top-right-radius: var(--borde-room-card);
+                        height: 260px;
+                        user-select: none;
+                        -webkit-user-drag: none;
+                    }
+    
+                    & h2 {
+                        margin: 1em 1em 0 1em;
+                    }
+                }
+            }
+    
+            & .room-cards:active {
+                cursor: grabbing;
+            }
+    
+            & .room-cards::-webkit-scrollbar {
                 display: none;
             }
-        }
-    }
-
-    & .services {
-        text-align: center;
-        margin-top: 4em;
-
-
-        & .services-cards {
-            margin: 4em 0;
-            display: flex;
-            gap: 2em;
-            flex-wrap: wrap;
-            justify-content: center;
-
-            & .service {
-                background-color: #fafafa;
-                text-align: center;
-                padding: 2em 0;
-                width: 20vw;
-
-                & img {
-                    filter: grayscale(100) brightness(0%);
-                    margin-bottom: 0.5em;
-                }
-
-            }
-        }
-    }
-
-    & .rooms {
-        padding: 3em 0;
-        text-align: center;
-        background-color: #fafafa;
-
-        --borde-room-card: 25px;
-
-        & .room-cards {
-            /* border: 1px solid red; */
-            width: 70vw;
-            margin: 1em auto;
-            display: flex;
-            gap: 2em;
-            overflow: scroll;
-            padding: 2em;
-            cursor: grab;
-
-            & .room {
-                border-radius: var(--borde-room-card);
-                box-shadow: 0 2px 20px rgb(0, 0, 0,20%);
-                padding: 0 0 2em 0;
-                text-align: start;
-                user-select: none;
-
-                & img {
-                    display: block;
-                    width: 30vw;
-                    border-top-left-radius: var(--borde-room-card);
-                    border-top-right-radius: var(--borde-room-card);
-                    height: 260px;
-                    user-select: none;
-                    -webkit-user-drag: none;
-                }
-
-                & h2 {
-                    margin: 1em 1em 0 1em;
-                }
-            }
-        }
-
-        & .room-cards:active {
-            cursor: grabbing;
-        }
-
-        & .room-cards::-webkit-scrollbar {
-            display: none;
         }
     }
 
@@ -426,265 +454,13 @@ section {
             }
         }
     }
-}
 
-.contenedor-reservas {
-    position: relative;
-
-    & .main-reservas {
-        position: relative;
-    
-        & .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1em 2em;
-            flex-wrap: wrap;
-            background-color: #232323;
-            color: white;
-    
-            & .logo {
-                width: 15vw;
-                filter: invert(100%);
-            }
-    
-            & .navbar {
-    
-                & ul {
-                    list-style: none;
-                    display: flex;
-                    align-items: center;
-                    font-weight: 600;
-                    gap: 5em;
-                    flex-wrap: wrap;
-    
-                    & li {
-                        cursor: pointer;
-    
-                        & .btn-login {
-                            background-color: #232323;
-                            border: 1px solid rgb(100, 100, 100);
-                            color: white;
-                            border-radius: 50px;
-                            padding: 0.8em 1.6em;
-                            letter-spacing: 0.05em;
-                            cursor: pointer;
-                            box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
-                
-                            & i {
-                                margin-right: 0.5em;
-                            }
-                        }
-                
-                        & .btn-login:active {
-                            background-color: #414141;
-                        }
-                    }
-    
-                    & li:active {
-                        color: #444444;
-                    }
-                }
-            }
-    
-            
-        }
-    
-        & .reservas-container {
-            background-color: rgb(248, 248, 248);
-            display: flex;
-            padding: 2em;
-            gap: 2em;
-    
-            & .reservas-user {
-                width: 70%;
-                padding: 0 2em 2em 2em;
-    
-                & .inputs-user {
-                    display: flex;
-                    margin-bottom: 1em;
-    
-                    & .input {
-                        border: 1px solid rgb(230, 230, 230);
-                        display: flex;
-                        gap: 0.5em;
-                        flex-grow: 1;
-                        align-items: center;
-                        padding: 0.2em 1em;
-                        background-color: white;
-                        cursor: pointer;
-    
-                        & i{
-                            font-size: 1.5em;
-                            color: #333050;
-                        }
-    
-                        & .input-info {
-    
-                            & h4 {
-                                color: #333050;
-                            }
-                        }
-                    }
-    
-                    & .input:active {
-                        background-color: #f7f7f7;
-                    }
-                }
-    
-                & .habitaciones {
-                    margin-top: 1em;
-    
-                    & .habitacion {
-                        padding: 1em;
-                        display: flex;
-                        gap: 1em;
-                        margin-bottom: 1.5em;
-                        border: 1px solid rgb(230, 230, 230);
-                        background-color: white;
-    
-                        & .habitacion-imagen {
-                            
-                            & img {
-                                width: 300px;
-                            }
-                        }
-    
-                        & .habitacion-info {
-                            flex-grow: 1;
-
-                            & .descripcion {
-                                font-weight: 400;
-                                margin-bottom: 1em;
-                            }
-
-                            & .habtc-disponibles {
-                                font-size: 0.7rem;
-                                color: #333050;
-                                font-weight: bold;
-                            }
-    
-                            & ul {
-                                padding:1em;
-                            }
-    
-                            & .btn-detalles {
-                                background-color: transparent;
-                                border: none;
-                                border-bottom: 1px solid #333050;
-                                color: #333050;
-                                padding: 0;
-                                cursor: pointer;
-                            }
-    
-                            & .btn-detalles:active {
-                                border-bottom: 1px solid #7d76c2;
-                                color: #7d76c2;
-                            }
-    
-                            & .reserva-info {
-                                display: flex;
-                                justify-content: space-between;
-                                border-top: 1px solid rgb(175, 175, 175);
-                                border-bottom: 1px solid rgb(175, 175, 175);
-                                padding: 1em 0;
-                                margin: 1em 0;
-    
-                                & .info-adicional {
-    
-                                    & .btn-terminos {
-                                        background-color: transparent;
-                                        border: none;
-                                        border-bottom: 1px solid #333050;
-                                        color: #333050;
-                                        padding: 0;
-                                        cursor: pointer;
-                                    }
-    
-                                    & .btn-terminos:active {
-                                        border-bottom: 1px solid #7d76c2;
-                                        color: #7d76c2;
-                                    }
-    
-                                    & h4 {
-                                        margin: 1em 0;
-    
-                                        & i {
-                                            margin-right: 0.5em;
-                                        }
-                                    }
-                                }
-    
-                                & .precio-reserva {
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: end;
-                                    
-        
-                                    & .btn-reservar {
-                                        font-size: 1.5rem;
-                                        background-color: #333050;
-                                        color: white;
-                                        padding: 0.5em 1em;
-                                        margin: 0.5em 0 0 0;
-                                        border: none;
-                                        cursor: pointer;
-                                    }
-        
-                                    & .btn-reservar:active {
-                                        background-color: #484470;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-    
-            & .reservas-resumen {
-                background-color: white;
-                border: 1px solid rgb(230, 230, 230);
-                align-self: self-start;
-                width: 30%;
-                padding: 2em;
-    
-                & .fechas {
-                    margin: 1em 0;
-                    display: flex;
-                    gap: 3em;
-    
-                    & .fecha {
-    
-                        & p {
-    
-                            & span {
-                                font-weight: bold;
-                            }
-                        }
-                    }
-                }
-    
-                & .resumen-total {
-                    border-top: 1px solid rgb(207, 207, 207);
-                    padding: 0.5em 0;
-                    margin: 1em 0 0 0;
-    
-                    & p {
-                        font-weight: bold;
-                        display: flex;
-                        justify-content: space-between;
-                    }
-                }
-            }
-        }
-    
-        & .blur-layout {
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            top: 0;
-            backdrop-filter: blur(3px);
-        }
+    & .blur-layout {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        backdrop-filter: blur(3px);
     }
 
     .popup-login {
@@ -888,6 +664,327 @@ section {
             }
 
             
+        }
+    }
+}
+
+.contenedor-reservas {
+    position: relative;
+
+    & .main-reservas {
+        position: relative;
+    
+        /* & .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em 2em;
+            flex-wrap: wrap;
+            background-color: #232323;
+            color: white;
+    
+            & .logo {
+                width: 15vw;
+                filter: invert(100%);
+            }
+    
+            & .navbar {
+    
+                & ul {
+                    list-style: none;
+                    display: flex;
+                    align-items: center;
+                    font-weight: 600;
+                    gap: 5em;
+                    flex-wrap: wrap;
+    
+                    & li {
+                        cursor: pointer;
+    
+                        & .btn-login {
+                            background-color: #232323;
+                            border: 1px solid rgb(100, 100, 100);
+                            color: white;
+                            border-radius: 50px;
+                            padding: 0.8em 1.6em;
+                            letter-spacing: 0.05em;
+                            cursor: pointer;
+                            box-shadow: 0 2px 10px rgb(0, 0, 0,50%);
+                
+                            & i {
+                                margin-right: 0.5em;
+                            }
+                        }
+                
+                        & .btn-login:active {
+                            background-color: #414141;
+                        }
+                    }
+    
+                    & li:active {
+                        color: #444444;
+                    }
+                }
+            }
+    
+            
+        } */
+    
+        & .reservas-container {
+            background-color: rgb(248, 248, 248);
+            display: flex;
+            padding: 2em;
+            gap: 2em;
+    
+            & .reservas-user {
+                width: 70%;
+                padding: 0 2em 2em 2em;
+    
+                & .inputs-user {
+                    display: grid;
+                    grid-template-columns: repeat(3,1fr);
+                    margin-bottom: 1em;
+                    position: relative;
+
+                    & .cambiar-fecha {
+                        grid-column: 2/4;
+                    }
+
+                    & .fechas {
+                        border: 1px solid rgb(230, 230, 230);
+                        display: flex;
+                        gap: 0.5em;
+                        align-items: center;
+                        padding: 0.2em 1em;
+                        background-color: white;
+    
+                        & i{
+                            font-size: 1.5em;
+                            color: #333050;
+                        }
+    
+                        & .input-info {
+    
+                            & h4 {
+                                color: #333050;
+                            }
+                        }
+                    }
+    
+                    & .input {
+                        border: 1px solid rgb(230, 230, 230);
+                        display: flex;
+                        gap: 0.5em;
+                        align-items: center;
+                        padding: 0.2em 1em;
+                        background-color: white;
+                        cursor: pointer;
+    
+                        & i{
+                            font-size: 1.5em;
+                            color: #333050;
+                        }
+    
+                        & .input-info {
+    
+                            & h4 {
+                                color: #333050;
+                            }
+                        }
+                    }
+    
+                    & .input:active {
+                        background-color: #f7f7f7;
+                    }
+
+                    & .fechas-popup {
+                        border-radius: 5px;
+                        position: absolute;
+                        top: 100%;
+                        margin-top: 1em;
+                        background-color: white;
+                        width: auto;
+                        color: #232323;
+                        display: flex;
+                        padding: 2em;
+                        gap: 2em;
+                        box-shadow: 0 10px 50px rgb(0, 0, 0,50%);
+        
+                        & .calendario {
+                            width: auto;
+                            font-size: 1em;
+                            border: 1px solid rgb(226, 226, 226);
+                            font-family: 'Inter', sans-serif;
+                        }
+        
+                        & .react-calendar__navigation__label {
+                            font-size: 1.5rem;
+                            font-family: 'Inter', sans-serif;
+                            font-weight: bold;
+                        }
+        
+                        & .react-calendar__month-view__weekdays {
+        
+                            & .react-calendar__month-view__weekdays__weekday {
+        
+                                & abbr {
+                                    text-decoration: none;
+                                }
+                            }
+                        }
+        
+                        & .react-calendar__tile--active {
+                            background-color: #333050;
+                        }
+        
+                        
+                    }
+                }
+    
+                & .habitaciones {
+                    margin-top: 1em;
+    
+                    & .habitacion {
+                        padding: 1em;
+                        display: flex;
+                        gap: 1em;
+                        margin-bottom: 1.5em;
+                        border: 1px solid rgb(230, 230, 230);
+                        background-color: white;
+    
+                        & .habitacion-imagen {
+                            
+                            & img {
+                                width: 300px;
+                            }
+                        }
+    
+                        & .habitacion-info {
+                            flex-grow: 1;
+
+                            & .descripcion {
+                                font-weight: 400;
+                                margin-bottom: 1em;
+                            }
+
+                            & .habtc-disponibles {
+                                font-size: 0.7rem;
+                                color: #333050;
+                                font-weight: bold;
+                            }
+    
+                            & ul {
+                                padding:1em;
+                            }
+    
+                            & .btn-detalles {
+                                background-color: transparent;
+                                border: none;
+                                border-bottom: 1px solid #333050;
+                                color: #333050;
+                                padding: 0;
+                                cursor: pointer;
+                            }
+    
+                            & .btn-detalles:active {
+                                border-bottom: 1px solid #7d76c2;
+                                color: #7d76c2;
+                            }
+    
+                            & .reserva-info {
+                                display: flex;
+                                justify-content: space-between;
+                                border-top: 1px solid rgb(175, 175, 175);
+                                border-bottom: 1px solid rgb(175, 175, 175);
+                                padding: 1em 0;
+                                margin: 1em 0;
+    
+                                & .info-adicional {
+    
+                                    & .btn-terminos {
+                                        background-color: transparent;
+                                        border: none;
+                                        border-bottom: 1px solid #333050;
+                                        color: #333050;
+                                        padding: 0;
+                                        cursor: pointer;
+                                    }
+    
+                                    & .btn-terminos:active {
+                                        border-bottom: 1px solid #7d76c2;
+                                        color: #7d76c2;
+                                    }
+    
+                                    & h4 {
+                                        margin: 1em 0;
+    
+                                        & i {
+                                            margin-right: 0.5em;
+                                        }
+                                    }
+                                }
+    
+                                & .precio-reserva {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: end;
+                                    
+        
+                                    & .btn-reservar {
+                                        font-size: 1.5rem;
+                                        background-color: #333050;
+                                        color: white;
+                                        padding: 0.5em 1em;
+                                        margin: 0.5em 0 0 0;
+                                        border: none;
+                                        cursor: pointer;
+                                    }
+        
+                                    & .btn-reservar:active {
+                                        background-color: #484470;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    
+            & .reservas-resumen {
+                background-color: white;
+                border: 1px solid rgb(230, 230, 230);
+                align-self: self-start;
+                width: 30%;
+                padding: 2em;
+    
+                & .fechas {
+                    margin: 1em 0;
+                    display: flex;
+                    gap: 3em;
+    
+                    & .fecha {
+    
+                        & p {
+    
+                            & span {
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+    
+                & .resumen-total {
+                    border-top: 1px solid rgb(207, 207, 207);
+                    padding: 0.5em 0;
+                    margin: 1em 0 0 0;
+    
+                    & p {
+                        font-weight: bold;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                }
+            }
         }
     }
 }
