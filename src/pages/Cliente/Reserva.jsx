@@ -8,6 +8,9 @@ import { useOutletContext } from "react-router-dom";
 export default function Reserva() {
 
     const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
+    
+    /* const txtCheckIn = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDay()}`;
+    console.log(txtCheckIn); */
 
     const [categorias, setCategorias] = useState([]);
     const [isCalendar, setIsCalendar] = useState(false);
@@ -29,19 +32,36 @@ export default function Reserva() {
             const res = await fetch('http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=2023-11-21&fechaCheckOut=2023-11-30');
             const data = await res.json();
 
-            const indexCategorias = data
-                .filter(habitacion => habitacion.disponibilidad === "Disponible")
-                .map(habitacion => habitacion.tipoHabitacion.id);
+            let dataIndexCategoriasDisponibles = {}
 
-            const arrayIndexCategorias = [...new Set(indexCategorias)];
-            seteoDeCategorias(arrayIndexCategorias);
+            data.forEach(habitacion => {
+                if(habitacion.disponibilidad === "Disponible") {
+                    dataIndexCategoriasDisponibles = {
+                        ...dataIndexCategoriasDisponibles,
+                        [habitacion.tipoHabitacion.id] : !dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] ? 1 : dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] + 1
+                    }
+                }
+            });
+            seteoDeCategorias(dataIndexCategoriasDisponibles);
         }
 
-        async function seteoDeCategorias(arrayIndexCategorias) {
+        async function seteoDeCategorias(dataIndexCategoriasDisponibles) {
             const res = await fetch('http://localhost:8080/api/categorias');
             const data = await res.json();
 
-            const categoriasDisponibles = data.filter(categoria => arrayIndexCategorias.includes(categoria.id));
+            const categoriasDisponibles = data.map(categoria => {
+                if(Object.keys(dataIndexCategoriasDisponibles).map(id => parseInt(id)).includes(categoria.id)) {
+                    return {
+                        ...categoria,
+                        "habitacionesDisponibles" : dataIndexCategoriasDisponibles[categoria.id]
+                    }
+                } else {
+                    return {
+                        ...categoria,
+                        "habitacionesDisponibles" : 0
+                    }
+                }
+            });
             setCategorias(categoriasDisponibles);
         }
 
@@ -57,6 +77,21 @@ export default function Reserva() {
             )
         })
 
+        let txtHabitacionesDisponibles = "";
+        let txtBtnReservar = "";
+        let btnStyles = "";
+
+        if(categoria.habitacionesDisponibles != 0) {
+            txtHabitacionesDisponibles = `Solo quedan ${categoria.habitacionesDisponibles} habitaciones disponibles`;
+            txtBtnReservar = "RESERVAR AHORA";
+            btnStyles = "btn-reservar"
+        }
+        else {
+            txtHabitacionesDisponibles = `No quedan habitaciones disponibles para esta fecha`;
+            txtBtnReservar = "NO DISPONIBLE";
+            btnStyles = "btn-reservar unavailable";
+        }
+
         return (
             <div key={nanoid()} className="habitacion">
                 <div className="habitacion-imagen">
@@ -65,7 +100,7 @@ export default function Reserva() {
                 <div className="habitacion-info">
                     <h3>{categoria.nombre}</h3>
                     <h4 className="descripcion">{categoria.descripcion_breve}</h4>
-                    <p className="habtc-disponibles">Solo quedan 2 habitaciones</p>
+                    <p className="habtc-disponibles">{txtHabitacionesDisponibles}</p>
                     <ul>
                         {serviciosEl}
                     </ul>
@@ -79,7 +114,7 @@ export default function Reserva() {
                             <h1>S/{categoria.precioCategoria.toFixed(2)}</h1>
                             <p>Por noche</p>
                             <p>Impuestos y tasas excluidos</p>
-                            <button className="btn-reservar">RESERVAR AHORA</button>
+                            <button className={btnStyles}>{txtBtnReservar}</button>
                         </div>
                     </div>
                 </div>
