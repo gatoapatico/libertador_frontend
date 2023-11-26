@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom"
-import Landing from "../components/Landing"
+import Landing from "../../components/Landing"
 import { useState } from "react"
 
 export default function Home() {

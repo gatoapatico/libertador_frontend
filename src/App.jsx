@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import ClienteLayout from "./pages/Cliente/ClienteLayout";
-import Home from "./pages/Home";
-import Reserva from "./pages/Reserva";
+import Home from "./pages/Cliente/Home";
+import Reserva from "./pages/Cliente/Reserva";
 
 import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminHabitaciones from "./pages/Admin/AdminHabitaciones";
