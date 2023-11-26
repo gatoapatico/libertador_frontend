@@ -8,9 +8,9 @@ import { useOutletContext } from "react-router-dom";
 export default function Reserva() {
 
     const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
-    
-    /* const txtCheckIn = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDay()}`;
-    console.log(txtCheckIn); */
+
+    const checkInDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
+    const checkOutDate = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
 
     const [categorias, setCategorias] = useState([]);
     const [isCalendar, setIsCalendar] = useState(false);
@@ -29,7 +29,7 @@ export default function Reserva() {
     useEffect(() => {
 
         async function getCategoriasByHabitaciones() {
-            const res = await fetch('http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=2023-11-21&fechaCheckOut=2023-11-30');
+            const res = await fetch(`http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=${checkInDate}&fechaCheckOut=${checkOutDate}`);
             const data = await res.json();
 
             let dataIndexCategoriasDisponibles = {}
@@ -67,7 +67,7 @@ export default function Reserva() {
 
         getCategoriasByHabitaciones();
         
-    }, []);
+    }, [endDate]);
 
     const categoriasEl = categorias.map(categoria => {
 
