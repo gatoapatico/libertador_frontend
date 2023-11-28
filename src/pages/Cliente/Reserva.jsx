@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { useOutletContext } from "react-router-dom";
+import TerminosCondiciones from "../../components/popups/TerminosCondiciones";
 
 
 export default function Reserva() {
@@ -15,6 +16,8 @@ export default function Reserva() {
     const [categorias, setCategorias] = useState([]);
     const [isCalendar, setIsCalendar] = useState(false);
 
+    const [isTermCond, setTermCond] = useState(false);
+
     function handleCalendar() {
         setIsCalendar(prevValue => !prevValue);
     }
@@ -24,6 +27,10 @@ export default function Reserva() {
         setStartDate(startDate);
         setEndDate(endDate);
         handleCalendar();
+    }
+
+    function handleTermCond() {
+        setTermCond(prev => !prev);
     }
 
     useEffect(() => {
@@ -107,7 +114,7 @@ export default function Reserva() {
                     <button className="btn-detalles">Detalles de la habitación</button>
                     <div className="reserva-info">
                         <div className="info-adicional">
-                            <button className="btn-terminos">Términos y condiciones</button>
+                            <button className="btn-terminos" onClick={handleTermCond}>Términos y condiciones</button>
                             <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
                         </div>
                         <div className="precio-reserva">
@@ -180,6 +187,7 @@ export default function Reserva() {
                             {categoriasEl}
                         </div>
                     </div>
+
                     <div className="reservas-resumen">
                         <h3>Su estancia</h3>
                         <div className="fechas">
@@ -200,6 +208,7 @@ export default function Reserva() {
                     </div>
                 </main>
             </div>
+            { isTermCond ? <TerminosCondiciones handleTermCond={handleTermCond}/> : "" }
         </div>
     )
 }
