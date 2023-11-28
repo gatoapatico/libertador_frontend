@@ -303,6 +303,7 @@ section {
                         height: 260px;
                         user-select: none;
                         -webkit-user-drag: none;
+                        object-fit: cover;
                     }
     
                     & h2 {
@@ -902,7 +903,13 @@ section {
                             }
                         }
                     }
+
+                    & .hab-selected {
+                        box-shadow: 0 0 30px rgb(51, 48, 80, 50%);
+                    }
                 }
+
+                
             }
     
             & .reservas-resumen {
@@ -911,6 +918,8 @@ section {
                 align-self: self-start;
                 width: 30%;
                 padding: 2em;
+                position: fixed;
+                right: 1em;
     
                 & .fechas {
                     margin: 1em 0;
@@ -927,6 +936,12 @@ section {
                         }
                     }
                 }
+
+                & p {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 0.2em;
+                }
     
                 & .resumen-total {
                     border-top: 1px solid rgb(207, 207, 207);
@@ -938,6 +953,21 @@ section {
                         display: flex;
                         justify-content: space-between;
                     }
+                }
+
+                & .btn-pagar-reserva {
+                    width: 100%;
+                    margin: 1em 0;
+                    background-color: #333050;
+                    color: white;
+                    border: none;
+                    padding: 0.7em 0;
+                    font-size: 1.375rem;
+                    cursor: pointer;
+                }
+
+                & .btn-pagar-reserva:active {
+                    background-color: #4c4775;
                 }
             }
         }

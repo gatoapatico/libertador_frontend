@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import TerminosCondiciones from "../../components/popups/TerminosCondiciones";
 import DetalleHabitacion from "../../components/popups/DetalleHabitacion";
 
 
 export default function Reserva() {
+
+    const navigate = useNavigate();
 
     const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
 
@@ -20,6 +22,8 @@ export default function Reserva() {
     const [isTermCond, setTermCond] = useState(false);
     const [isPopDetalle, setPopDetalle] = useState(false);
     const [categoriaPop, setCategoriaPop] = useState({});
+
+    const [categoriaSelected, setCategoriaSelected] = useState(null);
 
     function handleCalendar() {
         setIsCalendar(prevValue => !prevValue);
@@ -39,6 +43,21 @@ export default function Reserva() {
     function handlePopDetalle(categoria) {
         setCategoriaPop(categoria);
         setPopDetalle(prev => !prev);
+    }
+
+    function handleReserva(categoria) {
+        setCategoriaSelected(categoria);
+    }
+
+    function handlePagoReserva() {
+        
+        const objeto = {
+            "checkIn" : startDate,
+            "checkOut" : endDate,
+            "categoria" : {...categoriaSelected}
+        }
+
+        navigate("/pago", { state: objeto });
     }
 
     useEffect(() => {
@@ -95,6 +114,8 @@ export default function Reserva() {
         let txtHabitacionesDisponibles = "";
         let txtBtnReservar = "";
         let btnStyles = "";
+        let isDisabled = false;
+        let styleHabitacion = "";
 
         if(categoria.habitacionesDisponibles != 0) {
             txtHabitacionesDisponibles = `Solo quedan ${categoria.habitacionesDisponibles} habitaciones disponibles`;
@@ -105,10 +126,18 @@ export default function Reserva() {
             txtHabitacionesDisponibles = `No quedan habitaciones disponibles para esta fecha`;
             txtBtnReservar = "NO DISPONIBLE";
             btnStyles = "btn-reservar unavailable";
+            isDisabled = true;
+        }
+
+        if(categoriaSelected != null) {
+            styleHabitacion = categoria.id === categoriaSelected.id ? "habitacion hab-selected" : "habitacion";
+        }
+        else {
+            styleHabitacion = "habitacion";
         }
 
         return (
-            <div key={nanoid()} className="habitacion">
+            <div key={nanoid()} className={styleHabitacion}>
                 <div className="habitacion-imagen">
                     <img src={`images/rooms/${categoria.foto}`} alt={`foto ${categoria.nombre}`} />
                 </div>
@@ -129,7 +158,7 @@ export default function Reserva() {
                             <h1>S/{categoria.precioCategoria.toFixed(2)}</h1>
                             <p>Por noche</p>
                             <p>Impuestos y tasas excluidos</p>
-                            <button className={btnStyles}>{txtBtnReservar}</button>
+                            <button disabled={isDisabled} className={btnStyles} onClick={() => handleReserva(categoria)}>{txtBtnReservar}</button>
                         </div>
                     </div>
                 </div>
@@ -195,25 +224,31 @@ export default function Reserva() {
                             {categoriasEl}
                         </div>
                     </div>
-
-                    <div className="reservas-resumen">
-                        <h3>Su estancia</h3>
-                        <div className="fechas">
-                            <div className="fecha">
-                                <p><span>Fecha de entrada</span></p>
-                                <p>Después de 15:00</p>
+                    {
+                        categoriaSelected != null ?
+                        <div className="reservas-resumen">
+                            {/* <h3>Su estancia</h3> */}
+                            <h2>{categoriaSelected.nombre}</h2>
+                            <div className="fechas">
+                                <div className="fecha">
+                                    <p><span>Fecha de entrada</span></p>
+                                    <p>{startDate.toLocaleDateString()}</p>
+                                </div>
+                                <div className="fecha">
+                                    <p><span>Fecha de salida</span></p>
+                                    <p>{endDate.toLocaleDateString()}</p>
+                                </div>
                             </div>
-                            <div className="fecha">
-                                <p><span>Fecha de salida</span></p>
-                                <p>antes de 12:00</p>
+                            <p>{categoriaSelected.nombre}<span>{categoriaSelected.precioCategoria.toFixed(2)}</span></p>
+                            <p>Servicios<span>{categoriaSelected.costoServicios.toFixed(2)}</span></p>
+                            <p>IGV(18%)<span>{(categoriaSelected.costoTotalCategoria * 0.18).toFixed(2)}</span></p>
+                            <div className="resumen-total">
+                                <p>Total: <span>S/{(categoriaSelected.costoTotalCategoria + (categoriaSelected.costoTotalCategoria * 0.18)).toFixed(2)}</span></p>
                             </div>
+                            <button className="btn-pagar-reserva" onClick={handlePagoReserva}>PAGAR RESERVA</button>
                         </div>
-                        <p>lun, 6 nov 2023 - mar, 7 nov 2023</p>
-                        <p>1 adulto</p>
-                        <div className="resumen-total">
-                            <p>Total: <span>S/0.00</span></p>
-                        </div>
-                    </div>
+                        : ""
+                    }
                 </main>
             </div>
             { isTermCond ? <TerminosCondiciones handleTermCond={handleTermCond}/> : "" }
