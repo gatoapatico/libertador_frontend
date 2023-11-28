@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ClienteLayout from "./pages/Cliente/ClienteLayout";
 import Home from "./pages/Cliente/Home";
 import Reserva from "./pages/Cliente/Reserva";
+import Pago from "./pages/Cliente/Pago";
 
 import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminHabitaciones from "./pages/Admin/AdminHabitaciones";
@@ -21,6 +22,7 @@ export default function App() {
                 <Route path="/" element={<ClienteLayout />} >
                     <Route index element={<Home />} />
                     <Route path="reserva" element={<Reserva />} />
+                    <Route path="pago" element={<Pago />} />
                 </Route>
 
                 <Route path="admin" element={<AdminLayout />}>
