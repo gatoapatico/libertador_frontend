@@ -1015,8 +1015,11 @@ section {
 
         & .image-big {
             height: 100%;
+            width: 600px;
             display: block;
             animation: transicion-image 1s ease-in-out;
+            object-fit: cover;
+            object-position: left;
         }
 
         & .info {
@@ -1035,6 +1038,12 @@ section {
                 & img {
                     display: block;
                     height: 52px;
+                    cursor: pointer;
+                    filter: grayscale(100);
+                }
+
+                & .selected {
+                    filter: grayscale(0);
                 }
             }
 
