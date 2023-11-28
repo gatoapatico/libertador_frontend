@@ -4,6 +4,7 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { useOutletContext } from "react-router-dom";
 import TerminosCondiciones from "../../components/popups/TerminosCondiciones";
+import DetalleHabitacion from "../../components/popups/DetalleHabitacion";
 
 
 export default function Reserva() {
@@ -17,6 +18,7 @@ export default function Reserva() {
     const [isCalendar, setIsCalendar] = useState(false);
 
     const [isTermCond, setTermCond] = useState(false);
+    const [isPopDetalle, setPopDetalle] = useState(false);
 
     function handleCalendar() {
         setIsCalendar(prevValue => !prevValue);
@@ -31,6 +33,10 @@ export default function Reserva() {
 
     function handleTermCond() {
         setTermCond(prev => !prev);
+    }
+
+    function handlePopDetalle() {
+        setPopDetalle(prev => !prev);
     }
 
     useEffect(() => {
@@ -111,7 +117,7 @@ export default function Reserva() {
                     <ul>
                         {serviciosEl}
                     </ul>
-                    <button className="btn-detalles">Detalles de la habitación</button>
+                    <button className="btn-detalles" onClick={handlePopDetalle}>Detalles de la habitación</button>
                     <div className="reserva-info">
                         <div className="info-adicional">
                             <button className="btn-terminos" onClick={handleTermCond}>Términos y condiciones</button>
@@ -209,6 +215,7 @@ export default function Reserva() {
                 </main>
             </div>
             { isTermCond ? <TerminosCondiciones handleTermCond={handleTermCond}/> : "" }
+            { isPopDetalle ? <DetalleHabitacion handlePopDetalle={handlePopDetalle} /> : "" }
         </div>
     )
 }
