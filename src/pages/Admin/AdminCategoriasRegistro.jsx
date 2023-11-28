@@ -9,7 +9,7 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
     nombre: "",
     cantPersonas: "",
     fechaAlta: "",
-    fechaBaja: "null",
+    fechaBaja: null,
     estado: "Activo",
   });
   const { nombre, cantPersonas, fechaAlta, fechaBaja, estado } = categorias;
@@ -18,35 +18,40 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
     setCategorias({ ...categorias, [e.target.name]: e.target.value });
   };
 
-  const onServiciosChange = (e) => {
-    const selectedServicios = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setServicios(selectedServicios);
+  const onServicioChange = (e) => {
+    const servicioId = e.target.value;
+    setServicios([...servicios, servicioId]);
+  };
+
+  const agregarServicio = () => {
+    setServicios([...new Set(servicios)]);
   };
   console.log("Servicios:", servicios);
 
   const onSubmit = async (e) => {
-    const response = await axios.post(urlBase, categorias);
-    console.log("Categoría creada:", response.data);
+    try {
+      const responseCategoria = await axios.post(urlBase, categorias);
 
-    const responseCategoria = await axios.get(
-      `http://localhost:8080/api/categorias/nombre/${categorias.nombre}`
-    );
-    const categoriaId = responseCategoria.data.id;
+      const responseCategoriaId = await axios.get(
+        "http://localhost:8080/api/categorias/maxId"
+      );
+      const categoriaId = responseCategoriaId.data.id;
 
-    console.log("Categoría ID:", categoriaId);
-    console.log("Servicios:", servicios);
+      const selectedServicios = listaServicios.filter((servicio) =>
+        servicios.includes(servicio.id.toString())
+      );
+      const idsServicios = selectedServicios.map((servicio) => servicio.id);
 
-    await axios.put(
-      `http://localhost:8080/api/categorias/${categoriaId}/servicios`,
-      servicios
-    );
+      await axios.put(
+        `http://localhost:8080/api/categorias/${categoriaId}/servicios`,
+        idsServicios
+      );
 
-    console.log("Categoría actualizada con servicios.");
-
-    cargarCategorias();
+      console.log("Categoría creada y actualizada con servicios.");
+      cargarCategorias();
+    } catch (error) {
+      console.error("Error al crear y actualizar la categoría:", error);
+    }
   };
 
   useEffect(() => {
@@ -94,8 +99,7 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
             name="servicios"
             required
             value={servicios}
-            onChange={onServiciosChange}
-            multiple
+            onChange={onServicioChange}
           >
             <option value="" disabled>
               Seleccione los servicios

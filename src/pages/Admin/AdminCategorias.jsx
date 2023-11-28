@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminCategoriasRegistro from "./AdminCategoriasRegistro";
 import AdminCategoriasModificar from "./AdminCategoriasModificar";
+import AdminCategoriasPrueba from "./adminCategoriasPrueba";
 export default function AdminCategorias() {
   const urlBase = "http://localhost:8080/api/categorias";
   const [categorias, setCategorias] = useState([]);
@@ -120,12 +121,12 @@ export default function AdminCategorias() {
             {isModifying && (
               <button onClick={cargarCategorias}>Crear Categoria</button>
             )}
-            {isCreating && <AdminCategoriasRegistro />}
+            {isCreating && <AdminCategoriasPrueba />}
           </div>
         ) : (
           <div className="usuarios-form">
             <h3>Crear Categoria</h3>
-            <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
+            <AdminCategoriasPrueba cargarCategorias={cargarCategorias} />
           </div>
         )}
       </div>
