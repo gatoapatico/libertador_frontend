@@ -19,6 +19,7 @@ export default function Reserva() {
 
     const [isTermCond, setTermCond] = useState(false);
     const [isPopDetalle, setPopDetalle] = useState(false);
+    const [categoriaPop, setCategoriaPop] = useState({});
 
     function handleCalendar() {
         setIsCalendar(prevValue => !prevValue);
@@ -35,7 +36,8 @@ export default function Reserva() {
         setTermCond(prev => !prev);
     }
 
-    function handlePopDetalle() {
+    function handlePopDetalle(categoria) {
+        setCategoriaPop(categoria);
         setPopDetalle(prev => !prev);
     }
 
@@ -117,7 +119,7 @@ export default function Reserva() {
                     <ul>
                         {serviciosEl}
                     </ul>
-                    <button className="btn-detalles" onClick={handlePopDetalle}>Detalles de la habitación</button>
+                    <button className="btn-detalles" onClick={() => handlePopDetalle(categoria)}>Detalles de la habitación</button>
                     <div className="reserva-info">
                         <div className="info-adicional">
                             <button className="btn-terminos" onClick={handleTermCond}>Términos y condiciones</button>
@@ -215,7 +217,7 @@ export default function Reserva() {
                 </main>
             </div>
             { isTermCond ? <TerminosCondiciones handleTermCond={handleTermCond}/> : "" }
-            { isPopDetalle ? <DetalleHabitacion handlePopDetalle={handlePopDetalle} /> : "" }
+            { isPopDetalle ? <DetalleHabitacion handlePopDetalle={handlePopDetalle} categoriaPop={categoriaPop} /> : "" }
         </div>
     )
 }

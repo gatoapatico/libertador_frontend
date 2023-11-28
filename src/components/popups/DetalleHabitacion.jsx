@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { IoCloseCircleSharp } from "react-icons/io5";
 
-export default function DetalleHabitacion({ handlePopDetalle }) {
+export default function DetalleHabitacion({ handlePopDetalle, categoriaPop }) {
 
-    const [bigImage, setBigImage] = useState("suite-imperial-1.png");
+    const [bigImage, setBigImage] = useState(categoriaPop.foto);
 
     function handleImageChange(e) {
         setBigImage(e.src.split("/")[e.src.split("/").length - 1]);
@@ -13,20 +13,15 @@ export default function DetalleHabitacion({ handlePopDetalle }) {
 
     return (
         <div className="popup-detallehabitacion">
-            <img className="image-big" src={`images/rooms/${bigImage}`} alt={`foto Suite Imperial 1`} />
+            <img className="image-big" src={`images/rooms/${bigImage}`} alt={`foto ${categoriaPop.nombre}`} />
             <div className="info">
                 <div className="imagenes">
                     <img className="selected" onClick={(e) => handleImageChange(e.target)} src={`images/rooms/suite-imperial-1.png`} alt={`foto Suite Imperial 1`} />
                     <img className="" onClick={(e) => handleImageChange(e.target)} src={`images/rooms/suite-imperial-2.png`} alt={`foto Suite Imperial 2`} />
                     <img className="" onClick={(e) => handleImageChange(e.target)} src={`images/rooms/suite-imperial-3.png`} alt={`foto Suite Imperial 3`} />
                 </div>
-                <h1>SUITE IMPERIAL</h1>
-                <p>
-                    Nuestra habitación de mayor clase, cuenta con un amplio dormitorio de suma elegancia 
-                    y un salón con cortinados de terciopelo, rica tapicería, boiserie y molduras. Incluye 
-                    un mayordomo de servicio permanente, jacuzzi privado con sales y un desayuno gourmet. 
-                    También permite el acceso a la Sala de Épocas con música en vivo y shows de aires victorianos.
-                </p>
+                <h1>{categoriaPop.nombre.toUpperCase()}</h1>
+                <p>{categoriaPop.descripcion_larga}</p>
             </div>
             <span onClick={handlePopDetalle}><IoCloseCircleSharp /></span>
         </div>

@@ -1018,6 +1018,8 @@ section {
             width: 600px;
             display: block;
             animation: transicion-image 1s ease-in-out;
+            object-fit: cover;
+            object-position: left;
         }
 
         & .info {
