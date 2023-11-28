@@ -2,9 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function AdminCategoriasRegistro({ cargarCategorias }) {
+  const today = new Date().toISOString().split("T")[0];
   const urlBase = "http://localhost:8080/api/categorias";
-  const [servicios, setServicios] = useState([]);
-  const [listaServicios, setListaServicios] = useState([]);
+  const [servicioSeleccionado, setServicioSeleccionado] = useState("");
+  const [listaServiciosSeleccionados, setListaServiciosSeleccionados] =
+    useState([]);
+  const [listaServiciosTraidos, setListaServiciosTraidos] = useState([]);
   const [categorias, setCategorias] = useState({
     nombre: "",
     cantPersonas: "",
@@ -12,6 +15,7 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
     fechaBaja: null,
     estado: "Activo",
   });
+
   const { nombre, cantPersonas, fechaAlta, fechaBaja, estado } = categorias;
 
   const onInputChange = (e) => {
@@ -20,110 +24,150 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
 
   const onServicioChange = (e) => {
     const servicioId = e.target.value;
-    setServicios([...servicios, servicioId]);
+    if (!listaServiciosSeleccionados.includes(servicioId)) {
+      setListaServiciosSeleccionados((prevServicios) => [
+        ...prevServicios,
+        servicioId,
+      ]);
+    } else {
+      alert("Este servicio ya ha sido agregado a la lista.");
+    }
   };
 
   const agregarServicio = () => {
-    setServicios([...new Set(servicios)]);
-  };
-  console.log("Servicios:", servicios);
-
-  const onSubmit = async (e) => {
-    try {
-      const responseCategoria = await axios.post(urlBase, categorias);
-
-      const responseCategoriaId = await axios.get(
-        "http://localhost:8080/api/categorias/maxId"
-      );
-      const categoriaId = responseCategoriaId.data.id;
-
-      const selectedServicios = listaServicios.filter((servicio) =>
-        servicios.includes(servicio.id.toString())
-      );
-      const idsServicios = selectedServicios.map((servicio) => servicio.id);
-
-      await axios.put(
-        `http://localhost:8080/api/categorias/${categoriaId}/servicios`,
-        idsServicios
-      );
-
-      console.log("Categoría creada y actualizada con servicios.");
-      cargarCategorias();
-    } catch (error) {
-      console.error("Error al crear y actualizar la categoría:", error);
-    }
+    setListaServiciosSeleccionados([...new Set(listaServiciosSeleccionados)]);
   };
 
   useEffect(() => {
     async function fetchServicios() {
       try {
         const response = await axios.get("http://localhost:8080/api/servicios");
-        setListaServicios(response.data);
+        setListaServiciosTraidos(response.data);
       } catch (error) {
-        console.error("Error fetching servicios:", error);
+        console.error("Error al cargar los servicios:", error);
       }
     }
-
     fetchServicios();
   }, []);
 
+  const crearCategoria = async () => {
+    const response = await axios.post(urlBase, categorias);
+    return response.data.idCategoria; // Asegúrate de que tu API devuelva el ID de la categoría recién creada
+  };
+
+  const actualizarCategoriaConServicios = async (categoriaId) => {
+    const selectedServicios = listaServiciosTraidos.filter((servicio) =>
+      listaServiciosSeleccionados.includes(servicio.id.toString())
+    );
+    const idsServicios = selectedServicios.map((servicio) => servicio.id);
+
+    await axios.put(
+      `http://localhost:8080/api/categorias/${categoriaId}/servicios`,
+      idsServicios
+    );
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const categoriaId = await crearCategoria();
+      await actualizarCategoriaConServicios(categoriaId);
+      console.log("Categoría creada y actualizada con servicios.");
+      cargarCategorias();
+      setListaServiciosSeleccionados([]);
+      setCategorias({
+        nombre: "",
+        cantPersonas: "",
+        fechaAlta: "",
+        fechaBaja: null,
+        estado: "Activo",
+      });
+    } catch (error) {
+      console.error("Error al crear y actualizar la categoría:", error);
+    }
+  };
+  const retirarServicio = (servicioId) => {
+    setListaServiciosSeleccionados((prevServicios) =>
+      prevServicios.filter((id) => id !== servicioId)
+    );
+  };
+
   return (
     <form onSubmit={(e) => onSubmit(e)}>
-      <br></br>
+      <br />
       <div className="input-form">
         <input
           type="text"
           id="txtNombre"
-          placeholder="Ingrese un nombre"
-          value={nombre}
           name="nombre"
+          value={nombre}
+          placeholder="Ingrese el nombre de la categoría"
           onChange={(e) => onInputChange(e)}
           required
         />
       </div>
       <div className="input-form">
         <input
-          type="text"
-          id="txtCantidad"
+          type="number"
+          id="txtCantPersonas"
           name="cantPersonas"
           value={cantPersonas}
+          placeholder="Ingrese la cantidad de personas"
           onChange={(e) => onInputChange(e)}
-          placeholder="Ingrese cantidad de personas que tendra la categoria"
           required
         />
-      </div>
-      <div className="input-form">
-        <div className="input-form">
-          <select
-            id="txtServicios"
-            name="servicios"
-            required
-            value={servicios}
-            onChange={onServicioChange}
-          >
-            <option value="" disabled>
-              Seleccione los servicios
-            </option>
-            {listaServicios.map((servicio) => (
-              <option key={servicio.id} value={servicio.id}>
-                {servicio.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
       </div>
       <div className="input-form">
         <input
-          type="Date"
+          type="date"
           id="txtFechaAlta"
           name="fechaAlta"
-          placeholder="Ingrese la fecha de creacion"
           value={fechaAlta}
+          min={today}
+          placeholder="Ingrese la fecha de alta"
           onChange={(e) => onInputChange(e)}
           required
         />
       </div>
-      <button className="btn-crear-actualizar">Crear Categoria</button>
+      <div className="input-form">
+        <select
+          id="txtServicios"
+          name="servicios"
+          value={servicioSeleccionado}
+          onChange={onServicioChange}
+        >
+          <option value="" disabled>
+            Seleccione los servicios
+          </option>
+          {listaServiciosTraidos.map((servicio) => (
+            <option key={servicio.id} value={servicio.id}>
+              {servicio.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <h4>Servicios seleccionados:</h4>
+        <ul>
+          {listaServiciosSeleccionados.map((servicioId) => {
+            const servicio = listaServiciosTraidos.find(
+              (servicio) => servicio.id.toString() === servicioId
+            );
+            return (
+              <li key={servicioId}>
+                {servicio.nombre}
+                <button onClick={() => retirarServicio(servicioId)}>
+                  Eliminar
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <br />
+      <br />
+      <br />
+      <button className="btn-crear-actualizar"> crear Categoria</button>
     </form>
   );
 }
