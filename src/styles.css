@@ -322,6 +322,159 @@ section {
         }
     }
 
+    & .contenedor-pago {
+        
+
+        & .panel-temporizador {
+            display: flex;
+            justify-content: space-between;
+            padding: 1em 2em;
+            align-items: center;
+            background-color: #e7e7e7;
+
+            & .panel-info {
+                display: flex;
+                gap: 2em;
+            }
+
+            & .temporizador {
+                justify-self: end;
+                font-size: 1.5rem;
+                color: #333050;
+                font-weight: 700;
+
+                & p {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.2em;
+                }
+            }
+        }
+
+        & .panel-user {
+            display: flex;
+
+            & .panel-categoria {
+                width: 40%;
+                min-height: 500px;
+                padding: 2em;
+
+                & h1 {
+                    margin-bottom: 0.5em;
+                }
+
+                & img {
+                    width: 80%;
+                }
+
+                & .detalle-reserva {
+                    margin-top: 1em;
+
+                    & h2 {
+                        margin-bottom: 0.5em;
+                    }
+
+                    & .fechas {
+                        display: flex;
+                        gap: 1em;
+
+                        & p {
+
+                            & span {
+                                font-weight: bold;
+                                margin-right: 0.5em;
+                            }
+                        }
+                    }
+
+                    & .precio {
+                        border: 1px solid rgb(236, 236, 236);
+                        padding: 0.5em 1em;
+                        margin-top: 1em;
+
+                        & p {
+                            display: flex;
+                            margin-bottom: 0.2em;
+                            justify-content: space-between;
+                        }
+
+                        & .total {
+                            border-top: 1px solid rgb(207, 207, 207);
+                            margin-top: 0.5em;
+                            padding-top: 0.5em;
+
+                            & p {
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+            }
+
+            & .panel-pago {
+                width: 60%;
+                min-height: 500px;
+
+                & .contenedor-form {
+                    padding: 3em;
+
+                    & h1 {
+                        margin: 0 0 1em 0;
+                    }
+
+                    & .formulario-pago {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 1em;
+                        justify-content: space-between;
+
+                        & .input-form {
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+
+                            & label {
+                                margin-bottom: 0.3em;
+                            }
+
+                            & input {
+                                padding: 0.5em 1em;
+                                font-family: inherit;
+                                font-size: inherit;
+                                border: 1px solid rgb(206, 206, 206);
+                            }
+
+                            & input:focus {
+                                outline: none;
+                                box-shadow: 0 0 20px rgb(59,57,80,20%);
+                            }
+                        }
+
+                        & .mid {
+                            width: 48%;
+                        }
+
+                        & .btn-pagar {
+                            width: 100%;
+                            font-family: inherit;
+                            font-size: 1.3rem;
+                            padding: 0.5em 1em;
+                            border: none;
+                            background-color: #333050;
+                            color: white;
+                            cursor: pointer;
+                            margin-top: 0.7em;
+                        }
+
+                        & .btn-pagar:active {
+                            background-color: #4c4877;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     & .footer {
         background-color: #232323;
         color: white;
