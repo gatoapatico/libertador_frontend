@@ -69,14 +69,14 @@ export default function AdminHabitaciones() {
             ? habitacion.fechaBaja
             : "La habitacion esta activa"}
         </td>
-        <td>{habitacion.ocupante}</td>
+        <td>{habitacion.disponibilidad}</td>
         <td className="celda-estado">
-            <button onClick={() => cambiarEstado(habitacion.id)}>
-                {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
-            </button>
-            <button onClick={() => ModificarUsuario(habitacion.id)}>
-                Modificar
-            </button>
+          <button onClick={() => cambiarEstado(habitacion.id)}>
+            {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
+          </button>
+          <button onClick={() => ModificarUsuario(habitacion.id)}>
+            Modificar
+          </button>
         </td>
       </tr>
     );
@@ -99,7 +99,7 @@ export default function AdminHabitaciones() {
                 <th>Max personas</th>
                 <th>Fecha de Creacion</th>
                 <th>Fecha de Baja</th>
-                <th>Cliente Actual</th>
+                <th>Disponibilidad</th>
                 <th>Estado</th>
               </tr>
             </thead>
