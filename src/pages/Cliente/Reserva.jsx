@@ -56,8 +56,12 @@ export default function Reserva() {
             "checkOut" : endDate,
             "categoria" : {...categoriaSelected}
         }
-
+        scrollToTop();
         navigate("/pago", { state: objeto });
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     useEffect(() => {

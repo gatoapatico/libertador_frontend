@@ -20,7 +20,12 @@ export default function Landing({startDate, setStartDate, endDate, setEndDate}) 
     }
 
     function goToReserva() {
+        scrollToTop();
         navigate("/reserva");
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     return (
