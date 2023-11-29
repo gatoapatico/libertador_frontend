@@ -6,7 +6,9 @@ export default function AdminServiciosRegistro({ cargarServicios }) {
   const [servicio, setServicio] = useState({
     nombre: "",
     costo: "",
-    fechaAlta: "",
+    fechaAlta: new Date().toLocaleDateString("en-CA", {
+      timeZone: "America/Lima",
+    }),
     fechaBaja: "null",
     estado: "Activo",
   });
@@ -21,7 +23,9 @@ export default function AdminServiciosRegistro({ cargarServicios }) {
     setServicio({
       nombre: "",
       costo: "",
-      fechaAlta: "",
+      fechaAlta: new Date().toLocaleDateString("en-CA", {
+        timeZone: "America/Lima",
+      }),
       fechaBaja: "null",
       estado: "Activo",
     });
@@ -55,17 +59,6 @@ export default function AdminServiciosRegistro({ cargarServicios }) {
           name="costo"
           value={costo}
           placeholder="Ingrese el costo del servicio"
-          onChange={(e) => onInputChange(e)}
-          required
-        />
-      </div>
-      <div className="input-form">
-        <input
-          type="date"
-          id="txtFechaAlta"
-          name="fechaAlta"
-          value={fechaAlta}
-          placeholder="Ingrese la fecha"
           onChange={(e) => onInputChange(e)}
           required
         />

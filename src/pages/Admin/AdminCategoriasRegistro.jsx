@@ -11,12 +11,22 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
   const [categorias, setCategorias] = useState({
     nombre: "",
     cantPersonas: "",
-    fechaAlta: "",
+    precioCategoria: "",
+    fechaAlta: new Date().toLocaleDateString("en-CA", {
+      timeZone: "America/Lima",
+    }),
     fechaBaja: null,
     estado: "Activo",
   });
 
-  const { nombre, cantPersonas, fechaAlta, fechaBaja, estado } = categorias;
+  const {
+    nombre,
+    cantPersonas,
+    precioCategoria,
+    fechaAlta,
+    fechaBaja,
+    estado,
+  } = categorias;
 
   const onInputChange = (e) => {
     setCategorias({ ...categorias, [e.target.name]: e.target.value });
@@ -78,7 +88,10 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
       setCategorias({
         nombre: "",
         cantPersonas: "",
-        fechaAlta: "",
+        precioCategoria: "",
+        fechaAlta: new Date().toLocaleDateString("en-CA", {
+          timeZone: "America/Lima",
+        }),
         fechaBaja: null,
         estado: "Activo",
       });
@@ -117,18 +130,19 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
           required
         />
       </div>
+
       <div className="input-form">
         <input
-          type="date"
-          id="txtFechaAlta"
-          name="fechaAlta"
-          value={fechaAlta}
-          min={today}
-          placeholder="Ingrese la fecha de alta"
+          type="number"
+          id="txrPrecioCategoria"
+          name="precioCategoria"
+          value={precioCategoria}
+          placeholder="Ingrese el precio de la categoria"
           onChange={(e) => onInputChange(e)}
           required
         />
       </div>
+
       <div className="input-form">
         <select
           id="txtServicios"
