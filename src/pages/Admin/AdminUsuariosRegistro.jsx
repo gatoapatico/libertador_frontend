@@ -10,7 +10,9 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
     nombre: "",
     apellido: "",
     telefono: "",
-    fechaAlta: "",
+    fechaAlta: new Date().toLocaleDateString("en-CA", {
+      timeZone: "America/Lima",
+    }),
     fechaBaja: "null",
     tipo: "",
     foto: "null",
@@ -56,7 +58,9 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
       nombre: "",
       apellido: "",
       telefono: "",
-      fechaAlta: "",
+      fechaAlta: new Date().toLocaleDateString("en-CA", {
+        timeZone: "America/Lima",
+      }),
       fechaBaja: "null",
       tipo: "",
       foto: "null",
@@ -66,6 +70,11 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const regex = /^[a-zA-Z0-9]+@\S+\.\S+/;
+    if (!regex.test(email)) {
+      alert("Por favor, ingresa un correo de Gmail válido");
+      return;
+    }
     await axios.post(urlBase, usuario);
     cargarUsuarios();
     reiniciarFormulario();
@@ -156,17 +165,6 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
           <option value="Administrador">Administrador</option>
           <option value="Recepcionista">Recepcionista</option>
         </select>
-      </div>
-      <div className="input-form">
-        <input
-          type="Date"
-          id="txtFechaAlta"
-          name="fechaAlta"
-          placeholder="Ingrese la fecha de creacion"
-          value={fechaAlta}
-          onChange={(e) => onInputChange(e)}
-          required
-        />
       </div>
       <button type="submit" className="btn-crear-actualizar">
         Crear Usuario
