@@ -49,6 +49,11 @@ export default function AdminCategorias() {
     setCategoriaSeleccionada(null); // Restablece el usuario seleccionado al crear uno nuevo
     setIsModifying(false); // Asegúrate de que estás en modo de creación y no modificación
   };
+
+  const finalizarModificacion = () => {
+    setIsModifying(false);
+    setIsCreating(true);
+  };
   const listaCategorias = categorias.map((categoria) => {
     return (
       <tr key={categoria.id}>
@@ -119,12 +124,15 @@ export default function AdminCategorias() {
               <AdminCategoriasModificar
                 id={categoriaSeleccionada.id}
                 cargarCategorias={cargarCategorias}
+                finalizarModificacion={finalizarModificacion}
               />
             )}
             {isModifying && (
               <button onClick={cargarCategorias}>Crear Categoria</button>
             )}
-            {isCreating && <AdminCategoriasRegistro />}
+            {isCreating && (
+              <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
+            )}
           </div>
         ) : (
           <div className="usuarios-form">

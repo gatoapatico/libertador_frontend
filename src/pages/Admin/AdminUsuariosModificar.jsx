@@ -28,7 +28,6 @@ export default function AdminUsuariosModificar({
       setUsuario(resultado.data);
     } catch (error) {
       console.error("Error al cargar el usuario:", error);
-      // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
   };
 
@@ -47,7 +46,7 @@ export default function AdminUsuariosModificar({
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(urlBase, usuario);
+      await axios.put(`${urlBase}/${id}`, usuario);
       cargarUsuarios();
       finalizarModificacion();
     } catch (error) {
