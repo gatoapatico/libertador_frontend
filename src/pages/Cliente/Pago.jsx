@@ -9,7 +9,7 @@ export default function Pago() {
     const location = useLocation();
     const { state } = location;
     const { checkIn, checkOut, categoria } = state;
-
+    
     const [tiempo, setTiempo] = useState(300);
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function Pago() {
             <div className="panel-user">
                 <div className="panel-categoria">
                     <h1>{categoria.nombre}</h1>
-                    <img src={`images/rooms/${categoria.foto}`} alt={`Foto ${categoria.nombre}`} />
+                    <img src={`images/rooms/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
                     <div className="detalle-reserva">
                         <h2>DETALLE DE RESERVA</h2>
                         <div className="fechas">
