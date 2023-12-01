@@ -73,7 +73,7 @@ export default function Reserva() {
             let dataIndexCategoriasDisponibles = {}
 
             data.forEach(habitacion => {
-                if(habitacion.disponibilidad === "Disponible") {
+                if(habitacion.disponibilidad === "disponible") {
                     dataIndexCategoriasDisponibles = {
                         ...dataIndexCategoriasDisponibles,
                         [habitacion.tipoHabitacion.id] : !dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] ? 1 : dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] + 1
@@ -115,6 +115,8 @@ export default function Reserva() {
             )
         })
 
+        const fotosEl = categoria.foto.map(foto => foto.nombre);
+
         let txtHabitacionesDisponibles = "";
         let txtBtnReservar = "";
         let btnStyles = "";
@@ -143,7 +145,7 @@ export default function Reserva() {
         return (
             <div key={nanoid()} className={styleHabitacion}>
                 <div className="habitacion-imagen">
-                    <img src={`images/rooms/${categoria.foto}`} alt={`foto ${categoria.nombre}`} />
+                    <img src={`images/rooms/${fotosEl[0]}`} alt={`foto ${categoria.nombre}`} />
                 </div>
                 <div className="habitacion-info">
                     <h3>{categoria.nombre}</h3>
