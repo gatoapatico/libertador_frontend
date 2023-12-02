@@ -57,12 +57,17 @@ export default function Reserva() {
       checkOut: endDate,
       categoria: { ...categoriaSelected },
     };
+<<<<<<< Updated upstream
     scrollToTop();
     navigate("/pago", { state: objeto });
   }
 
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+=======
+
+    navigate("/pago", { state: objeto });
+>>>>>>> Stashed changes
   }
 
   useEffect(() => {
@@ -123,8 +128,11 @@ export default function Reserva() {
       return <li key={nanoid()}>{servicio.nombre}</li>;
     });
 
+<<<<<<< Updated upstream
     const fotosEl = categoria.foto.map((foto) => foto.nombre);
 
+=======
+>>>>>>> Stashed changes
     let txtHabitacionesDisponibles = "";
     let txtBtnReservar = "";
     let btnStyles = "";
@@ -155,7 +163,11 @@ export default function Reserva() {
       <div key={nanoid()} className={styleHabitacion}>
         <div className="habitacion-imagen">
           <img
+<<<<<<< Updated upstream
             src={`images/rooms/${fotosEl[0]}`}
+=======
+            src={`images/rooms/${categoria.foto}`}
+>>>>>>> Stashed changes
             alt={`foto ${categoria.nombre}`}
           />
         </div>
