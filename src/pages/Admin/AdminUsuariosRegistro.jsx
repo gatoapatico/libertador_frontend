@@ -15,7 +15,6 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
     }),
     fechaBaja: "null",
     tipo: "",
-    foto: "null",
     estado: "Activo",
   });
 
@@ -29,7 +28,6 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
     fechaAlta,
     fechaBaja,
     tipo,
-    foto,
     estado,
   } = usuario;
 
@@ -63,7 +61,6 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
       }),
       fechaBaja: "null",
       tipo: "",
-      foto: "null",
       estado: "Activo",
     });
   };

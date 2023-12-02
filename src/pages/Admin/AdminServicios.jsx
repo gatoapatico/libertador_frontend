@@ -104,9 +104,9 @@ export default function AdminServicios() {
                 </tr>
               ))}
             </tbody>
-            <button onClick={prevPage}>Página anterior</button>
-            <button onClick={nextPage}>Página siguiente</button>
           </table>
+          <button onClick={prevPage}>Página anterior</button>
+          <button onClick={nextPage}>Página siguiente</button>
         </div>
         {isModifying || isCreating ? (
           <div className="usuarios-form">
