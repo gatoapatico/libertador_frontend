@@ -5,8 +5,6 @@ export default function Login({ handleExit, openRegistro }) {
     const [email, setEmail] = useState("");
     const [contrasena, setContrasena] = useState("");
 
-    const [isFail, setIsFail] = useState(false);
-
     const navigate = useNavigate();
 
     function userlogin(e) {
@@ -20,7 +18,6 @@ export default function Login({ handleExit, openRegistro }) {
         })
         .then((res) => {
             if (!res.ok) {
-                setIsFail(true);
                 throw new Error(`HTTP error! Status: ${res.status}`);
             }
             return res.json();
@@ -70,7 +67,6 @@ export default function Login({ handleExit, openRegistro }) {
                     ¿No tienes cuenta?
                     <span className="btn-registrate" onClick={openRegistro}>Regístrate</span>
                 </p>
-                { isFail ? <h4 className="txt-fail">Usuario ingresado incorrecto!</h4> : "" }
             </div>
         </div>
     );
