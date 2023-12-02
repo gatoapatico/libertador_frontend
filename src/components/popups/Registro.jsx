@@ -143,7 +143,7 @@ export default function Registro({handleExit, openLogin}) {
                     <button type="submit" onClick={(e) => userRegister(e)}>Regístrate</button>
                 </form>
                 <p className="no-account">¿Ya eres parte de nosotros?<span className="btn-login" onClick={openLogin}>Inicia Sesión</span></p>
-                { isFail ? <h4 className="txt-fail">Ya existe un usuario<br></br> con el correo ingresado!</h4> : "" }
+                { isFail ? <h4 className="txt-fail-all">Ya existe un usuario<br></br> con el correo ingresado!</h4> : "" }
             </div>
         </div>
     )
