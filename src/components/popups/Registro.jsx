@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function Registro({handleExit, openLogin}) {
 
     const navigate = useNavigate();
+	
 
     const [email, setEmail] = useState("");
     const [contrasena, setContrasena] = useState("");
