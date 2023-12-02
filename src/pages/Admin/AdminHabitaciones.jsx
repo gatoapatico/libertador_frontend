@@ -4,6 +4,9 @@ import axios from "axios";
 export default function AdminHabitaciones() {
   const urlBase = "http://localhost:8080/api/habitaciones";
   const [habitaciones, setHabitaciones] = useState([]);
+  const [habitacionSeleccionada, setHabitacionSeleccionada] = useState(null);
+  const [isModifying, setIsModifying] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   useEffect(() => {
     cargarHabitaciones();
   }, []);
@@ -29,6 +32,29 @@ export default function AdminHabitaciones() {
       // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
   };
+
+  const modificarHabitacion = async (id) => {
+    try {
+      const resultado = await axios.get(`${urlBase}/${id}`);
+      setHabitacionSeleccionada(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
+      setIsModifying(true);
+      setIsCreating(false); // Establece que estamos en modo de modificación
+    } catch (error) {
+      console.error("Error al obtener los datos de la habitacion:", error);
+      // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
+    }
+  };
+  const crearHabitacion = () => {
+    setIsCreating(true);
+    setHabitacionSeleccionada(null); // Restablece el usuario seleccionado al crear uno nuevo
+    setIsModifying(false); // Asegúrate de que estás en modo de creación y no modificación
+  };
+
+  const finalizarModificacion = () => {
+    setIsModifying(false);
+    setIsCreating(true);
+  };
+
   const listaHabitaciones = habitaciones.map((habitacion) => {
     return (
       <tr key={habitacion.id}>
@@ -74,7 +100,7 @@ export default function AdminHabitaciones() {
           <button onClick={() => cambiarEstado(habitacion.id)}>
             {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
           </button>
-          <button onClick={() => ModificarUsuario(habitacion.id)}>
+          <button onClick={() => modificarHabitacion(habitacion.id)}>
             Modificar
           </button>
         </td>

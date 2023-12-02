@@ -128,7 +128,7 @@ export default function AdminCategorias() {
               />
             )}
             {isModifying && (
-              <button onClick={cargarCategorias}>Crear Categoria</button>
+              <button onClick={crearCategoria}>Crear Categoria</button>
             )}
             {isCreating && (
               <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
