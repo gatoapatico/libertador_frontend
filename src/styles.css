@@ -831,9 +831,8 @@ section {
                 }
             }
 
-            & .txt-fail {
+            & .txt-fail-all {
                 position: absolute;
-                text-align: center;
                 bottom: 2em;
                 margin-left: 3.5em;
                 color: rgb(255, 99, 99);
