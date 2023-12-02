@@ -248,4 +248,3 @@ export default function Registro({ handleExit, openLogin }) {
         </div>
     )
 }
-
