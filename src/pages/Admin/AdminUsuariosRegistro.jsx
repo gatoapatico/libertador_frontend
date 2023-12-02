@@ -72,9 +72,20 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
       alert("Por favor, ingresa un correo de Gmail válido");
       return;
     }
-    await axios.post(urlBase, usuario);
-    cargarUsuarios();
-    reiniciarFormulario();
+
+    try {
+      await axios.post(urlBase, usuario, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      cargarUsuarios();
+      reiniciarFormulario();
+    } catch (error) {
+      // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+      console.error("Error al enviar la solicitud:", error);
+    }
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>
