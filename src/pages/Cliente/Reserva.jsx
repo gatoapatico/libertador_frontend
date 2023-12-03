@@ -5,9 +5,22 @@ import 'react-calendar/dist/Calendar.css';
 import { useNavigate, useOutletContext } from "react-router-dom";
 import TerminosCondiciones from "../../components/popups/TerminosCondiciones";
 import DetalleHabitacion from "../../components/popups/DetalleHabitacion";
+import dateFormat, { i18n } from "dateformat";
 
 
 export default function Reserva() {
+
+    i18n.dayNames = [
+        "Dom","Lun","Mar","Mie","Jue","Vie","Sab",
+        "Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"
+    ];
+
+    i18n.monthNames = [
+        "Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic",
+        "Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+    ];
+
+    const DATE_FORMAT = "dddd d, mmmm yyyy";
 
     const navigate = useNavigate();
 
@@ -73,7 +86,7 @@ export default function Reserva() {
             let dataIndexCategoriasDisponibles = {}
 
             data.forEach(habitacion => {
-                if(habitacion.disponibilidad === "disponible") {
+                if(habitacion.disponibilidad === "Disponible") {
                     dataIndexCategoriasDisponibles = {
                         ...dataIndexCategoriasDisponibles,
                         [habitacion.tipoHabitacion.id] : !dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] ? 1 : dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] + 1
@@ -190,14 +203,14 @@ export default function Reserva() {
                                 <i className="bi bi-calendar-week-fill"></i>
                                 <div className="input-info">
                                     <h4>Fecha de entrada</h4>
-                                    <p>{startDate.toLocaleDateString()}</p>
+                                    <p>{`${dateFormat(startDate, DATE_FORMAT)}`}</p>
                                 </div>
                             </div>
                             <div className="fechas">
                                 <i className="bi bi-calendar-week-fill"></i>
                                 <div className="input-info">
                                     <h4>Fecha de salida</h4>
-                                    <p>{endDate.toLocaleDateString()}</p>
+                                    <p>{`${dateFormat(endDate, DATE_FORMAT)}`}</p>
                                 </div>
                             </div>
                             <div className="input cambiar-fecha" onClick={handleCalendar}>
@@ -238,11 +251,11 @@ export default function Reserva() {
                             <div className="fechas">
                                 <div className="fecha">
                                     <p><span>Fecha de entrada</span></p>
-                                    <p>{startDate.toLocaleDateString()}</p>
+                                    <p>{`${dateFormat(startDate, DATE_FORMAT)}`}</p>
                                 </div>
                                 <div className="fecha">
                                     <p><span>Fecha de salida</span></p>
-                                    <p>{endDate.toLocaleDateString()}</p>
+                                    <p>{`${dateFormat(endDate, DATE_FORMAT)}`}</p>
                                 </div>
                             </div>
                             <p>{categoriaSelected.nombre}<span>{categoriaSelected.precioCategoria.toFixed(2)}</span></p>
