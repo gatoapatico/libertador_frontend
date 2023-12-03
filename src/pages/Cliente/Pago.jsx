@@ -32,6 +32,10 @@ export default function Pago() {
         navigate("/reserva");
     }
 
+    function handlePago() {
+        console.log("Aquí vas a pagar!");
+    }
+
     return (
         <div className="contenedor-pago">
             <div className="panel-temporizador">
@@ -85,13 +89,11 @@ export default function Pago() {
                                 <label htmlFor="">Dirección de Correo Electrónico</label>
                                 <input type="email" />
                             </div>
-                            <button type="button" className="btn-pagar">PAGAR CON NIUBIZ</button>
+                            <button type="button" onClick={handlePago} className="btn-pagar">PAGAR CON NIUBIZ</button>
                         </form>
                     </div>
                 </div>
-
             </div>
-            {/* <p>{JSON.stringify(state)}</p> */}
         </div>
     )
 }
