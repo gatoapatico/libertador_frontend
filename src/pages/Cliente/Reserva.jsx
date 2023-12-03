@@ -246,7 +246,6 @@ export default function Reserva() {
                     {
                         categoriaSelected != null ?
                         <div className="reservas-resumen">
-                            {/* <h3>Su estancia</h3> */}
                             <h2>{categoriaSelected.nombre}</h2>
                             <div className="fechas">
                                 <div className="fecha">

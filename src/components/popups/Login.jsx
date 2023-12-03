@@ -33,8 +33,23 @@ export default function Login({ handleExit, openRegistro }) {
                 navigate("/admin", { replace: true });
             }
             else if (data.tipo === "Cliente") {
+
+                const userObject = {
+                    "id": data.id,
+                    "email": data.email,
+                    "nombre": data.nombre,
+                    "apellido": data.apellido,
+                    "dni": data.dni,
+                    "tipo": data.tipo
+                }
+
+                window.localStorage.setItem("user", JSON.stringify(userObject));
+
+                console.log("Ingreso de Sesión exitoso!");
+
                 navigate(".", { replace: true });
                 handleExit();
+                window.location.reload();
             }
              else {
                 console.error("Invalid user type:", data.tipo);

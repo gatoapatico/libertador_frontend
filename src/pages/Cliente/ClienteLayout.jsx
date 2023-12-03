@@ -1,11 +1,15 @@
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-import { Outlet } from "react-router-dom"
-import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
 import Login from "../../components/popups/Login";
 import Registro from "../../components/popups/Registro";
 
 export default function ClienteLayout() {
+
+    const navigate = useNavigate();
+
+    const [user, setUser] = useState(null);
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -32,9 +36,21 @@ export default function ClienteLayout() {
         setIsRegistro(false);
     }
 
+    function handleLogOut() {
+        window.localStorage.removeItem("user");
+        navigate("/");
+        window.location.reload();
+    }
+
+    useEffect(() => {
+        if(window.localStorage.getItem("user")) {
+            setUser(JSON.parse(window.localStorage.getItem("user")));
+        }
+    }, []);
+
     return (
         <div className='contenedor-cliente'>
-            <Header openLogin={openLogin}/>
+            <Header openLogin={openLogin} user={user} handleLogOut={handleLogOut}/>
             <Outlet
                 context={[startDate, setStartDate, endDate, setEndDate]}
             />
