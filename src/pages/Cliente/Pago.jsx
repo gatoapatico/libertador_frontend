@@ -1,8 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import { FaClock } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import dateFormat from "dateformat";
 
 export default function Pago() {
+
+    const DATE_FORMAT = "dddd d, mmmm yyyy";
 
     const navigate = useNavigate();
 
@@ -18,8 +21,6 @@ export default function Pago() {
         }, 1000);
 
     }, []);
-
-    /* console.log(categoria); */
 
     function formatoTiempo(segundos) {
         const minutos = Math.floor(segundos / 60);
@@ -37,7 +38,7 @@ export default function Pago() {
                 <div className="panel-info">
                     <div className="info">
                         <h3>Fecha de estancia</h3>
-                        <p>{`${checkIn.toLocaleDateString()} - ${checkOut.toLocaleDateString()}`}</p>
+                        <p>{`${dateFormat(checkIn, DATE_FORMAT)} - ${dateFormat(checkOut, DATE_FORMAT)}`}</p>
                     </div>
                     <div className="info">
                         <h3>Total por estancia</h3>
@@ -55,8 +56,8 @@ export default function Pago() {
                     <div className="detalle-reserva">
                         <h2>DETALLE DE RESERVA</h2>
                         <div className="fechas">
-                            <p><span>Ingreso:</span>{checkIn.toLocaleDateString()}</p>
-                            <p><span>Salida:</span>{checkOut.toLocaleDateString()}</p>
+                            <p><span>Ingreso:</span>{`${dateFormat(checkIn, DATE_FORMAT)}`}</p>
+                            <p><span>Salida:</span>{`${dateFormat(checkOut, DATE_FORMAT)}`}</p>
                         </div>
                         <div className="precio">
                             <p>{categoria.nombre}<span>{categoria.precioCategoria.toFixed(2)}</span></p>
