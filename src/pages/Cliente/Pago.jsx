@@ -2,13 +2,11 @@ import { useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import { FaClock } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import dateFormat from "dateformat";
+import NiubizPayout from "../../components/popups/NiubizPayout";
 
 export default function Pago() {
 
     const [startDate, setStartDate, endDate, setEndDate, user, openLogin] = useOutletContext();
-
-    const [tarjeta, setTarjeta] = useState("");
-    const [isFailTarjeta, setIsFailTarjeta] = useState(false);
 
     const DATE_FORMAT = "dddd d, mmmm yyyy";
 
@@ -18,7 +16,11 @@ export default function Pago() {
     const { state } = location;
     const { checkIn, checkOut, categoria } = state;
     
-    const [tiempo, setTiempo] = useState(300);
+    const [tiempo, setTiempo] = useState(3000);
+
+    const [isNiubizPop, setIsNiubizPop] = useState(false);
+
+    const pagoTotal = (categoria.costoTotalCategoria + (categoria.costoTotalCategoria * 0.18)).toFixed(2);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -37,80 +39,83 @@ export default function Pago() {
         navigate("/reserva");
     }
 
+    function openNiubizPopup() {
+        setIsNiubizPop(true);
+    }
+
+    function closeNiubizPopup() {
+        setIsNiubizPop(false);
+    }
+
     function handlePago() {
-        if(/^[0-9]{16}$/.test(tarjeta)){
-            
-            const reservaObjeto = {
-                "usuario": {
-                    "id": user.id
+
+        const reservaObjeto = {
+            "usuario": {
+                "id": user.id
+            },
+            "fechaReserva": dateFormat(new Date(), "yyyy-mm-dd")
+        }
+
+        const habitacionLibre = categoria.habitaciones
+            .filter(habitacion => !habitacion.fechasReservadas.includes(dateFormat(checkIn, "yyyy-mm-dd")))[0];
+
+        fetch("http://localhost:8080/api/reservas", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(reservaObjeto),
+        })
+        .then((res) => {
+            if (!res.ok) {
+                console.log("Falló en el fetch de creacion de reserva!");
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+
+            const detalleObjeto = {
+                "checkIn": dateFormat(checkIn, "yyyy-mm-dd"),
+                "chackOut": dateFormat(checkOut, "yyyy-mm-dd"),
+                "habitaciones": {
+                    "id": habitacionLibre.id
                 },
-                "fechaReserva": dateFormat(new Date(), "yyyy-mm-dd")
+                "reserva": {
+                    "id": data.idReserva
+                }
             }
 
-            const habitacionLibre = categoria.habitaciones
-                .filter(habitacion => !habitacion.fechasReservadas.includes(dateFormat(checkIn, "yyyy-mm-dd")))[0];
-
-            fetch("http://localhost:8080/api/reservas", {
+            fetch("http://localhost:8080/api/detalles", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(reservaObjeto),
+                body: JSON.stringify(detalleObjeto),
             })
             .then((res) => {
                 if (!res.ok) {
-                    console.log("Falló en el fetch de creacion de reserva!");
+                    console.log("Falló en el fetch de creacion de detalle reserva!");
                     throw new Error(`HTTP error! Status: ${res.status}`);
                 }
                 return res.json();
             })
             .then(data => {
+                console.log("Creación de detalle reserva con exito!");
 
-                const detalleObjeto = {
-                    "checkIn": dateFormat(checkIn, "yyyy-mm-dd"),
-                    "chackOut": dateFormat(checkOut, "yyyy-mm-dd"),
-                    "habitaciones": {
-                        "id": habitacionLibre.id
-                    },
-                    "reserva": {
-                        "id": data.idReserva
-                    }
+                const objeto = {
+                    "checkIn" : checkIn,
+                    "checkOut" : checkOut,
+                    "categoria" : {...categoria}
                 }
-
-                fetch("http://localhost:8080/api/detalles", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(detalleObjeto),
-                })
-                .then((res) => {
-                    if (!res.ok) {
-                        console.log("Falló en el fetch de creacion de detalle reserva!");
-                        throw new Error(`HTTP error! Status: ${res.status}`);
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    console.log("Creación de detalle reserva con exito!");
-
-                    const objeto = {
-                        "checkIn" : checkIn,
-                        "checkOut" : checkOut,
-                        "categoria" : {...categoria}
-                    }
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                    navigate("/boleta-reserva", { state: objeto });
-
-                })
-                .catch((error) => {
-                    console.error("Error:", error.message);
-                });
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                navigate("/boleta-reserva", { state: objeto });
 
             })
             .catch((error) => {
                 console.error("Error:", error.message);
             });
-        }
-        else {
-            setIsFailTarjeta(true);
-        }
+
+        })
+        .catch((error) => {
+            console.error("Error:", error.message);
+        });
     }
 
     return (
@@ -170,16 +175,19 @@ export default function Pago() {
                                 <label htmlFor="txtDni">DNI</label>
                                 <input readOnly id="txtDni" type="text" value={user.dni}/>
                             </div>
-                            <div className="input-form">
-                                <label htmlFor="txtTarjeta">Tarjeta de Crédito</label>
-                                <input id="txtTarjeta" type="text" onChange={(e) => setTarjeta(e.target.value)}/>
-                                { isFailTarjeta ? <p className="txt-fail">El formato de número de tarjeta es de 16 digitos!</p> : "" }
-                            </div>
-                            <button type="button" onClick={handlePago} className="btn-pagar">PAGAR CON NIUBIZ</button>
+                            <button type="button" onClick={openNiubizPopup} className="btn-pagar">PAGAR CON NIUBIZ</button>
                         </form>
                     </div>
                 </div>
             </div>
+            {
+                isNiubizPop ?
+                <>
+                <div className="black-wall" onClick={closeNiubizPopup}></div>
+                <NiubizPayout closeNiubizPopup={closeNiubizPopup} pagoTotal={pagoTotal} handlePago={handlePago}/>
+                </>
+                : ""
+            }
         </div>
     )
 }
