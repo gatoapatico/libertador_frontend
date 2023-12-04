@@ -4,6 +4,7 @@ import ClienteLayout from "./pages/Cliente/ClienteLayout";
 import Home from "./pages/Cliente/Home";
 import Reserva from "./pages/Cliente/Reserva";
 import Pago from "./pages/Cliente/Pago";
+import BoletaReserva from "./pages/Cliente/BoletaReserva";
 
 import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminHabitaciones from "./pages/Admin/AdminHabitaciones";
@@ -23,6 +24,7 @@ export default function App() {
                     <Route index element={<Home />} />
                     <Route path="reserva" element={<Reserva />} />
                     <Route path="pago" element={<Pago />} />
+                    <Route path="boleta-reserva" element={<BoletaReserva />} />
                 </Route>
 
                 <Route path="admin" element={<AdminLayout />}>

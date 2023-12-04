@@ -98,9 +98,22 @@ export default function Registro({handleExit, openLogin}) {
             }
             return res.json();
         })
-        .then(() => {
+        .then(data => {
+
+            const userObject = {
+                "id": data.usuario.id,
+                "email": data.usuario.email,
+                "nombre": data.usuario.nombre,
+                "apellido": data.usuario.apellido,
+                "dni": data.usuario.dni,
+                "tipo": data.usuario.tipo
+            }
+
+            window.localStorage.setItem("user", JSON.stringify(userObject));
+
             handleExit();
-            navigate("/reserva");
+            navigate("/");
+            window.location.reload();
         })
         .catch(error => {
             console.error("Error: ", error.message);
