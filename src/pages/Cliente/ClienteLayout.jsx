@@ -52,7 +52,7 @@ export default function ClienteLayout() {
         <div className='contenedor-cliente'>
             <Header openLogin={openLogin} user={user} handleLogOut={handleLogOut}/>
             <Outlet
-                context={[startDate, setStartDate, endDate, setEndDate]}
+                context={[startDate, setStartDate, endDate, setEndDate, user, openLogin]}
             />
             <Footer />
             <div className={`blur-layout ${isPopup?"" : "hidden"}`} onClick={handleExit}>

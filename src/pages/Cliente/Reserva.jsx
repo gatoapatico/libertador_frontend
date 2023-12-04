@@ -24,7 +24,7 @@ export default function Reserva() {
 
     const navigate = useNavigate();
 
-    const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
+    const [startDate, setStartDate, endDate, setEndDate, user, openLogin] = useOutletContext();
 
     const checkInDate = `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`;
     const checkOutDate = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
@@ -63,14 +63,21 @@ export default function Reserva() {
     }
 
     function handlePagoReserva() {
-        
-        const objeto = {
-            "checkIn" : startDate,
-            "checkOut" : endDate,
-            "categoria" : {...categoriaSelected}
+
+        if(user != null) {
+            const objeto = {
+                "checkIn" : startDate,
+                "checkOut" : endDate,
+                "categoria" : {...categoriaSelected}
+            }
+            scrollToTop();
+            navigate("/pago", { state: objeto });
         }
-        scrollToTop();
-        navigate("/pago", { state: objeto });
+        else {
+            openLogin();
+        }
+        
+        
     }
 
     function scrollToTop() {
@@ -185,6 +192,7 @@ export default function Reserva() {
         )
     });
 
+    console.log(user);
 
     return (
         <div className="contenedor-reservas">
