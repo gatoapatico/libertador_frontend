@@ -17,8 +17,16 @@ export default function AdminCategoriasModificar({
     nombre: "",
     cantPersonas: "",
     precioCategoria: "",
+    descripcion_breve: "",
+    descripcion_larga: "",
   });
-  const { nombre, precioCategoria, cantPersonas } = categoria;
+  const {
+    nombre,
+    precioCategoria,
+    cantPersonas,
+    descripcion_breve,
+    descripcion_larga,
+  } = categoria;
 
   useEffect(() => {
     cargarCategoria();
@@ -181,6 +189,29 @@ export default function AdminCategoriasModificar({
       <br />
       <br />
       <br />
+      <div className="input-form">
+        <textarea
+          type="text"
+          id="txtDescripcionBreve"
+          name="descripcion_breve"
+          value={descripcion_breve}
+          placeholder="Ingrese una breve descripcion de la categoria"
+          onChange={(e) => onInputChange(e)}
+          required
+        />
+      </div>
+
+      <div className="input-form">
+        <textarea
+          type="text"
+          id="txtDescripcionLarga"
+          name="descripcion_larga"
+          value={descripcion_larga}
+          placeholder="Ingrese una descripcion larga de la categoria"
+          onChange={(e) => onInputChange(e)}
+          required
+        />
+      </div>
       <button className="btn-crear-actualizar"> Modificar Categoria</button>
     </form>
   );

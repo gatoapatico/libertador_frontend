@@ -59,6 +59,8 @@ export default function AdminCategorias() {
       <tr key={categoria.id}>
         <td>{categoria.id}</td>
         <td>{categoria.nombre}</td>
+        <td>{categoria.descripcion_breve}</td>
+        <td>{categoria.descripcion_larga}</td>
         <td>{categoria.costoTotalCategoria}</td>
         <td>{categoria.precioCategoria}</td>
         <td>{categoria.costoServicios}</td>
@@ -104,6 +106,8 @@ export default function AdminCategorias() {
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Descripcion corta</th>
+                <th>Descripcion larga</th>
                 <th>Costo total</th>
                 <th>Costo categoria</th>
                 <th>Costo servicios</th>

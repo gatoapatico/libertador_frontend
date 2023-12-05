@@ -1426,7 +1426,19 @@ section {
                 align-self: flex-end;
             }
         }
-
+        .input-form {
+            margin-bottom: 20px;
+          }
+          
+          .input-field {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+          }
         
 
         & .navbar {
