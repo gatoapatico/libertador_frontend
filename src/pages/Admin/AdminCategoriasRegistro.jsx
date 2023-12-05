@@ -8,6 +8,7 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
   const [listaServiciosSeleccionados, setListaServiciosSeleccionados] =
     useState([]);
   const [listaServiciosTraidos, setListaServiciosTraidos] = useState([]);
+  const [archivoSeleccionado, setArchivoSeleccionado] = useState(null); // Nuevo estado para el archivo
   const [categorias, setCategorias] = useState({
     nombre: "",
     cantPersonas: "",
@@ -33,7 +34,13 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
   } = categorias;
 
   const onInputChange = (e) => {
-    setCategorias({ ...categorias, [e.target.name]: e.target.value });
+    // Verifica si el input es de tipo "file" y maneja el archivo seleccionado
+    if (e.target.type === "file") {
+      setArchivoSeleccionado(e.target.files[0]);
+    } else {
+      // Maneja otros cambios de input
+      setCategorias({ ...categorias, [e.target.name]: e.target.value });
+    }
   };
 
   const onServicioChange = (e) => {
@@ -81,12 +88,36 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
     );
   };
 
+  const subirArchivo = async (categoriaId) => {
+    const formData = new FormData();
+    formData.append("archivo", archivoSeleccionado);
+    formData.append("tipoEntidad", "categoria");
+    formData.append("idEntidad", categoriaId);
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/archivo/subir",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data.nombreArchivo; // o ajusta según lo que devuelve tu API
+    } catch (error) {
+      console.error("Error al subir el archivo:", error);
+      throw error; // Puedes manejar el error según tus necesidades
+    }
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
       const categoriaId = await crearCategoria();
       await actualizarCategoriaConServicios(categoriaId);
-      console.log("Categoría creada y actualizada con servicios.");
+      if (archivoSeleccionado) {
+        await subirArchivo(categoriaId);
+      }
       cargarCategorias();
       setListaServiciosSeleccionados([]);
       setCategorias({
@@ -208,6 +239,14 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
           placeholder="Ingrese una descripcion larga de la categoria"
           onChange={(e) => onInputChange(e)}
           required
+        />
+      </div>
+      <div className="input-form">
+        <input
+          type="file"
+          id="txtArchivo"
+          name="archivo"
+          onChange={(e) => onInputChange(e)}
         />
       </div>
       <button className="btn-crear-actualizar"> crear Categoria</button>
