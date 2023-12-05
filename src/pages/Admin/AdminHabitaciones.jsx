@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AdminHabitacionesRegistro from "./AdminHabitacionesRegistro";
+import AdminHabitacionesModificar from "./AdminHabitacionesModificar";
 
 export default function AdminHabitaciones() {
   const urlBase = "http://localhost:8080/api/habitaciones";
   const [habitaciones, setHabitaciones] = useState([]);
+  const [habitacionSeleccionada, setHabitacionSeleccionada] = useState(null);
+  const [isModifying, setIsModifying] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   useEffect(() => {
     cargarHabitaciones();
   }, []);
@@ -17,6 +22,27 @@ export default function AdminHabitaciones() {
       console.error("Error al cargar servicios:", error);
       // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
+  };
+  const ModificarHabitacion = async (id) => {
+    try {
+      const resultado = await axios.get(`${urlBase}/${id}`);
+      setHabitacionSeleccionada(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
+      setIsModifying(true);
+      setIsCreating(false); // Establece que estamos en modo de modificación
+    } catch (error) {
+      console.error("Error al obtener los datos del usuario:", error);
+      // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
+    }
+  };
+  const crearServicio = () => {
+    setIsCreating(true);
+    setHabitacionSeleccionada(null); // Restablece el usuario seleccionado al crear uno nuevo
+    setIsModifying(false); // Asegúrate de que estás en modo de creación y no modificación
+  };
+
+  const finalizarModificacion = () => {
+    setIsModifying(false);
+    setIsCreating(true);
   };
 
   const cambiarEstado = async (id) => {
@@ -74,7 +100,7 @@ export default function AdminHabitaciones() {
           <button onClick={() => cambiarEstado(habitacion.id)}>
             {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
           </button>
-          <button onClick={() => ModificarUsuario(habitacion.id)}>
+          <button onClick={() => ModificarHabitacion(habitacion.id)}>
             Modificar
           </button>
         </td>
@@ -106,63 +132,33 @@ export default function AdminHabitaciones() {
             <tbody>{listaHabitaciones}</tbody>
           </table>
         </div>
-        <div className="usuarios-form">
-          <h3>Crea-Modifica Usuarios</h3>
-          <form action="">
-            <br></br>
-            <div className="input-form">
-              <input type="text" id="txtEmail" placeholder="Ingrese un email" />
-              {/* <label htmlFor="txtEmail">Email</label> */}
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtContrasena"
-                placeholder="Ingrese una contraseña"
+        {isModifying || isCreating ? (
+          <div className="usuarios-form">
+            <h3>{isModifying ? "Modificar Habitacion" : "Crear Habitacion"}</h3>
+            {isModifying && (
+              <AdminHabitacionesModificar
+                id={habitacionSeleccionada.id}
+                cargarHabitaciones={cargarHabitaciones}
+                finalizarModificacion={finalizarModificacion}
               />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtDni"
-                placeholder="Ingrese un número de dni"
+            )}
+            {isModifying && (
+              <button onClick={crearServicio}>Crear Servicio</button>
+            )}
+            {isCreating && (
+              <AdminHabitacionesRegistro
+                cargarHabitaciones={cargarHabitaciones}
               />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtNombre"
-                placeholder="Ingrese un nombre"
-              />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtApellido"
-                placeholder="Ingrese un apellido"
-              />
-            </div>
-            <div className="input-form">
-              <input
-                type="text"
-                id="txtTelefono"
-                placeholder="Ingrese un número de teléfono"
-              />
-            </div>
-            <div className="input-form">
-              <select id="txtTipo" required>
-                <option value="Cliente">Cliente</option>
-                <option value="Adminsitrador">Administrador</option>
-              </select>
-            </div>
-            <button
-              className="btn-crear-actualizar"
-              onClick={(e) => handleForm(e)}
-            >
-              Crear/Actualizar
-            </button>
-          </form>
-        </div>
+            )}
+          </div>
+        ) : (
+          <div className="usuarios-form">
+            <h3>Crear Habitacion</h3>
+            <AdminHabitacionesRegistro
+              cargarHabitaciones={cargarHabitaciones}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

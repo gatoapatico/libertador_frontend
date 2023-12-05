@@ -15,6 +15,8 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
     fechaAlta: new Date().toLocaleDateString("en-CA", {
       timeZone: "America/Lima",
     }),
+    descripcion_breve: "",
+    descripcion_larga: "",
     fechaBaja: null,
     estado: "Activo",
   });
@@ -24,6 +26,8 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
     cantPersonas,
     precioCategoria,
     fechaAlta,
+    descripcion_breve,
+    descripcion_larga,
     fechaBaja,
     estado,
   } = categorias;
@@ -92,6 +96,8 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
         fechaAlta: new Date().toLocaleDateString("en-CA", {
           timeZone: "America/Lima",
         }),
+        descripcion_breve: "",
+        descripcion_larga: "",
         fechaBaja: null,
         estado: "Activo",
       });
@@ -181,6 +187,29 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
       <br />
       <br />
       <br />
+      <div className="input-form">
+        <textarea
+          type="text"
+          id="txtDescripcionBreve"
+          name="descripcion_breve"
+          value={descripcion_breve}
+          placeholder="Ingrese una breve descripcion de la categoria"
+          onChange={(e) => onInputChange(e)}
+          required
+        />
+      </div>
+
+      <div className="input-form">
+        <textarea
+          type="text"
+          id="txtDescripcionLarga"
+          name="descripcion_larga"
+          value={descripcion_larga}
+          placeholder="Ingrese una descripcion larga de la categoria"
+          onChange={(e) => onInputChange(e)}
+          required
+        />
+      </div>
       <button className="btn-crear-actualizar"> crear Categoria</button>
     </form>
   );
