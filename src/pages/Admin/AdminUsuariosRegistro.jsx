@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function AdminUsuariosRegistro({ cargarUsuarios }) {
   const urlBase = "http://localhost:8080/api/usuarios";
+  const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
   const [usuario, setUsuario] = useState({
     email: "",
     contrasena: "",
@@ -15,7 +16,6 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
     }),
     fechaBaja: "null",
     tipo: "",
-    foto: "null",
     estado: "Activo",
   });
 
@@ -29,12 +29,15 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
     fechaAlta,
     fechaBaja,
     tipo,
-    foto,
     estado,
   } = usuario;
-
+  //IdUsuario
   const onInputChange = (e) => {
-    setUsuario({ ...usuario, [e.target.name]: e.target.value });
+    if (e.target.type === "file") {
+      setArchivoSeleccionado(e.target.files[0]);
+    } else {
+      setUsuario({ ...usuario, [e.target.name]: e.target.value });
+    }
   };
 
   const handleDniChange = (e) => {
@@ -68,14 +71,44 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
     });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const crearUsuario = async () => {
     const regex = /^[a-zA-Z0-9]+@\S+\.\S+/;
     if (!regex.test(email)) {
       alert("Por favor, ingresa un correo de Gmail válido");
       return;
     }
-    await axios.post(urlBase, usuario);
+    const response = await axios.post(urlBase, usuario);
+    return response.data.IdUsuario;
+  };
+  const subirArchivo = async (usuarioId) => {
+    const formData = new FormData();
+    formData.append("archivo", archivoSeleccionado);
+    formData.append("tipoEntidad", "usuario");
+    formData.append("idEntidad", usuarioId);
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/archivo/subir",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data.nombreArchivo; // o ajusta según lo que devuelve tu API
+    } catch (error) {
+      console.error("Error al subir el archivo:", error);
+      throw error; // Puedes manejar el error según tus necesidades
+    }
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const usuarioId = await crearUsuario();
+    if (archivoSeleccionado) {
+      await subirArchivo(usuarioId);
+    }
+
     cargarUsuarios();
     reiniciarFormulario();
   };
@@ -165,6 +198,14 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
           <option value="Administrador">Administrador</option>
           <option value="Recepcionista">Recepcionista</option>
         </select>
+      </div>
+      <div className="input-form">
+        <input
+          type="file"
+          id="txtArchivo"
+          name="archivo"
+          onChange={(e) => onInputChange(e)}
+        />
       </div>
       <button type="submit" className="btn-crear-actualizar">
         Crear Usuario

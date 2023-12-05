@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function AdminServiciosRegistro({ cargarServicios }) {
   const urlBase = "http://localhost:8080/api/servicios";
+  const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
   const [servicio, setServicio] = useState({
     nombre: "",
     costo: "",
@@ -16,7 +17,11 @@ export default function AdminServiciosRegistro({ cargarServicios }) {
   const { nombre, costo, fechaAlta, fechaBaja, estado } = servicio;
 
   const onInputChange = (e) => {
-    setServicio({ ...servicio, [e.target.name]: e.target.value });
+    if (e.target.type === "file") {
+      setArchivoSeleccionado(e.target.files[0]);
+    } else {
+      setServicio({ ...servicio, [e.target.name]: e.target.value });
+    }
   };
 
   const reiniciarFormulario = () => {
@@ -30,11 +35,45 @@ export default function AdminServiciosRegistro({ cargarServicios }) {
       estado: "Activo",
     });
   };
+
+  const subirArchivo = async (servicioId) => {
+    const formData = new FormData();
+    formData.append("archivo", archivoSeleccionado);
+    formData.append("tipoEntidad", "servicio");
+    formData.append("idEntidad", servicioId);
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/archivo/subir",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data.nombreArchivo; // o ajusta según lo que devuelve tu API
+    } catch (error) {
+      console.error("Error al subir el archivo:", error);
+      throw error; // Puedes manejar el error según tus necesidades
+    }
+  };
+  const crearServicio = async () => {
+    const response = await axios.post(urlBase, servicio);
+    return response.data.servicioId;
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(urlBase, servicio);
-    cargarServicios();
-    reiniciarFormulario();
+    try {
+      const servicioId = await crearServicio();
+      if (archivoSeleccionado) {
+        await subirArchivo(servicioId);
+      }
+      cargarServicios();
+      reiniciarFormulario();
+    } catch (error) {
+      console.error("Error al crear el servicio:", error);
+    }
   };
 
   return (
@@ -61,6 +100,14 @@ export default function AdminServiciosRegistro({ cargarServicios }) {
           placeholder="Ingrese el costo del servicio"
           onChange={(e) => onInputChange(e)}
           required
+        />
+      </div>
+      <div className="input-form">
+        <input
+          type="file"
+          id="txtArchivo"
+          name="archivo"
+          onChange={(e) => onInputChange(e)}
         />
       </div>
 
