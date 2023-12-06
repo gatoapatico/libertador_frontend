@@ -40,7 +40,6 @@ export default function AdminServiciosModificar({
 
   return (
     <form onSubmit={(e) => onSubmit(e)}>
-      <br></br>
       <div className="input-form">
         <input
           type="text"

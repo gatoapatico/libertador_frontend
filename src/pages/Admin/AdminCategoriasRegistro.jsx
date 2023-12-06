@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 
 export default function AdminCategoriasRegistro({ cargarCategorias }) {
   const today = new Date().toISOString().split("T")[0];
@@ -144,7 +145,6 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
 
   return (
     <form onSubmit={(e) => onSubmit(e)}>
-      <br />
       <div className="input-form">
         <input
           type="text"
@@ -197,7 +197,7 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
           ))}
         </select>
       </div>
-      <div>
+      <div className="contenedor-servicios-seleccionados">
         <h4>Servicios seleccionados:</h4>
         <ul>
           {listaServiciosSeleccionados.map((servicioId) => {
@@ -207,8 +207,8 @@ export default function AdminCategoriasRegistro({ cargarCategorias }) {
             return (
               <li key={servicioId}>
                 {servicio.nombre}
-                <button onClick={() => retirarServicio(servicioId)}>
-                  Eliminar
+                <button className="btn-eliminar-servicio" onClick={() => retirarServicio(servicioId)}>
+                  <FaTrashAlt />
                 </button>
               </li>
             );
