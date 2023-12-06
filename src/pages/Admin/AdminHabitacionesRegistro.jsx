@@ -65,7 +65,6 @@ export default function AdminHabitacionesRegistro({ cargarHabitaciones }) {
 
   return (
     <form onSubmit={(e) => onSubmit(e)}>
-      <br />
       <div className="input-form">
         <input
           type="text"

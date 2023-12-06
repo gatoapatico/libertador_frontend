@@ -3,6 +3,9 @@ import axios from "axios";
 import AdminCategoriasRegistro from "./AdminCategoriasRegistro";
 import AdminCategoriasModificar from "./AdminCategoriasModificar";
 export default function AdminCategorias() {
+
+  const [isOpenSection, setIsOpenSection] = useState(false);
+
   const urlBase = "http://localhost:8080/api/categorias";
   const [categorias, setCategorias] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
@@ -11,6 +14,11 @@ export default function AdminCategorias() {
   useEffect(() => {
     cargarCategorias();
   }, []);
+
+  function openSection() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection(prev => !prev);
+  }
 
   const cargarCategorias = async () => {
     try {
@@ -34,6 +42,10 @@ export default function AdminCategorias() {
     }
   };
   const modificarCategoria = async (id) => {
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection(true);
+
     try {
       const resultado = await axios.get(`${urlBase}/${id}`);
       setCategoriaSeleccionada(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
@@ -57,13 +69,18 @@ export default function AdminCategorias() {
   const listaCategorias = categorias.map((categoria) => {
     return (
       <tr key={categoria.id}>
-        <td>{categoria.id}</td>
+        <td className="id">{categoria.id}</td>
         <td>{categoria.nombre}</td>
+        <td>
+          {
+            categoria.foto[0] ? 
+            <img src={`/images/rooms/${categoria.foto[0].nombre}`} alt="" />
+            : "No Image"
+          }
+        </td>
         <td>{categoria.descripcion_breve}</td>
-        <td>{categoria.descripcion_larga}</td>
-        <td>{categoria.costoTotalCategoria}</td>
+        <td className="descripcion-larga">{categoria.descripcion_larga}</td>
         <td>{categoria.precioCategoria}</td>
-        <td>{categoria.costoServicios}</td>
         <td>
           <div className="servicios-lista">
             <div>
@@ -79,19 +96,20 @@ export default function AdminCategorias() {
           </div>
         </td>
         <td>{categoria.cantPersonas}</td>
-        <td>{categoria.fechaAlta}</td>
         <td>
           {categoria.fechaBaja
             ? categoria.fechaBaja
             : "La categoria está activa"}
         </td>
         <td className="celda-estado">
-          <button onClick={() => cambiarEstado(categoria.id)}>
-            {categoria.estado === "Activo" ? "Desactivar" : "Activar"}
-          </button>
-          <button onClick={() => modificarCategoria(categoria.id)}>
-            Modificar
-          </button>
+          <div className="botones-celda">
+            <button onClick={() => cambiarEstado(categoria.id)}>
+              {categoria.estado === "Activo" ? "Desactivar" : "Activar"}
+            </button>
+            <button onClick={() => modificarCategoria(categoria.id)}>
+              Modificar
+            </button>
+          </div>
         </td>
       </tr>
     );
@@ -99,21 +117,52 @@ export default function AdminCategorias() {
   return (
     <div className="admin-usuarios">
       <h1>CATEGORIAS</h1>
+      <button className="btn-abrir-seccion" onClick={openSection}>{ isOpenSection ? "Cerrar Sección" : "Crear Nueva Categoría"}</button>
       <div className="panels">
+        
+        {
+          isOpenSection ? 
+
+            isModifying || isCreating ? (
+              <div className="usuarios-form">
+                <h3>{isModifying ? "Modificar Categoria" : "Crear Categoria"}</h3>
+                {isModifying && (
+                  <AdminCategoriasModificar
+                    id={categoriaSeleccionada.id}
+                    cargarCategorias={cargarCategorias}
+                    finalizarModificacion={finalizarModificacion}
+                  />
+                )}
+                {isModifying && (
+                  <button className="btn-ir-crear" onClick={crearCategoria}>Ir a crear categoria</button>
+                )}
+                {isCreating && (
+                  <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
+                )}
+              </div>
+            ) : (
+              <div className="usuarios-form">
+                <h3>Crear Categoria</h3>
+                <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
+              </div>
+            )
+
+          : ""
+        }
+
+
         <div className="usuarios-tabla">
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th className="id">ID</th>
                 <th>Nombre</th>
+                <th>Imagen</th>
                 <th>Descripcion corta</th>
                 <th>Descripcion larga</th>
-                <th>Costo total</th>
                 <th>Costo categoria</th>
-                <th>Costo servicios</th>
                 <th>Servicios</th>
                 <th>Cantidad personas</th>
-                <th>Fecha de Creacion</th>
                 <th>Fecha de Baja</th>
                 <th>Estado</th>
               </tr>
@@ -121,29 +170,8 @@ export default function AdminCategorias() {
             <tbody>{listaCategorias}</tbody>
           </table>
         </div>
-        {isModifying || isCreating ? (
-          <div className="usuarios-form">
-            <h3>{isModifying ? "Modificar Categoria" : "Crear Categoria"}</h3>
-            {isModifying && (
-              <AdminCategoriasModificar
-                id={categoriaSeleccionada.id}
-                cargarCategorias={cargarCategorias}
-                finalizarModificacion={finalizarModificacion}
-              />
-            )}
-            {isModifying && (
-              <button onClick={cargarCategorias}>Crear Categoria</button>
-            )}
-            {isCreating && (
-              <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
-            )}
-          </div>
-        ) : (
-          <div className="usuarios-form">
-            <h3>Crear Categoria</h3>
-            <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
-          </div>
-        )}
+
+
       </div>
     </div>
   );

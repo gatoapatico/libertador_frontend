@@ -4,6 +4,9 @@ import AdminHabitacionesRegistro from "./AdminHabitacionesRegistro";
 import AdminHabitacionesModificar from "./AdminHabitacionesModificar";
 
 export default function AdminHabitaciones() {
+
+  const [isOpenSection, setIsOpenSection] = useState(false);
+
   const urlBase = "http://localhost:8080/api/habitaciones";
   const [habitaciones, setHabitaciones] = useState([]);
   const [habitacionSeleccionada, setHabitacionSeleccionada] = useState(null);
@@ -12,6 +15,12 @@ export default function AdminHabitaciones() {
   useEffect(() => {
     cargarHabitaciones();
   }, []);
+
+  function openSection() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection(prev => !prev);
+  }
+
   const cargarHabitaciones = async () => {
     try {
       const resultado = await axios.get(urlBase);
@@ -24,6 +33,10 @@ export default function AdminHabitaciones() {
     }
   };
   const ModificarHabitacion = async (id) => {
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection(true);
+
     try {
       const resultado = await axios.get(`${urlBase}/${id}`);
       setHabitacionSeleccionada(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
@@ -97,20 +110,61 @@ export default function AdminHabitaciones() {
         </td>
         <td>{habitacion.disponibilidad}</td>
         <td className="celda-estado">
-          <button onClick={() => cambiarEstado(habitacion.id)}>
-            {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
-          </button>
-          <button onClick={() => ModificarHabitacion(habitacion.id)}>
-            Modificar
-          </button>
+          <div className="botones-celda">
+            <button onClick={() => cambiarEstado(habitacion.id)}>
+              {habitacion.estado === "Activo" ? "Desactivar" : "Activar"}
+            </button>
+            <button onClick={() => ModificarHabitacion(habitacion.id)}>
+              Modificar
+            </button>
+          </div>
         </td>
       </tr>
     );
   });
+
   return (
     <div className="admin-usuarios">
       <h1>Habitaciones</h1>
+      <button className="btn-abrir-seccion" onClick={openSection}>{ isOpenSection ? "Cerrar Sección" : "Crear Nueva Habitación"}</button>
       <div className="panels">
+
+        
+
+        {
+          isOpenSection ?
+        
+          isModifying || isCreating ? (
+            <div className="usuarios-form">
+              <h3>{isModifying ? "Modificar Habitacion" : "Crear Habitacion"}</h3>
+              {isModifying && (
+                <AdminHabitacionesModificar
+                  id={habitacionSeleccionada.id}
+                  cargarHabitaciones={cargarHabitaciones}
+                  finalizarModificacion={finalizarModificacion}
+                />
+              )}
+              {isModifying && (
+                <button className="btn-ir-crear" onClick={crearServicio}>Ir a crear Habitación</button>
+              )}
+              {isCreating && (
+                <AdminHabitacionesRegistro
+                  cargarHabitaciones={cargarHabitaciones}
+                />
+              )}
+            </div>
+          ) : (
+            <div className="usuarios-form">
+              <h3>Crear Habitacion</h3>
+              <AdminHabitacionesRegistro
+                cargarHabitaciones={cargarHabitaciones}
+              />
+            </div>
+          )
+        
+          : ""
+        }
+
         <div className="usuarios-tabla">
           <table>
             <thead>
@@ -132,33 +186,7 @@ export default function AdminHabitaciones() {
             <tbody>{listaHabitaciones}</tbody>
           </table>
         </div>
-        {isModifying || isCreating ? (
-          <div className="usuarios-form">
-            <h3>{isModifying ? "Modificar Habitacion" : "Crear Habitacion"}</h3>
-            {isModifying && (
-              <AdminHabitacionesModificar
-                id={habitacionSeleccionada.id}
-                cargarHabitaciones={cargarHabitaciones}
-                finalizarModificacion={finalizarModificacion}
-              />
-            )}
-            {isModifying && (
-              <button onClick={crearServicio}>Crear Servicio</button>
-            )}
-            {isCreating && (
-              <AdminHabitacionesRegistro
-                cargarHabitaciones={cargarHabitaciones}
-              />
-            )}
-          </div>
-        ) : (
-          <div className="usuarios-form">
-            <h3>Crear Habitacion</h3>
-            <AdminHabitacionesRegistro
-              cargarHabitaciones={cargarHabitaciones}
-            />
-          </div>
-        )}
+
       </div>
     </div>
   );

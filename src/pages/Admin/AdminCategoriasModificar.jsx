@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 
 export default function AdminCategoriasModificar({
   cargarCategorias,
@@ -115,7 +116,6 @@ export default function AdminCategoriasModificar({
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>
-      <br />
       <div className="input-form">
         <input
           type="text"
@@ -166,7 +166,7 @@ export default function AdminCategoriasModificar({
           ))}
         </select>
       </div>
-      <div>
+      <div className="contenedor-servicios-seleccionados">
         <h4>Servicios seleccionados:</h4>
         <ul>
           {listaServiciosSeleccionados.map((servicioId) => {
@@ -178,8 +178,8 @@ export default function AdminCategoriasModificar({
                 {servicio && servicio.nombre
                   ? servicio.nombre
                   : "Nombre no disponible"}
-                <button onClick={() => retirarServicio(servicioId)}>
-                  Eliminar
+                <button className="btn-eliminar-servicio" onClick={() => retirarServicio(servicioId)}>
+                  <FaTrashAlt />
                 </button>
               </li>
             );

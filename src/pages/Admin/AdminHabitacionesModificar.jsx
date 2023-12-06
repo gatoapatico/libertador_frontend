@@ -62,7 +62,6 @@ export default function AdminHabitacionesModificar({
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>
-      <br />
       <div className="input-form">
         <input
           type="text"
