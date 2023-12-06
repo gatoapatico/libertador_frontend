@@ -1481,17 +1481,35 @@ section {
             font-size: 3rem;
         }
 
+        & .btn-abrir-seccion {
+            background-color: #333050;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 10px;
+            margin-left: 2.5em;
+            cursor: pointer;
+        }
+
+        & .btn-abrir-seccion:active {
+            background-color: #48436e;
+        }
+
         & .panels {
-            display: flex;
-            justify-content: space-around;
+            /* display: flex;
+            justify-content: space-around; */
+            padding: 2em;
 
             & .usuarios-tabla {
+                /* width: 100%; */
 
                 & table {
                     border-collapse: collapse;
                     text-align: center;
                     margin: 2em;
                     font-size: 0.7rem;
+                    width: 95%;
 
                     & thead {
 
@@ -1500,6 +1518,10 @@ section {
                             & th {
                                 width: 90px;
                                 border-bottom: 1px solid #232323;
+                            }
+
+                            & .id {
+                                width: 10px;
                             }
                         }
                     }
@@ -1510,45 +1532,81 @@ section {
                             border-bottom: 1px solid #232323;
 
                             & td {
-                                margin: 1em 0;    
+                                margin: 1em 0;
+                                
+                                & img {
+                                    width: 100px;
+                                }
+                            }
+
+                            & .id {
+                                width: 10px;
+                            }
+
+                            & .descripcion-larga {
+                                width: 300px;
                             }
 
                             & .celda-estado {
-                                display: flex;
-                                flex-direction: column;
-                                gap: 0.7em;
 
-                                & button {
-                                    font-size: inherit;
-                                    align-self: center;
-                                    padding: 0.5em 1.5em;
-                                    border-radius: 20px;
-                                    cursor: pointer;
-                                    border: none;
-                                    background-color: #5d718a;
-                                    color: white;
-                                }
+                                & .botones-celda {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 1em;
+                                    padding: 0.5em;
 
-                                & button:active {
-                                    background-color: #404d5e;
+                                    & button {
+                                        font-size: inherit;
+                                        align-self: center;
+                                        padding: 0.5em 1.5em;
+                                        border-radius: 20px;
+                                        cursor: pointer;
+                                        border: none;
+                                        background-color: #5d718a;
+                                        color: white;
+                                    }
+    
+                                    & button:active {
+                                        background-color: #404d5e;
+                                    }
                                 }
                             }
                         }
                     }
+                }
+
+                & .btn-paginacion {
+                    background-color: #5d718a;
+                    color: white;
+                    border: none;
+                    padding: 0.5em 1em;
+                    margin-right: 1em;
+                    cursor: pointer;
+                    border-radius: 5px;
+                }
+
+                & .btn-paginacion:active {
+                    background-color: #384553;
                 }
             }
 
             & .usuarios-form {
                 background-color: rgb(240, 240, 240);
                 border-radius: 10px;
-                width: 25%;
                 padding: 1.5em;
 
+                & h3 {
+                    margin-bottom: 1em;
+                }
+
                 & form {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1em;
 
                     & .input-form {
                         position: relative;
-                        margin-bottom: 1em;
+                        width: 30%;
 
                         & input {
                             padding: 1em;
@@ -1565,6 +1623,8 @@ section {
                             width: 100%;
                             font-family: inherit;
                         }
+
+                        
 
                         /* & label {
                             position: absolute;
@@ -1600,6 +1660,51 @@ section {
                     & .btn-crear-actualizar:active {
                         background-color: #485769;
                     }
+
+                    & .contenedor-servicios-seleccionados {
+                        border: 1px solid rgb(207, 207, 207);
+                        padding: 0.5em;
+                        border-radius: 5px;
+                        width: 60%;
+
+                        & ul {
+                            list-style: none;
+
+                            & li {
+
+                                & .btn-eliminar-servicio {
+                                    border: none;
+                                    padding: 0.2em;
+                                    margin-left: 0.3em;
+                                    cursor: pointer;
+                                }
+
+                                & .btn-eliminar-servicio:hover {
+                                    color: #6963a3;
+                                }
+                            }
+                        }
+
+                        
+                    }
+
+                    & textarea {
+                        width: 100%;
+                        font-family: inherit;
+                    }
+                }
+
+                & .btn-ir-crear {
+                    width: 100%;
+                    font-family: inherit;
+                    background-color: transparent;
+                    border: 1px solid #5d718a;
+                    border-radius: 5px;
+                    color: #5d718a;
+                    padding: 0.5em;
+                    margin-top: 1em;
+                    font-weight: bold;
+                    cursor: pointer;
                 }
             }
         }

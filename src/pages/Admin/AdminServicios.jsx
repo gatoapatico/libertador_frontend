@@ -2,8 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import AdminServiciosRegistro from "./AdminServiciosRegistro";
 import AdminServiciosModificar from "./AdminServiciosModificar";
+import { MdNavigateBefore } from "react-icons/md";
+import { MdNavigateNext } from "react-icons/md";
 
 export default function AdminServicios() {
+
+  const [isOpenSection, setIsOpenSection] = useState(false);
+
   const urlBase = "http://localhost:8080/api/servicios";
   const [servicios, setServicios] = useState([]);
   const [servicioSeleccionado, setServicioSeleccionado] = useState(null);
@@ -13,6 +18,11 @@ export default function AdminServicios() {
   useEffect(() => {
     cargarServicios();
   }, [currentPage]);
+
+  function openSection() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection(prev => !prev);
+  }
 
   const cargarServicios = async () => {
     try {
@@ -45,6 +55,10 @@ export default function AdminServicios() {
   };
 
   const ModificarServicio = async (id) => {
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection(true);
+
     try {
       const resultado = await axios.get(`${urlBase}/${id}`);
       setServicioSeleccionado(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
@@ -68,7 +82,38 @@ export default function AdminServicios() {
   return (
     <div className="admin-usuarios">
       <h1>SERVICIOS</h1>
+      <button className="btn-abrir-seccion" onClick={openSection}>{ isOpenSection ? "Cerrar Sección" : "Crear Nuevo Servicio"}</button>
       <div className="panels">
+        {
+          isOpenSection ?
+
+          isModifying || isCreating ? (
+            <div className="usuarios-form">
+              <h3>{isModifying ? "Modificar Servicio" : "Crear Servicio"}</h3>
+              {isModifying && (
+                <AdminServiciosModificar
+                  id={servicioSeleccionado.id}
+                  cargarServicios={cargarServicios}
+                  finalizarModificacion={finalizarModificacion}
+                />
+              )}
+              {isModifying && (
+                <button className="btn-ir-crear" onClick={crearServicio}>Ir a crear Servicio</button>
+              )}
+              {isCreating && (
+                <AdminServiciosRegistro cargarServicios={cargarServicios} />
+              )}
+            </div>
+          ) : (
+            <div className="usuarios-form">
+              <h3>Crear Servicio</h3>
+              <AdminServiciosRegistro cargarServicios={cargarServicios} />
+            </div>
+          )
+
+          : ""
+        }
+
         <div className="usuarios-tabla">
           <table>
             <thead>
@@ -94,43 +139,23 @@ export default function AdminServicios() {
                       : "El servicio está activo"}
                   </td>
                   <td className="celda-estado">
-                    <button onClick={() => cambiarEstado(servicio.id)}>
-                      {servicio.estado === "Activo" ? "Desactivar" : "Activar"}
-                    </button>
-                    <button onClick={() => ModificarServicio(servicio.id)}>
-                      Modificar
-                    </button>
+                    <div className="botones-celda">
+                      <button onClick={() => cambiarEstado(servicio.id)}>
+                        {servicio.estado === "Activo" ? "Desactivar" : "Activar"}
+                      </button>
+                      <button onClick={() => ModificarServicio(servicio.id)}>
+                        Modificar
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button onClick={prevPage}>Página anterior</button>
-          <button onClick={nextPage}>Página siguiente</button>
+          <button className="btn-paginacion" onClick={prevPage}><MdNavigateBefore /> Página anterior</button>
+          <button className="btn-paginacion" onClick={nextPage}>Página siguiente <MdNavigateNext /></button>
         </div>
-        {isModifying || isCreating ? (
-          <div className="usuarios-form">
-            <h3>{isModifying ? "Modificar Servicio" : "Crear Servicio"}</h3>
-            {isModifying && (
-              <AdminServiciosModificar
-                id={servicioSeleccionado.id}
-                cargarServicios={cargarServicios}
-                finalizarModificacion={finalizarModificacion}
-              />
-            )}
-            {isModifying && (
-              <button onClick={crearServicio}>Crear Servicio</button>
-            )}
-            {isCreating && (
-              <AdminServiciosRegistro cargarServicios={cargarServicios} />
-            )}
-          </div>
-        ) : (
-          <div className="usuarios-form">
-            <h3>Crear Servicio</h3>
-            <AdminServiciosRegistro cargarServicios={cargarServicios} />
-          </div>
-        )}
+
       </div>
     </div>
   );
