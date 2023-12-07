@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import ClienteLayout from "./pages/Cliente/ClienteLayout";
 import Home from "./pages/Cliente/Home";
+import Perfil from "./pages/Cliente/Perfil";
 import Reserva from "./pages/Cliente/Reserva";
 import Pago from "./pages/Cliente/Pago";
 import BoletaReserva from "./pages/Cliente/BoletaReserva";
@@ -22,6 +23,7 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<ClienteLayout />} >
                     <Route index element={<Home />} />
+                    <Route path="perfil" element={<Perfil />} />
                     <Route path="reserva" element={<Reserva />} />
                     <Route path="pago" element={<Pago />} />
                     <Route path="boleta-reserva" element={<BoletaReserva />} />

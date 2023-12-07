@@ -34,7 +34,7 @@ export default function Header({ openLogin, user, handleLogOut}) {
                         isUserOpen ?
                         <div className="user-pop">
                             <ul>
-                                <li><FaUser />usuario</li>
+                                <li><Link to={"/perfil"} className="item-pop-user"><FaUser />usuario</Link></li>
                                 <li onClick={handleLogOut}><IoLogOut />cerrar sesión</li>
                             </ul>
                         </div>

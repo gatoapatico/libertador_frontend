@@ -110,10 +110,18 @@ section {
                         border-radius: 10px;
                         gap: 0.1em;
 
+                        & .item-pop-user {
+                            color: white;
+                            text-decoration: none;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5em;
+                        }
+
                         & li {
                             display: flex;
-                            gap: 0.5em;
                             align-items: center;
+                            gap: 0.5em;
                             padding: 0.5em;
                             border-radius: 10px;
                             background-color: #232323;
@@ -630,6 +638,258 @@ section {
                 color: rgb(156, 156, 156);
             }
         }
+    }
+
+    & .contenedor-boleta-reserva {
+
+        & .titulo {
+            margin: 1em 2em 0 2em;
+        }
+        
+        & .paneles {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            align-items: center;
+            padding: 1em;
+    
+            & .contenedor-boleta {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+            }
+    
+            & .panel {
+                width: 900px;
+                border-radius: 5px;
+            }
+    
+            & .panel1 {
+                background-color: #333050;
+                color: white;
+                padding-bottom: 0.7em;
+                
+    
+                & .txt-confirmacion {
+                    display: block;
+                    margin: 0.5em 1em 0.2em 1em;
+                }
+    
+                & .txt-envio-email {
+                    margin: 0.3em 1em;
+    
+                    & button {
+                        font-size: 0.6rem;
+                        font-weight: bold;
+                        border-radius: 5px;
+                        margin-left: 1em;
+                        padding: 0.2em 1em;
+                        background-color: #f0f0f0;
+                        border: none;
+                        cursor: pointer;
+                        box-shadow: 2px 2px 1px #232323;
+                    }
+    
+                    & button:active {
+                        background-color: #d2d2d2;
+                    }
+                }
+            }
+    
+            & .panel2 {
+                height: auto;
+    
+                & .comprobante-encabezado {
+                    display: flex;
+                    justify-content: space-between;
+    
+                    & .info-encabezado {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5em;
+                        justify-content: space-evenly;
+    
+                        & .encabezado-titulo {
+                            background-color: #333050;
+                            border-radius: 5px;
+                            color: white;
+                            padding: 0.5em 0 0.5em 1em;
+                            width: 565px;
+                        }
+    
+                        & .tarjeta-pedido {
+                            align-self: center;
+                            width: 547px;
+                        }
+                    }
+    
+                    & .codigo-barras {
+    
+                        & img {
+                            width: 270px;
+                        }
+                    }
+                }
+    
+                & .tarjeta-pedido {
+                    display: inline-block;
+                    background-color: #f0f0f0;
+                    margin: 0 auto 0 0;
+                    padding: 0.5em 1em;
+                    border-radius: 5px;
+    
+                    & .tarjeta-pedido-codigo {
+                        font-weight: bold;
+                    }
+                }
+    
+                & .tarjetas {
+                    display: flex;
+                    gap: 1em;
+                    justify-content: space-between;
+                    margin-top: 0.5em;
+                    font-size: 0.9rem;
+    
+                    & b {
+                        display: block;
+                        margin: 0.5em 0.7em;
+                    }
+    
+                    & p {
+                        font-size: 0.8em;
+                        margin: 0.3em 1em;
+                        font-weight: bold;
+    
+                        & span {
+                            font-weight: 300;
+                        }
+                    }
+    
+                    & .bold {
+                        font-weight: bold;
+                    }
+    
+                    & .no-bold {
+                        font-weight: 300;
+                    }
+    
+                    & .tarjeta {
+                        width: 30%;
+                        border-radius: 5px;
+                        background-color: #f0f0f0;
+                        padding-bottom: 0.5em;
+                    }
+    
+                    & .info-resumen {
+    
+                        & p {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+    
+                        & .tarjeta-total {
+                            border-top: 1px solid #787878;
+                            padding-top: 0.5em;
+                        }
+                    }
+                }
+            }
+    
+            & .panel3 {
+                display: flex;
+                flex-direction: column;
+    
+                & .info-pedido {
+                    border: 1px solid transparent;
+                    border-radius: 5px;
+                    background-color: #333050;
+                    color: white;
+                    font-weight: bold;
+                    padding-bottom: 0.7em;
+    
+                    & p {
+                        margin: 0 0.7em;
+    
+                        & span {
+                            font-weight: 200;
+                        }
+                    }
+    
+                    & p:nth-child(1) {
+                        margin: 0.5em 0.7em;
+                    }
+                }
+
+                & .info-reserva {
+                    margin-top: 0.5em;
+                    display: flex;
+
+                    & .imagen {
+                        width: 50%;
+
+                        & img {
+                            width: 100%;
+                            display: block;
+                            border-radius: 10px;
+                        }
+                    }
+
+                    & .info {
+                        width: 50%;
+                        padding: 1em 2em;
+
+                        & h3 {
+                            font-family: 'Marcellus SC', serif;
+                            font-size: 2.5rem;
+                            margin-bottom: 0.2em;
+                        }
+
+                        & h4 {
+                            margin: 1.5em 0 1em 0;
+                        }
+
+                        & ul {
+                            list-style: none;
+                            display: flex;
+                            gap: 1em;
+                            flex-wrap: wrap;
+                            justify-content: center;
+
+                            & li {
+                                background-color: #333050;
+                                color: white;
+                                padding: 0.5em 1em;
+                                border-radius: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+    
+            & .btn-seguir-comprando {
+                text-decoration: none;
+                border: 1px solid red;
+                font-family: inherit;
+                font-size: 1.5rem;
+                color: #333050;
+                background-color: #fafafa;
+                margin-bottom: 2em;
+                margin-top: 1em;
+                border: 1px solid #d3d3d3;
+                border-radius: 5px;
+                padding: 0.2em 1em;
+                cursor: pointer;
+    
+                & i {
+                    margin: 0 0.3em;
+                }
+            }
+    
+            & .btn-seguir-comprando:active {
+                color: #6861a1;
+            }
+        }
+    
     }
 
     & .footer {
