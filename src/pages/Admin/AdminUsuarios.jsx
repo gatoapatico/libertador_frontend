@@ -4,6 +4,9 @@ import AdminUsuariosRegistro from "./AdminUsuariosRegistro";
 import AdminUsuariosModificar from "./AdminUsuariosModificar";
 
 export default function AdminUsuarios() {
+
+  const [isOpenSection, setIsOpenSection] = useState(false);
+
   const urlBase = "http://localhost:8080/api/usuarios";
   const [usuarios, setUsuarios] = useState([]);
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
@@ -13,6 +16,11 @@ export default function AdminUsuarios() {
   useEffect(() => {
     cargarUsuarios();
   }, []);
+
+  function openSection() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection((prev) => !prev);
+  }
 
   const cargarUsuarios = async () => {
     try {
@@ -37,6 +45,10 @@ export default function AdminUsuarios() {
   };
 
   const ModificarUsuario = async (id) => {
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setIsOpenSection(true);
+
     try {
       const resultado = await axios.get(`${urlBase}/${id}`);
       setUsuarioSeleccionado(resultado.data); // Establece el usuario seleccionado con los datos obtenidos
@@ -61,7 +73,39 @@ export default function AdminUsuarios() {
   return (
     <div className="admin-usuarios">
       <h1>USUARIOS</h1>
+      <button className="btn-abrir-seccion" onClick={openSection}>
+        {isOpenSection ? "Cerrar Sección" : "Crear Nuevo Usuario"}
+      </button>
       <div className="panels">
+        {
+          isOpenSection ?
+        
+          isModifying || isCreating ? (
+            <div className="usuarios-form">
+              <h3>{isModifying ? "Modificar Usuario" : "Crear Usuario"}</h3>
+              {isModifying && (
+                <AdminUsuariosModificar
+                  id={usuarioSeleccionado.id}
+                  cargarUsuarios={cargarUsuarios}
+                  finalizarModificacion={finalizarModificacion}
+                />
+              )}
+              {isModifying && (
+                <button className="btn-ir-crear" onClick={crearUsuario}>Ir a crear Usuario</button>
+              )}
+              {isCreating && (
+                <AdminUsuariosRegistro cargarUsuarios={cargarUsuarios} />
+              )}
+            </div>
+          ) : (
+            <div className="usuarios-form">
+              <h3>Crear Usuario</h3>
+              <AdminUsuariosRegistro cargarUsuarios={cargarUsuarios} />
+            </div>
+          )
+        
+          : ""
+        }
         <div className="usuarios-tabla">
           <table>
             <thead>
@@ -97,41 +141,21 @@ export default function AdminUsuarios() {
                       : "El usuario esta activo"}
                   </td>
                   <td className="celda-estado">
-                    <button onClick={() => cambiarEstado(usuario.id)}>
-                      {usuario.estado === "Activo" ? "Desactivar" : "Activar"}
-                    </button>
-                    <button onClick={() => ModificarUsuario(usuario.id)}>
-                      Modificar
-                    </button>
+                    <div className="botones-celda">
+                      <button onClick={() => cambiarEstado(usuario.id)}>
+                        {usuario.estado === "Activo" ? "Desactivar" : "Activar"}
+                      </button>
+                      <button onClick={() => ModificarUsuario(usuario.id)}>
+                        Modificar
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {isModifying || isCreating ? (
-          <div className="usuarios-form">
-            <h3>{isModifying ? "Modificar Usuario" : "Crear Usuario"}</h3>
-            {isModifying && (
-              <AdminUsuariosModificar
-                id={usuarioSeleccionado.id}
-                cargarUsuarios={cargarUsuarios}
-                finalizarModificacion={finalizarModificacion}
-              />
-            )}
-            {isModifying && (
-              <button onClick={crearUsuario}>Crear Usuario</button>
-            )}
-            {isCreating && (
-              <AdminUsuariosRegistro cargarUsuarios={cargarUsuarios} />
-            )}
-          </div>
-        ) : (
-          <div className="usuarios-form">
-            <h3>Crear Usuario</h3>
-            <AdminUsuariosRegistro cargarUsuarios={cargarUsuarios} />
-          </div>
-        )}
+
       </div>
     </div>
   );

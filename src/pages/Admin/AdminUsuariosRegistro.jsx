@@ -114,7 +114,6 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
   };
   return (
     <form onSubmit={(e) => onSubmit(e)}>
-      <br></br>
       <div className="input-form">
         <input
           type="text"
