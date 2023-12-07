@@ -73,6 +73,8 @@ export default function Pago() {
         })
         .then(data => {
 
+            const reservaID = data.idReserva;
+
             const detalleObjeto = {
                 "checkIn": dateFormat(checkIn, "yyyy-mm-dd"),
                 "chackOut": dateFormat(checkOut, "yyyy-mm-dd"),
@@ -102,7 +104,8 @@ export default function Pago() {
                 const objeto = {
                     "checkIn" : checkIn,
                     "checkOut" : checkOut,
-                    "categoria" : {...categoria}
+                    "categoria" : {...categoria},
+                    "idReserva": reservaID
                 }
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 navigate("/boleta-reserva", { state: objeto });
