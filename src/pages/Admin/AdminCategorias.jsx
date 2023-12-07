@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminCategoriasRegistro from "./AdminCategoriasRegistro";
 import AdminCategoriasModificar from "./AdminCategoriasModificar";
+import { MdNavigateBefore } from "react-icons/md";
+import { MdNavigateNext } from "react-icons/md";
 export default function AdminCategorias() {
-
   const [isOpenSection, setIsOpenSection] = useState(false);
 
   const urlBase = "http://localhost:8080/api/categorias";
@@ -11,25 +12,33 @@ export default function AdminCategorias() {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
   const [isModifying, setIsModifying] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
     cargarCategorias();
-  }, []);
+  }, [currentPage]);
 
   function openSection() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setIsOpenSection(prev => !prev);
+    setIsOpenSection((prev) => !prev);
   }
 
   const cargarCategorias = async () => {
     try {
-      const resultado = await axios.get(urlBase);
-      console.log("Resultado cargar categorias");
+      const resultado = await axios.get(`${urlBase}/page/${currentPage}`);
+      console.log("Resultado cargar servicios");
       console.log(resultado.data);
-      setCategorias(resultado.data);
+      setCategorias(resultado.data.content); // Asegúrate de que tu backend devuelve los datos en una propiedad 'content'
     } catch (error) {
-      console.error("Error al cargar categorias:", error);
+      console.error("Error al cargar servicios:", error);
       // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
+  };
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
   };
   const cambiarEstado = async (id) => {
     try {
@@ -42,7 +51,6 @@ export default function AdminCategorias() {
     }
   };
   const modificarCategoria = async (id) => {
-
     window.scrollTo({ top: 0, behavior: "smooth" });
     setIsOpenSection(true);
 
@@ -72,11 +80,14 @@ export default function AdminCategorias() {
         <td className="id">{categoria.id}</td>
         <td>{categoria.nombre}</td>
         <td>
-          {
-            categoria.foto[0] ? 
-            <img src={`/images/rooms/${categoria.foto[0].nombre}`} alt="" />
-            : "No Image"
-          }
+          {categoria.foto[0] ? (
+            <img
+              src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`}
+              alt=""
+            />
+          ) : (
+            "No Image"
+          )}
         </td>
         <td>{categoria.descripcion_breve}</td>
         <td className="descripcion-larga">{categoria.descripcion_larga}</td>
@@ -117,39 +128,39 @@ export default function AdminCategorias() {
   return (
     <div className="admin-usuarios">
       <h1>CATEGORIAS</h1>
-      <button className="btn-abrir-seccion" onClick={openSection}>{ isOpenSection ? "Cerrar Sección" : "Crear Nueva Categoría"}</button>
+      <button className="btn-abrir-seccion" onClick={openSection}>
+        {isOpenSection ? "Cerrar Sección" : "Crear Nueva Categoría"}
+      </button>
       <div className="panels">
-        
-        {
-          isOpenSection ? 
-
-            isModifying || isCreating ? (
-              <div className="usuarios-form">
-                <h3>{isModifying ? "Modificar Categoria" : "Crear Categoria"}</h3>
-                {isModifying && (
-                  <AdminCategoriasModificar
-                    id={categoriaSeleccionada.id}
-                    cargarCategorias={cargarCategorias}
-                    finalizarModificacion={finalizarModificacion}
-                  />
-                )}
-                {isModifying && (
-                  <button className="btn-ir-crear" onClick={crearCategoria}>Ir a crear categoria</button>
-                )}
-                {isCreating && (
-                  <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
-                )}
-              </div>
-            ) : (
-              <div className="usuarios-form">
-                <h3>Crear Categoria</h3>
+        {isOpenSection ? (
+          isModifying || isCreating ? (
+            <div className="usuarios-form">
+              <h3>{isModifying ? "Modificar Categoria" : "Crear Categoria"}</h3>
+              {isModifying && (
+                <AdminCategoriasModificar
+                  id={categoriaSeleccionada.id}
+                  cargarCategorias={cargarCategorias}
+                  finalizarModificacion={finalizarModificacion}
+                />
+              )}
+              {isModifying && (
+                <button className="btn-ir-crear" onClick={crearCategoria}>
+                  Ir a crear categoria
+                </button>
+              )}
+              {isCreating && (
                 <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
-              </div>
-            )
-
-          : ""
-        }
-
+              )}
+            </div>
+          ) : (
+            <div className="usuarios-form">
+              <h3>Crear Categoria</h3>
+              <AdminCategoriasRegistro cargarCategorias={cargarCategorias} />
+            </div>
+          )
+        ) : (
+          ""
+        )}
 
         <div className="usuarios-tabla">
           <table>
@@ -169,9 +180,13 @@ export default function AdminCategorias() {
             </thead>
             <tbody>{listaCategorias}</tbody>
           </table>
+          <button className="btn-paginacion" onClick={prevPage}>
+            <MdNavigateBefore /> Página anterior
+          </button>
+          <button className="btn-paginacion" onClick={nextPage}>
+            Página siguiente <MdNavigateNext />
+          </button>
         </div>
-
-
       </div>
     </div>
   );

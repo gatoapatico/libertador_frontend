@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminHabitacionesRegistro from "./AdminHabitacionesRegistro";
 import AdminHabitacionesModificar from "./AdminHabitacionesModificar";
+import { MdNavigateBefore } from "react-icons/md";
+import { MdNavigateNext } from "react-icons/md";
 
 export default function AdminHabitaciones() {
-
   const [isOpenSection, setIsOpenSection] = useState(false);
 
   const urlBase = "http://localhost:8080/api/habitaciones";
@@ -12,28 +13,28 @@ export default function AdminHabitaciones() {
   const [habitacionSeleccionada, setHabitacionSeleccionada] = useState(null);
   const [isModifying, setIsModifying] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   useEffect(() => {
     cargarHabitaciones();
-  }, []);
+  }, [currentPage]);
 
   function openSection() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setIsOpenSection(prev => !prev);
+    setIsOpenSection((prev) => !prev);
   }
 
   const cargarHabitaciones = async () => {
     try {
-      const resultado = await axios.get(urlBase);
-      console.log("Resultado cargar habitaciones");
+      const resultado = await axios.get(`${urlBase}/page/${currentPage}`);
+      console.log("Resultado cargar servicios");
       console.log(resultado.data);
-      setHabitaciones(resultado.data);
+      setHabitaciones(resultado.data.content); // Asegúrate de que tu backend devuelve los datos en una propiedad 'content'
     } catch (error) {
       console.error("Error al cargar servicios:", error);
       // Puedes agregar un mensaje de error o alguna lógica de manejo aquí
     }
   };
   const ModificarHabitacion = async (id) => {
-
     window.scrollTo({ top: 0, behavior: "smooth" });
     setIsOpenSection(true);
 
@@ -56,6 +57,14 @@ export default function AdminHabitaciones() {
   const finalizarModificacion = () => {
     setIsModifying(false);
     setIsCreating(true);
+  };
+
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(currentPage - 1);
   };
 
   const cambiarEstado = async (id) => {
@@ -126,17 +135,16 @@ export default function AdminHabitaciones() {
   return (
     <div className="admin-usuarios">
       <h1>Habitaciones</h1>
-      <button className="btn-abrir-seccion" onClick={openSection}>{ isOpenSection ? "Cerrar Sección" : "Crear Nueva Habitación"}</button>
+      <button className="btn-abrir-seccion" onClick={openSection}>
+        {isOpenSection ? "Cerrar Sección" : "Crear Nueva Habitación"}
+      </button>
       <div className="panels">
-
-        
-
-        {
-          isOpenSection ?
-        
+        {isOpenSection ? (
           isModifying || isCreating ? (
             <div className="usuarios-form">
-              <h3>{isModifying ? "Modificar Habitacion" : "Crear Habitacion"}</h3>
+              <h3>
+                {isModifying ? "Modificar Habitacion" : "Crear Habitacion"}
+              </h3>
               {isModifying && (
                 <AdminHabitacionesModificar
                   id={habitacionSeleccionada.id}
@@ -145,7 +153,9 @@ export default function AdminHabitaciones() {
                 />
               )}
               {isModifying && (
-                <button className="btn-ir-crear" onClick={crearServicio}>Ir a crear Habitación</button>
+                <button className="btn-ir-crear" onClick={crearServicio}>
+                  Ir a crear Habitación
+                </button>
               )}
               {isCreating && (
                 <AdminHabitacionesRegistro
@@ -161,9 +171,9 @@ export default function AdminHabitaciones() {
               />
             </div>
           )
-        
-          : ""
-        }
+        ) : (
+          ""
+        )}
 
         <div className="usuarios-tabla">
           <table>
@@ -185,8 +195,13 @@ export default function AdminHabitaciones() {
             </thead>
             <tbody>{listaHabitaciones}</tbody>
           </table>
+          <button className="btn-paginacion" onClick={prevPage}>
+            <MdNavigateBefore /> Página anterior
+          </button>
+          <button className="btn-paginacion" onClick={nextPage}>
+            Página siguiente <MdNavigateNext />
+          </button>
         </div>
-
       </div>
     </div>
   );
