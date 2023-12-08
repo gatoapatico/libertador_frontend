@@ -24,11 +24,12 @@ export default function Perfil() {
     }, []);
 
     const listaReservas = reservas.map((reserva, index) => {
+
         return (
             <tr key={`${reserva.id}-${reserva.fechaReserva}`}>
                 <td>{index + 1}</td>
-                <td>{dateFormat(reserva.detalleReserva[0].checkIn, "dd mmmm yyyy")}</td>
-                <td>{dateFormat(reserva.detalleReserva[0].chackOut, "dd mmmm yyyy")}</td>
+                <td>{dateFormat(new Date(new Date(reserva.detalleReserva[0].checkIn).getTime() + 86400000), "dd mmmm yyyy")}</td>
+                <td>{dateFormat(new Date(new Date(reserva.detalleReserva[0].chackOut).getTime() + 86400000), "dd mmmm yyyy")}</td>
                 <td>sg33gs</td>
                 <td>{`S/ ${(reserva.total + (reserva.total * 0.18)).toFixed(2)}`}</td>
                 <td>{reserva.detalleReserva[0].habitaciones.tipoHabitacion.nombre}</td>
@@ -42,19 +43,19 @@ export default function Perfil() {
             <h1>PERFIL DE USUARIO</h1>
             <div className="perfil-campos">
                 <div className="perfil-campo">
-                    <label for="perfil-nombre">NOMBRE</label>
+                    <label htmlFor="perfil-nombre">NOMBRE</label>
                     <p className="perfil-input" id="perfil-nombre">{user.nombre}</p>
                 </div>
                 <div className="perfil-campo">
-                    <label for="perfil-apellido">APELLIDO</label>
+                    <label htmlFor="perfil-apellido">APELLIDO</label>
                     <p className="perfil-input" id="perfil-apellido">{user.apellido}</p>
                 </div>
                 <div className="perfil-campo">
-                    <label for="perfil-correo">CORREO</label>
+                    <label htmlFor="perfil-correo">CORREO</label>
                     <p className="perfil-input" id="perfil-correo">{user.email}</p>
                 </div>
                 <div className="perfil-campo">
-                    <label for="perfil-documento">DOCUMENTO</label>
+                    <label htmlFor="perfil-documento">DOCUMENTO</label>
                     <p className="perfil-input" id="perfil-documento">{user.dni}</p>
                 </div>
             </div>
