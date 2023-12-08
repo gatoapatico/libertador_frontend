@@ -374,6 +374,125 @@ section {
         }
     }
 
+    & .contenedor-perfil {
+        padding: 2em 3em;
+
+
+        & .perfil-campos {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            border: 1px solid #eeeeee;
+            width: 1000px;
+            flex-wrap: wrap;
+            margin: 0 auto;
+            padding: 1em;
+            border-radius: 5px;
+            align-items: center;
+            margin-bottom: 2em;
+    
+            & .perfil-campo {
+                width: 300px;
+    
+                & label {
+                    padding: 0.2em 0.7em;
+                    font-weight: bold;
+                }
+    
+                & .perfil-input {
+                    background-color: rgb(236, 236, 236);
+                    padding: 0.2em 0.7em;
+                    border-radius: 5px;
+                }
+    
+                & .btn-editar-datos {
+                    font-family: inherit;
+                    display: block;
+                    margin: 0 auto;
+                    padding: 0.5em 1em;
+                    border-radius: 5px;
+                    border: none;
+                    background-color: #333050;
+                    color: white;
+                    cursor: pointer;
+                }
+    
+                & .btn-editar-datos:active {
+                    background-color: #493891;
+                }
+    
+                & .btn-editar-datos:focus {
+                    outline: none;
+                    box-shadow: 0 0 10px #614BC3;
+                }
+            }
+        }
+
+        & .tabla-pedidos-perfil {
+            border: 1px solid rgb(228, 228, 228);
+            font-size: 1rem;
+            margin: 1em auto 3em auto;
+            text-align: center;
+            border-spacing: 10px;
+            border-radius: 15px;
+            width: 90%;
+    
+            & tr:nth-of-type(odd) {
+                background-color: white;
+    
+                & a {
+                    border: 1px solid #ececec;
+                }
+    
+                & a:hover {
+                    background-color: #ececec;
+                }
+            }
+    
+            & tr:nth-of-type(even) {
+                background-color: rgb(236, 236, 236);
+    
+                & a {
+                    border: 1px solid rgb(216, 216, 216);
+                }
+    
+                & a:hover {
+                    background-color: rgb(216, 216, 216);
+                }
+            }
+    
+            & th {
+                width: 10%;
+                background-color: #333050;
+                color: white;
+                border-radius: 5px;
+                border: none;
+            }
+    
+            & a {
+                color: #232323;
+                text-decoration: none;
+    
+                padding: 0.2em 0.5em;
+                border-radius: 5px;
+                display: inline-block;
+                margin: 0.2em 0;
+    
+                & i {
+                    margin-right: 0.3em;
+                    color: #333050;
+                }
+            }
+    
+            & .txt-sinpedidos {
+                font-size: 1rem;
+                color: #9a9a9a;
+                font-weight: bold;
+            }
+        }
+    
+    }
+
     & .contenedor-pago {
         position: relative;
         
