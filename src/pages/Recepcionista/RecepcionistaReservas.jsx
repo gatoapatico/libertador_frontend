@@ -17,7 +17,7 @@ const RecepcionistaReservas = () => {
   }, []);
 
   return (
-    <div className="admin-usuarios">
+    <div className="recepcionista-reservas">
         <h1>RESERVAS</h1>
         <div className="panels">
             <div className="usuarios-tabla">

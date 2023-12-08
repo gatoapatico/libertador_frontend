@@ -2135,6 +2135,389 @@ section {
 }
 
 
+.contenedor-recepcionista {
+
+    & .header {
+        background-color: #333050;
+        color: white;
+        padding: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        & .logo-header {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+
+            & img {
+                width: 300px;
+                filter: invert(100);
+            }
+
+            & h1 {
+                font-family: 'Marcellus SC', serif;
+                font-weight: 300;
+            }
+
+            & .nombre {
+                letter-spacing: 6px;
+            }
+
+            & h1:not(.nombre) {
+                font-size: 1rem;
+                align-self: flex-end;
+            }
+        }
+        .input-form {
+            margin-bottom: 20px;
+          }
+          
+          .input-field {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+          }
+        
+
+        & .navbar {
+            list-style: none;
+            display: flex;
+            gap: 1.5em;
+
+            & li {
+
+                & a {
+                    text-decoration: none;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+
+                    & .icono {
+                        transform: rotate(180deg);
+                        transition: transform 0.1s linear;
+                    }
+
+                    & .icono-logout {
+                        margin-left: 0.3em;
+                    }
+                }
+
+                & a:hover {
+
+                    & .icono {
+                        transform: rotate(270deg);
+                    }
+                }
+            }
+        }
+    }
+
+    & .recepcionista-reservas {
+
+        & h1 {
+            margin: 0.5em 1em;
+            font-size: 3rem;
+        }
+
+        & .btn-abrir-seccion {
+            background-color: #333050;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 10px;
+            margin-left: 2.5em;
+            cursor: pointer;
+        }
+
+        & .btn-abrir-seccion:active {
+            background-color: #48436e;
+        }
+
+        & .panels {
+            /* display: flex;
+            justify-content: space-around; */
+            padding: 2em;
+
+            & .usuarios-tabla {
+                /* width: 100%; */
+
+                & table {
+                    border-collapse: collapse;
+                    text-align: center;
+                    margin: 2em;
+                    font-size: 0.7rem;
+                    width: 95%;
+
+                    & thead {
+
+                        & tr {
+
+                            & th {
+                                width: 90px;
+                                border-bottom: 1px solid #232323;
+                            }
+
+                            & .id {
+                                width: 10px;
+                            }
+                        }
+                    }
+
+                    & tbody {
+
+                        & tr {
+                            border-bottom: 1px solid #232323;
+
+                            & td {
+                                margin: 1em 0;
+                                
+                                & img {
+                                    width: 100px;
+                                }
+                            }
+
+                            & .id {
+                                width: 10px;
+                            }
+
+                            & .descripcion-larga {
+                                width: 300px;
+                            }
+
+                            & .celda-estado {
+
+                                & .botones-celda {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 1em;
+                                    padding: 0.5em;
+
+                                    & button {
+                                        font-size: inherit;
+                                        align-self: center;
+                                        padding: 0.5em 1.5em;
+                                        border-radius: 20px;
+                                        cursor: pointer;
+                                        border: none;
+                                        background-color: #5d718a;
+                                        color: white;
+                                    }
+    
+                                    & button:active {
+                                        background-color: #404d5e;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                & .btn-paginacion {
+                    background-color: #5d718a;
+                    color: white;
+                    border: none;
+                    padding: 0.5em 1em;
+                    margin-right: 1em;
+                    cursor: pointer;
+                    border-radius: 5px;
+                }
+
+                & .btn-paginacion:active {
+                    background-color: #384553;
+                }
+            }
+
+            & .usuarios-form {
+                background-color: rgb(240, 240, 240);
+                border-radius: 10px;
+                padding: 1.5em;
+
+                & h3 {
+                    margin-bottom: 1em;
+                }
+
+                & form {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 1em;
+
+                    & .input-form {
+                        position: relative;
+                        width: 30%;
+
+                        & input {
+                            padding: 1em;
+                            border: 1px solid rgb(218, 218, 218);
+                            border-radius: 5px;
+                            width: 100%;
+                            font-family: inherit;
+                        }
+
+                        & select {
+                            padding: 1em;
+                            border: 1px solid rgb(218, 218, 218);
+                            border-radius: 5px;
+                            width: 100%;
+                            font-family: inherit;
+                        }
+
+                        
+
+                        /* & label {
+                            position: absolute;
+                            border-radius: 5px;
+                            padding: 0 0.2em;
+                            top: 25%;
+                            left: 10px;
+                            background-color: white;
+                            transition: transform 0.3s ease;
+                        }
+
+                        & input:focus + label {
+                            transform: translateY(-20px);
+                        } */
+
+                        & input:focus {
+                            outline: none;
+                            box-shadow: 0 2px 10px rgb(93, 113, 138,0.2);
+                        }
+                    }
+
+                    & .btn-crear-actualizar {
+                        width: 100%;
+                        padding: 1em 0;
+                        font-family: inherit;
+                        background-color: #5d718a;
+                        border: none;
+                        border-radius: 5px;
+                        color: white;
+                        cursor: pointer;
+                    }
+
+                    & .btn-crear-actualizar:active {
+                        background-color: #485769;
+                    }
+
+                    & .contenedor-servicios-seleccionados {
+                        border: 1px solid rgb(207, 207, 207);
+                        padding: 0.5em;
+                        border-radius: 5px;
+                        width: 60%;
+
+                        & ul {
+                            list-style: none;
+
+                            & li {
+
+                                & .btn-eliminar-servicio {
+                                    border: none;
+                                    padding: 0.2em;
+                                    margin-left: 0.3em;
+                                    cursor: pointer;
+                                }
+
+                                & .btn-eliminar-servicio:hover {
+                                    color: #6963a3;
+                                }
+                            }
+                        }
+
+                        
+                    }
+
+                    & textarea {
+                        width: 100%;
+                        font-family: inherit;
+                    }
+                }
+
+                & .btn-ir-crear {
+                    width: 100%;
+                    font-family: inherit;
+                    background-color: transparent;
+                    border: 1px solid #5d718a;
+                    border-radius: 5px;
+                    color: #5d718a;
+                    padding: 0.5em;
+                    margin-top: 1em;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    & .recepcionista-habitaciones {
+        display: flex;
+        gap: 1em;
+        margin: 2em;
+
+        & .lista-habitaciones {
+            padding: 1em;
+            border: 1px solid rgb(223, 223, 223);
+            border-radius: 10px;
+            width: 20%;
+            height: 600px;
+            overflow-y: scroll;
+
+            & h3 {
+                margin: 0.5em 0;
+            }
+
+            & .tarjetas {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1em;
+
+                & .tarjeta-habitacion {
+                    padding: 0.5em 1em;
+                    font-size: 1.5rem;
+                    border-radius: 15px;
+                    color: #232323;
+                    background-color: transparent;
+                    cursor: pointer;
+                    border: 1px solid #333050;
+                    box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
+                }
+
+                & .tarjeta-habitacion:active {
+                    background-color: rgb(224, 224, 224);
+                }
+    
+                & .selected {
+                    background-color: #333050;
+                    color: white;
+                }
+
+                & .selected:active {
+                    background-color: #4e4979;
+                }
+            }
+
+            
+        }
+
+        & .calendario-grande {
+            border: 1px solid rgb(224, 224, 224);
+            border-radius: 10px;
+            padding: 1em;
+            width: 70%;
+
+            & .rbc-event {
+                background-color: #333050;
+            }
+        }
+    }
+}
+
+
 
 .hidden {
     display: none;
