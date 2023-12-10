@@ -43,7 +43,7 @@ export default function Registro({handleExit, openLogin}) {
         let regex;
         
         switch(type) {
-            case "email": regex = /^[a-z]+[a-z0-9]*@[a-z]+\.[a-z]{2,3}$/; break;
+            case "email": regex = /^[a-z]+[a-z0-9.]*@[a-z]+\.[a-z]{2,3}$/; break;
             case "contrasena": regex = /^.+$/; break;
             case "dni": regex = /^[0-9]{8}$/; break;
             case "nombre": regex = /^[a-zA-Z ]+$/; break;

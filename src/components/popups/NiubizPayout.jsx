@@ -28,7 +28,7 @@ export default function NiubizPayout({ closeNiubizPopup, pagoTotal, handlePago }
             case "fechas": regex = /^[0-9]{2}\/[0-9]{2}$/; break;
             case "cvv": regex = /^[0-9]{3,4}$/; break;
             case "nombre": regex = /^[a-zA-Z ]+$/; break;
-            case "email": regex = /^[a-z]+[a-z0-9]*@[a-z]+\.[a-z]{2,3}$/; break;
+            case "email": regex = /^[a-z]+[a-z0-9.]*@[a-z]+\.[a-z]{2,3}$/; break;
         }
 
         return regex.test(input);
