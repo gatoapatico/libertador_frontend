@@ -57,43 +57,50 @@ export default function Registro({ handleExit, openLogin }) {
         regex = /^[0-9]{4,13}$/;
         break;
     }
+    function regexValidation(input, type) {
+        let regex;
+        
+        switch(type) {
+            case "email": regex = /^[a-z]+[a-z0-9.]*@[a-z]+\.[a-z]{2,3}$/; break;
+            case "contrasena": regex = /^.+$/; break;
+            case "dni": regex = /^[0-9]{8}$/; break;
+            case "nombre": regex = /^[a-zA-Z ]+$/; break;
+            case "telefono": regex = /^[0-9]{4,13}$/; break;
+        }
 
-    return regex.test(input);
-  }
+        return regex.test(input);
+    }
+    
 
-  function userRegister(e) {
-    e.preventDefault();
+    function userRegister(e) {
+        e.preventDefault();
 
-    let readyToAPI = false;
+        let readyToAPI = false;
 
-    regexValidation(email, "email")
-      ? setIsFailEmail(false)
-      : setIsFailEmail(true);
-    regexValidation(contrasena, "contrasena")
-      ? setIsFailContrasena(false)
-      : setIsFailContrasena(true);
-    regexValidation(dni, "dni") ? setIsFailDni(false) : setIsFailDni(true);
-    regexValidation(nombre, "nombre")
-      ? setIsFailNombre(false)
-      : setIsFailNombre(true);
-    regexValidation(apellido, "nombre")
-      ? setIsFailApellido(false)
-      : setIsFailApellido(true);
-    regexValidation(telefono, "telefono")
-      ? setIsFailTelefono(false)
-      : setIsFailTelefono(true);
+        regexValidation(email, "email") ? setIsFailEmail(false) : setIsFailEmail(true);
+        regexValidation(contrasena, "contrasena") ? setIsFailContrasena(false) : setIsFailContrasena(true);
+        regexValidation(dni, "dni") ? setIsFailDni(false) : setIsFailDni(true);
+        regexValidation(nombre, "nombre") ? setIsFailNombre(false) : setIsFailNombre(true);
+        regexValidation(apellido, "nombre") ? setIsFailApellido(false) : setIsFailApellido(true);
+        regexValidation(telefono, "telefono") ? setIsFailTelefono(false) : setIsFailTelefono(true);
 
-    if (
-      regexValidation(email, "email") &&
-      regexValidation(contrasena, "contrasena") &&
-      regexValidation(dni, "dni") &&
-      regexValidation(nombre, "nombre") &&
-      regexValidation(apellido, "nombre") &&
-      regexValidation(telefono, "telefono")
-    ) {
-      readyToAPI = true;
-    } else {
-      console.log("Aún no está listo para subir.");
+        if  (
+            regexValidation(email, "email") &&
+            regexValidation(contrasena, "contrasena") &&
+            regexValidation(dni, "dni") &&
+            regexValidation(nombre, "nombre") &&
+            regexValidation(apellido, "nombre") &&
+            regexValidation(telefono, "telefono")
+            )
+            {
+            readyToAPI = true;
+        } else {
+            console.log("Aún no está listo para subir.");
+        }
+
+        if(readyToAPI) {
+            registerNewUser();
+        }
     }
 
     if (readyToAPI) {
