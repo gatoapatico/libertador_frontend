@@ -27,10 +27,38 @@ export default function Login({ handleExit, openRegistro }) {
         })
         .then((data) => {
             if (data.tipo === "Recepcionista") {
+
+                const userObject = {
+                    "id": data.id,
+                    "email": data.email,
+                    "nombre": data.nombre,
+                    "apellido": data.apellido,
+                    "dni": data.dni,
+                    "tipo": data.tipo
+                }
+
+                window.localStorage.setItem("user", JSON.stringify(userObject));
+
                 navigate("/recepcionista", { replace: true });
+                handleExit();
+                window.location.reload();
             }
             else if (data.tipo === "Administrador") {
+
+                const userObject = {
+                    "id": data.id,
+                    "email": data.email,
+                    "nombre": data.nombre,
+                    "apellido": data.apellido,
+                    "dni": data.dni,
+                    "tipo": data.tipo
+                }
+
+                window.localStorage.setItem("user", JSON.stringify(userObject));
+
                 navigate("/admin", { replace: true });
+                handleExit();
+                window.location.reload();
             }
             else if (data.tipo === "Cliente") {
 
