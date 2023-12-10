@@ -1838,6 +1838,7 @@ section {
             & h1 {
                 font-family: 'Marcellus SC', serif;
                 font-weight: 300;
+                cursor: pointer;
             }
 
             & .nombre {
@@ -2158,6 +2159,7 @@ section {
             & h1 {
                 font-family: 'Marcellus SC', serif;
                 font-weight: 300;
+                cursor: pointer;
             }
 
             & .nombre {
