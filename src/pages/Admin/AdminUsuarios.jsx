@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import AdminUsuariosRegistro from "./AdminUsuariosRegistro";
-import AdminUsuariosModificar from "./AdminUsuariosModificar";
+import AdminUsuariosRegistro from "../admin/AdminUsuariosRegistro";
+import AdminUsuariosModificar from "../admin/AdminUsuariosModificar";
 
 export default function AdminUsuarios() {
 

@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AdminUsuariosRegistro from "../admin/AdminUsuariosRegistro";
+import AdminUsuariosModificar from "../admin/AdminUsuariosModificar";
+
+
 
 const RecepcionistaUsuarios = () => {
   const [isOpenSection, setIsOpenSection] = useState(false);
   const urlBase = "http://localhost:8080/api/usuarios";
   const [usuarios, setUsuarios] = useState([]);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isModifying, setIsModifying] = useState(false);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
 
   const cargarUsuarios = async () => {
     try {
@@ -31,10 +38,56 @@ const RecepcionistaUsuarios = () => {
     setUsuarios(updatedUsuarios);
   }
 
+  const crearNuevoUsuario = async () => {
+    setIsCreating(true);
+    setIsModifying(false);
+    setUsuarioSeleccionado(null);
+  };
+
+  const finalizarModificacion = () => {
+    setIsModifying(false);
+    setIsCreating(true);
+  };
+
+  const ModificarUsuario = async (id) => {
+    setIsModifying(true);
+    setIsCreating(false);
+
+    try {
+      const resultado = await axios.get(`${urlBase}/${id}`);
+      setUsuarioSeleccionado(resultado.data);
+    } catch (error) {
+      console.error("Error al obtener los datos del usuario:", error);
+      // Handle error - you can add error handling logic here
+    }
+  };
+
   return (
     <div className="recepcionista-reservas">
       <h1>USUARIOS</h1>
-      <div className="panels">
+      <button className="btn-abrir-seccion" onClick={() => setIsOpenSection(!isOpenSection)}>
+        {isOpenSection ? "Cerrar Sección" : "Crear Nuevo Usuario"}
+      </button>
+      {isOpenSection && (
+        <div className="panels">
+          {isModifying || isCreating ? (
+            <div className="usuarios-form">
+              <AdminUsuariosModificar
+              id={usuarioSeleccionado.id}
+              cargarUsuarios={cargarUsuarios}
+              finalizarModificacion={finalizarModificacion}
+            />
+              </div>
+          ) : (
+            <div className="usuarios-form">
+              <h3>Crear Usuario</h3>
+              <AdminUsuariosRegistro cargarUsuarios={cargarUsuarios} />
+            </div>
+          )}
+        </div>
+      )}
+      
+        <div className="panels">
         <div className="usuarios-tabla panel">
           <table className="usuarios-tabla">
             <thead>
@@ -93,9 +146,9 @@ const RecepcionistaUsuarios = () => {
                 </React.Fragment>
               ))}
             </tbody>
-          </table>
-        </div>
+        </table>
       </div>
+        </div>
     </div>
   );
 };
