@@ -56,6 +56,11 @@ section {
 
                 & li {
                     cursor: pointer;
+
+                    & .ancla {
+                        color: #232323;
+                        text-decoration: none;
+                    }
                 }
 
                 & li:active {
@@ -1894,6 +1899,17 @@ section {
                         transform: rotate(270deg);
                     }
                 }
+
+                & .btn-logout {
+                    background-color: transparent;
+                    border: none;
+                    font-size: inherit;
+                    cursor: pointer;
+
+                    & .icono-logout {
+                        margin-left: 0.3em;
+                    }
+                }
             }
         }
     }
@@ -2213,6 +2229,17 @@ section {
 
                     & .icono {
                         transform: rotate(270deg);
+                    }
+                }
+
+                & .btn-logout {
+                    background-color: transparent;
+                    border: none;
+                    font-size: inherit;
+                    cursor: pointer;
+
+                    & .icono-logout {
+                        margin-left: 0.3em;
                     }
                 }
             }

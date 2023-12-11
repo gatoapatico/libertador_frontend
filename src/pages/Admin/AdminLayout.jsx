@@ -10,6 +10,12 @@ export default function AdminLayout() {
         navigate("/");
     }
 
+    function handleLogOut() {
+        window.localStorage.removeItem("user");
+        navigate("/");
+        window.location.reload();
+    }
+
     return (
         <div className="contenedor-admin">
             <div className="header">
@@ -23,7 +29,7 @@ export default function AdminLayout() {
                     <li><NavLink to={"categorias"}>Categorias<IoIosArrowUp className="icono" /></NavLink></li>
                     <li><NavLink to={"servicios"}>Servicios<IoIosArrowUp className="icono" /></NavLink></li>
                     <li><NavLink to={"."}>Usuarios<IoIosArrowUp className="icono" /></NavLink></li>
-                    <li><NavLink to={"."}>Log Out<FaUser  className="icono-logout" /></NavLink></li>
+                    <li><button className="btn-logout" onClick={handleLogOut}>Log Out<FaUser className="icono-logout" /></button></li>
                 </ul>
             </div>
             <Outlet />

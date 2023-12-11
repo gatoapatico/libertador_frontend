@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { IoLogOut } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { useState } from "react";
@@ -11,6 +11,8 @@ export default function Header({ openLogin, user, handleLogOut}) {
         setIsUserPop(prev => !prev);
     }
 
+    console.log(user);
+
     return (
         <header className="header">
             <Link to={"/"}><img className="logo" src="/images/libertador_logo.png" alt="Libertador Logo" /></Link>
@@ -18,6 +20,24 @@ export default function Header({ openLogin, user, handleLogOut}) {
                 <ul>
                     <li>Servicios</li>
                     <li>Habitaciones</li>
+                    {
+                        user != null ?
+
+                        user.tipo == "Recepcionista" ?
+                        <li><NavLink className={"ancla"} to={"/recepcionista"}>Ir a página de Recepcionista</NavLink></li>
+                        : ""
+
+                        : ""
+                    }
+                    {
+                        user != null ?
+
+                        user.tipo == "Administrador" ?
+                        <li><NavLink className={"ancla"} to={"/admin"}>Ir a página de Administrador</NavLink></li>
+                        : ""
+
+                        : ""
+                    }
                 </ul>
             </nav>
             <div className="user">
