@@ -1,10 +1,11 @@
 import { useOutletContext } from "react-router-dom"
 import Landing from "../../components/Landing"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Home() {
 
     const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
+    const [categorias, setCategorias] = useState([]);
 
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -22,6 +23,22 @@ export default function Home() {
             }   
         }, 1);
     }
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/categorias')
+            .then(res => res.json())
+            .then(data => setCategorias(data));
+    }, []);
+
+    const listaCategorias = categorias.map(categoria => {
+        return (
+            <div key={`${categoria.id}-${categoria.nombre}`} className="room">
+                <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
+                <h2>{categoria.nombre}</h2>
+                <p>{categoria.descripcion_breve}</p>
+            </div>
+        )
+    });
 
     return (
         <div className='home'>
@@ -67,30 +84,7 @@ export default function Home() {
             <section className="rooms" id="rooms">
                 <h1>Nuestras Habitaciones</h1>
                 <div className="room-cards">
-                    <div className="room">
-                        <img src="/images/rooms/suite-imperial-1.png" alt="Suite Imperial" />
-                        <h2>Suite Imperial</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/suite-clasica-1.png" alt="Suit Clasica" />
-                        <h2>Suit Clásica</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/habitacion-retro-1.png" alt="Habitación Retro" />
-                        <h2>Habitación Retro</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/loft-relojero-1.png" alt="Loft Relojero" />
-                        <h2>Loft Relojero</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/vista-al-ayer-1.png" alt="Vista al Ayer" />
-                        <h2>Vista al Ayer</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/atico-1.png" alt="Ático" />
-                        <h2>Ático</h2>
-                    </div>
+                    {listaCategorias}
                 </div>
             </section>
         </div>
