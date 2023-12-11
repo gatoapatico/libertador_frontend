@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoLogOut } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { useState } from "react";
@@ -6,20 +6,28 @@ import { useState } from "react";
 export default function Header({ openLogin, user, handleLogOut}) {
 
     const [isUserOpen, setIsUserPop] = useState(false);
+    
+    const navigate = useNavigate();
 
     function handleUserPop() {
         setIsUserPop(prev => !prev);
     }
 
-    console.log(user);
+    function goToServicios() {
+        navigate("/?services");
+    }
+
+    function goToRooms() {
+        navigate("/?rooms");
+    }
 
     return (
         <header className="header">
             <Link to={"/"}><img className="logo" src="/images/libertador_logo.png" alt="Libertador Logo" /></Link>
             <nav className="navbar">
                 <ul>
-                    <li>Servicios</li>
-                    <li>Habitaciones</li>
+                    <li onClick={goToServicios}>Servicios</li>
+                    <li onClick={goToRooms}>Habitaciones</li>
                     {
                         user != null ?
 

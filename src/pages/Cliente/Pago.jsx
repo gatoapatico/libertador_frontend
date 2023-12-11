@@ -17,15 +17,25 @@ export default function Pago() {
   const { state } = location;
   const { checkIn, checkOut, categoria } = state;
 
-  const [tiempo, setTiempo] = useState(3000);
+  const [tiempo, setTiempo] = useState(900);
 
   const [isNiubizPop, setIsNiubizPop] = useState(false);
 
   let codigoReserva;
-  const pagoTotal = (
-    categoria.costoTotalCategoria +
-    categoria.costoTotalCategoria * 0.18
-  ).toFixed(2);
+  
+  const numeroDiasReservados = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+  let totalPrecioHabitacion;
+  let totalPrecioServicios;
+  let totalPrecioIGV;
+  let totalFinal;
+
+  if(categoria != null) {
+      totalPrecioHabitacion = (categoria.precioCategoria * numeroDiasReservados).toFixed(2);
+      totalPrecioServicios = (categoria.costoServicios * numeroDiasReservados).toFixed(2);
+      totalPrecioIGV = ((parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios)) * 0.18).toFixed(2);
+      totalFinal = (parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios) + parseFloat(totalPrecioIGV)).toFixed(2);
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -138,15 +148,10 @@ export default function Pago() {
                 - Fecha de ingreso: ${dateFormat(checkIn, DATE_FORMAT)}
                 - Fecha de salida: ${dateFormat(checkOut, DATE_FORMAT)}
                 - Habitación: ${categoria.nombre}
-                - Precio: S/${categoria.precioCategoria.toFixed(2)}
-                - Servicios: S/${categoria.costoServicios.toFixed(2)}
-                - IGV(18%): S/${(categoria.costoTotalCategoria * 0.18).toFixed(
-                  2
-                )}
-                - Total: S/${(
-                  categoria.costoTotalCategoria +
-                  categoria.costoTotalCategoria * 0.18
-                ).toFixed(2)}          
+                - Precio x ${numeroDiasReservados} dia(s): S/${totalPrecioHabitacion}
+                - Servicios x ${numeroDiasReservados} dia(s): S/${totalPrecioServicios}
+                - IGV(18%): S/${totalPrecioIGV}
+                - Total: S/${totalFinal}          
                 Su codigo de reserva es: ${codigoReserva}
                 Esperamos que disfrute de su estancia.
                 Atentamente, Hotel El Libertador`,
@@ -191,10 +196,7 @@ export default function Pago() {
           </div>
           <div className="info">
             <h3>Total por estancia</h3>
-            <p>{`S/${(
-              categoria.costoTotalCategoria +
-              categoria.costoTotalCategoria * 0.18
-            ).toFixed(2)}`}</p>
+            <p>{`S/${totalFinal}`}</p>
           </div>
         </div>
         <div className="temporizador">
@@ -208,7 +210,7 @@ export default function Pago() {
         <div className="panel-categoria">
           <h1>{categoria.nombre}</h1>
           <img
-            src={`images/rooms/${categoria.foto[0].nombre}`}
+            src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`}
             alt={`Foto ${categoria.nombre}`}
           />
           <div className="detalle-reserva">
@@ -225,23 +227,18 @@ export default function Pago() {
             </div>
             <div className="precio">
               <p>
-                {categoria.nombre}
-                <span>{categoria.precioCategoria.toFixed(2)}</span>
+                {`${categoria.nombre} x ${numeroDiasReservados} dia(s)`}
+                <span>{totalPrecioHabitacion}</span>
               </p>
-              <p>
-                Servicios<span>{categoria.costoServicios.toFixed(2)}</span>
-              </p>
+              <p>{`Servicios x ${numeroDiasReservados} dia(s)`}<span>{totalPrecioServicios}</span></p>
               <p>
                 IGV(18%)
-                <span>{(categoria.costoTotalCategoria * 0.18).toFixed(2)}</span>
+                <span>{totalPrecioIGV}</span>
               </p>
               <div className="total">
                 <p>
                   <span>Total:</span> S/
-                  {(
-                    categoria.costoTotalCategoria +
-                    categoria.costoTotalCategoria * 0.18
-                  ).toFixed(2)}
+                  {totalFinal}
                 </p>
               </div>
             </div>
@@ -295,7 +292,7 @@ export default function Pago() {
           <div className="black-wall" onClick={closeNiubizPopup}></div>
           <NiubizPayout
             closeNiubizPopup={closeNiubizPopup}
-            pagoTotal={pagoTotal}
+            pagoTotal={totalFinal}
             handlePago={handlePago}
           />
         </>

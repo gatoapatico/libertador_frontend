@@ -89,7 +89,7 @@ export default function AdminHabitacionesModificar({
           ))}
         </select>
       </div>
-      <button className="btn-crear-actualizar"> Crear Habitacion </button>
+      <button className="btn-crear-actualizar"> Modificar Habitación </button>
     </form>
   );
 }

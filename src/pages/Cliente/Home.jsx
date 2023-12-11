@@ -1,10 +1,44 @@
 import { useOutletContext } from "react-router-dom"
 import Landing from "../../components/Landing"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function Home() {
 
     const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
+    const [categorias, setCategorias] = useState([]);
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if(urlParams.has('services')) {
+        setTimeout(() => {
+            if(document.getElementById("services") != null) {
+                document.getElementById("services").scrollIntoView({ behavior: 'smooth'});
+            }   
+        }, 1);
+    }
+    else if(urlParams.has('rooms')) {
+        setTimeout(() => {
+            if(document.getElementById("rooms") != null) {
+                document.getElementById("rooms").scrollIntoView({ behavior: 'smooth'});
+            }   
+        }, 1);
+    }
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/categorias')
+            .then(res => res.json())
+            .then(data => setCategorias(data));
+    }, []);
+
+    const listaCategorias = categorias.map(categoria => {
+        return (
+            <div key={`${categoria.id}-${categoria.nombre}`} className="room">
+                <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
+                <h2>{categoria.nombre}</h2>
+                <p>{categoria.descripcion_breve}</p>
+            </div>
+        )
+    });
 
     return (
         <div className='home'>
@@ -14,7 +48,7 @@ export default function Home() {
                 endDate={endDate}
                 setEndDate={setEndDate}
             />
-            <section className="services">
+            <section className="services" id="services">
                 <h1>Nuestros servicios</h1>
                 <div className="services-cards">
                     <div className="service">
@@ -47,33 +81,10 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="rooms">
+            <section className="rooms" id="rooms">
                 <h1>Nuestras Habitaciones</h1>
                 <div className="room-cards">
-                    <div className="room">
-                        <img src="/images/rooms/suite-imperial-1.png" alt="Suite Imperial" />
-                        <h2>Suite Imperial</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/suite-clasica-1.png" alt="Suit Clasica" />
-                        <h2>Suit Clásica</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/habitacion-retro-1.png" alt="Habitación Retro" />
-                        <h2>Habitación Retro</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/loft-relojero-1.png" alt="Loft Relojero" />
-                        <h2>Loft Relojero</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/vista-al-ayer-1.png" alt="Vista al Ayer" />
-                        <h2>Vista al Ayer</h2>
-                    </div>
-                    <div className="room">
-                        <img src="/images/rooms/atico-1.png" alt="Ático" />
-                        <h2>Ático</h2>
-                    </div>
+                    {listaCategorias}
                 </div>
             </section>
         </div>

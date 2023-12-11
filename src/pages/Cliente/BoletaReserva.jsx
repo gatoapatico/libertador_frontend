@@ -11,8 +11,6 @@ export default function BoletaReserva() {
     const { state } = location;
     const { checkIn, checkOut, categoria, idReserva } = state;
 
-    const totalReserva = (categoria.costoTotalCategoria + (categoria.costoTotalCategoria * 0.18)).toFixed(2);
-
     i18n.dayNames = [
         "Dom","Lun","Mar","Mie","Jue","Vie","Sab",
         "Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"
@@ -28,6 +26,20 @@ export default function BoletaReserva() {
             <li key={`${servicio.id}-${servicio.nombre}`}>{servicio.nombre}</li>
         )
     });
+
+    const numeroDiasReservados = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+    let totalPrecioHabitacion;
+    let totalPrecioServicios;
+    let totalPrecioIGV;
+    let totalFinal;
+
+    if(categoria != null) {
+        totalPrecioHabitacion = (categoria.precioCategoria * numeroDiasReservados).toFixed(2);
+        totalPrecioServicios = (categoria.costoServicios * numeroDiasReservados).toFixed(2);
+        totalPrecioIGV = ((parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios)) * 0.18).toFixed(2);
+        totalFinal = (parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios) + parseFloat(totalPrecioIGV)).toFixed(2);
+    }
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/reservas/${idReserva}`)
@@ -52,7 +64,7 @@ export default function BoletaReserva() {
                                     <p className="encabezado-titulo">HOTEL LIBERTADOR - COMPROBANTE DE PAGO</p>
                                     <p className="tarjeta-pedido">
                                         Reserva Confirmada: 
-                                        <span className="tarjeta-pedido-codigo"> d757978e2c</span> | 
+                                        <span className="tarjeta-pedido-codigo"> {reserva.codigoReserva}</span> | 
                                         <span className="tarjeta-pedido-fecha"> {dateFormat(reserva.fechaReserva, "dd mmmm yyyy")}</span>
                                     </p>
                                 </div>
@@ -69,29 +81,29 @@ export default function BoletaReserva() {
                                 </div>
                                 <div className="tarjeta medio-pago">
                                     <b>MEDIO DE PAGO</b>
-                                    <p>PEDIDO: <span className="bold">d757978e2c</span></p>
+                                    <p>PEDIDO: <span className="bold">{reserva.codigoReserva}</span></p>
                                     <p className="no-bold">Pago con tarjeta de Crédito (Visa)</p>
-                                    <p className="no-bold">S/ <span>{totalReserva}</span></p>
+                                    <p className="no-bold">S/ <span>{totalFinal}</span></p>
                                 </div>
                                 <div className="tarjeta info-resumen">
                                     <b>RESUMEN</b>
-                                    <p className="no-bold">{`${categoria.nombre} `}<span>S/ <span>{`${categoria.precioCategoria.toFixed(2)}`}</span></span></p>
-                                    <p className="no-bold">Servicios <span>S/ <span>{`${categoria.costoServicios.toFixed(2)}`}</span></span></p>
-                                    <p className="no-bold">IGV (18%) <span>S/ <span>{`${(categoria.costoTotalCategoria * 0.18).toFixed(2)}`}</span></span></p>
-                                    <p className="no-bold tarjeta-total">Total <span>S/ <span>{totalReserva}</span></span></p>
+                                    <p className="no-bold">{`${categoria.nombre} x ${numeroDiasReservados} dia(s) `}<span>S/ <span>{totalPrecioHabitacion}</span></span></p>
+                                    <p className="no-bold">{`Servicios x ${numeroDiasReservados} dia(s)`} <span>S/ <span>{totalPrecioServicios}</span></span></p>
+                                    <p className="no-bold">IGV (18%) <span>S/ <span>{totalPrecioIGV}</span></span></p>
+                                    <p className="no-bold tarjeta-total">Total <span>S/ <span>{totalFinal}</span></span></p>
                                 </div>
                             </div>
                         </div>
                         <div className="panel panel3">
                             <div className="info-pedido">
-                                <p>RESERVA: <span>d757978e2c</span></p>
+                                <p>RESERVA: <span>{reserva.codigoReserva}</span></p>
                                 <p>TIPO DE HABITACIÓN: <span>{categoria.nombre}</span></p>
                                 <p>FECHA INGRESO: <span>{dateFormat(checkIn, "dddd, d mmmm yyyy")}</span></p>
                                 <p>FECHA SALIDA: <span>{dateFormat(checkOut, "dddd, d mmmm yyyy")}</span></p>
                             </div>
                             <div className="info-reserva">
                                 <div className="imagen">
-                                    <img src={`/images/rooms/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
+                                    <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
                                 </div>
                                 <div className="info">
                                     <h3>{categoria.nombre}</h3>

@@ -25,7 +25,6 @@ export default function AdminLayout() {
                 </div>
                 <ul className="navbar">
                     <li><NavLink to={"habitaciones"}>Habitaciones<IoIosArrowUp className="icono" /></NavLink></li>
-                    <li><NavLink to={"salones"}>Salones<IoIosArrowUp className="icono" /></NavLink></li>
                     <li><NavLink to={"categorias"}>Categorias<IoIosArrowUp className="icono" /></NavLink></li>
                     <li><NavLink to={"servicios"}>Servicios<IoIosArrowUp className="icono" /></NavLink></li>
                     <li><NavLink to={"."}>Usuarios<IoIosArrowUp className="icono" /></NavLink></li>
