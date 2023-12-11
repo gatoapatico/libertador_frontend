@@ -12,7 +12,7 @@ export default function RecepcionistaLayout() {
 
     function handleLogOut() {
         window.localStorage.removeItem("user");
-        navigate("/");
+        navigate("/", { replace: true });
         window.location.reload();
     }
 
