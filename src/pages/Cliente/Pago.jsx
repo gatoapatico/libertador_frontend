@@ -17,7 +17,7 @@ export default function Pago() {
   const { state } = location;
   const { checkIn, checkOut, categoria } = state;
 
-  const [tiempo, setTiempo] = useState(3000);
+  const [tiempo, setTiempo] = useState(900);
 
   const [isNiubizPop, setIsNiubizPop] = useState(false);
 
