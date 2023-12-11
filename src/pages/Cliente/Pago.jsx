@@ -3,6 +3,7 @@ import { FaClock } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import dateFormat from "dateformat";
 import NiubizPayout from "../../components/popups/NiubizPayout";
+import { v4 as uuidv4 } from "uuid"
 
 export default function Pago() {
 
@@ -53,7 +54,8 @@ export default function Pago() {
             "usuario": {
                 "id": user.id
             },
-            "fechaReserva": dateFormat(new Date(), "yyyy-mm-dd")
+            "fechaReserva": dateFormat(new Date(), "yyyy-mm-dd"),
+            "codigoReserva": uuidv4().split("-")[0]
         }
 
         const habitacionLibre = categoria.habitaciones
