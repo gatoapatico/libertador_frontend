@@ -2253,6 +2253,26 @@ section {
             font-size: 3rem;
         }
 
+        & .search {
+            margin-left: 3em;
+
+            & button {
+                color: white;
+                background-color: #333050;
+                border: none;
+                padding: 0.5em 1em;
+                border-radius: 5px;
+                font-size: inherit;
+                font-family: inherit;
+                margin-left: 1em;
+                cursor: pointer;
+            }
+
+            & button:active {
+                background-color: #4f4a7a;
+            }
+        }
+
         & .btn-abrir-seccion {
             background-color: #333050;
             color: white;
@@ -2280,7 +2300,7 @@ section {
                     border-collapse: collapse;
                     text-align: center;
                     margin: 2em;
-                    font-size: 0.7rem;
+                    font-size: 1rem;
                     width: 95%;
 
                     & thead {
