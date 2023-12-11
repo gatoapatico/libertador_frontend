@@ -38,6 +38,20 @@ export default function Reserva() {
 
     const [categoriaSelected, setCategoriaSelected] = useState(null);
 
+    const numeroDiasReservados = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+    let totalPrecioHabitacion;
+    let totalPrecioServicios;
+    let totalPrecioIGV;
+    let totalFinal;
+
+    if(categoriaSelected != null) {
+        totalPrecioHabitacion = (categoriaSelected.precioCategoria * numeroDiasReservados).toFixed(2);
+        totalPrecioServicios = (categoriaSelected.costoServicios * numeroDiasReservados).toFixed(2);
+        totalPrecioIGV = ((parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios)) * 0.18).toFixed(2);
+        totalFinal = (parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios) + parseFloat(totalPrecioIGV)).toFixed(2);
+    }
+
     function handleCalendar() {
         setIsCalendar(prevValue => !prevValue);
     }
@@ -76,8 +90,6 @@ export default function Reserva() {
         else {
             openLogin();
         }
-        
-        
     }
 
     function scrollToTop() {
@@ -192,8 +204,6 @@ export default function Reserva() {
         )
     });
 
-    console.log(user);
-
     return (
         <div className="contenedor-reservas">
             <div className="main-reservas">
@@ -265,11 +275,11 @@ export default function Reserva() {
                                     <p>{`${dateFormat(endDate, DATE_FORMAT)}`}</p>
                                 </div>
                             </div>
-                            <p>{categoriaSelected.nombre}<span>{categoriaSelected.precioCategoria.toFixed(2)}</span></p>
-                            <p>Servicios<span>{categoriaSelected.costoServicios.toFixed(2)}</span></p>
-                            <p>IGV(18%)<span>{(categoriaSelected.costoTotalCategoria * 0.18).toFixed(2)}</span></p>
+                            <p>{`${categoriaSelected.nombre} x ${numeroDiasReservados} dia(s)`}<span>{totalPrecioHabitacion}</span></p>
+                            <p>{`Servicios x ${numeroDiasReservados} dia(s)`}<span>{totalPrecioServicios}</span></p>
+                            <p>IGV(18%)<span>{totalPrecioIGV}</span></p>
                             <div className="resumen-total">
-                                <p>Total: <span>S/{(categoriaSelected.costoTotalCategoria + (categoriaSelected.costoTotalCategoria * 0.18)).toFixed(2)}</span></p>
+                                <p>Total: <span>S/{totalFinal}</span></p>
                             </div>
                             <button className="btn-pagar-reserva" onClick={handlePagoReserva}>PAGAR RESERVA</button>
                         </div>

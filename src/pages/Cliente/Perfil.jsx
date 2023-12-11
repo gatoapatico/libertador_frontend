@@ -25,13 +25,18 @@ export default function Perfil() {
 
     const listaReservas = reservas.map((reserva, index) => {
 
+        const fechaInicio = new Date(new Date(reserva.detalleReserva[0].checkIn).getTime() + 86400000);
+        const fechaFinal = new Date(new Date(reserva.detalleReserva[0].chackOut).getTime() + 86400000);
+
+        const numeroDiasReservados = Math.round((fechaFinal - fechaInicio) / (1000 * 60 * 60 * 24)) + 1;
+
         return (
             <tr key={`${reserva.id}-${reserva.fechaReserva}`}>
                 <td>{index + 1}</td>
                 <td>{dateFormat(new Date(new Date(reserva.detalleReserva[0].checkIn).getTime() + 86400000), "dd mmmm yyyy")}</td>
                 <td>{dateFormat(new Date(new Date(reserva.detalleReserva[0].chackOut).getTime() + 86400000), "dd mmmm yyyy")}</td>
                 <td>{reserva.codigoReserva}</td>
-                <td>{`S/ ${(reserva.total + (reserva.total * 0.18)).toFixed(2)}`}</td>
+                <td>{`S/ ${((reserva.total + (reserva.total * 0.18)) * numeroDiasReservados).toFixed(2)}`}</td>
                 <td>{reserva.detalleReserva[0].habitaciones.tipoHabitacion.nombre}</td>
                 {/* <td><a><i className="bi bi-arrow-right-square-fill"></i>Ver</a></td> */}
             </tr>

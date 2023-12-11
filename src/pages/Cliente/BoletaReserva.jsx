@@ -11,8 +11,6 @@ export default function BoletaReserva() {
     const { state } = location;
     const { checkIn, checkOut, categoria, idReserva } = state;
 
-    const totalReserva = (categoria.costoTotalCategoria + (categoria.costoTotalCategoria * 0.18)).toFixed(2);
-
     i18n.dayNames = [
         "Dom","Lun","Mar","Mie","Jue","Vie","Sab",
         "Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"
@@ -28,6 +26,20 @@ export default function BoletaReserva() {
             <li key={`${servicio.id}-${servicio.nombre}`}>{servicio.nombre}</li>
         )
     });
+
+    const numeroDiasReservados = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
+
+    let totalPrecioHabitacion;
+    let totalPrecioServicios;
+    let totalPrecioIGV;
+    let totalFinal;
+
+    if(categoria != null) {
+        totalPrecioHabitacion = (categoria.precioCategoria * numeroDiasReservados).toFixed(2);
+        totalPrecioServicios = (categoria.costoServicios * numeroDiasReservados).toFixed(2);
+        totalPrecioIGV = ((parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios)) * 0.18).toFixed(2);
+        totalFinal = (parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios) + parseFloat(totalPrecioIGV)).toFixed(2);
+    }
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/reservas/${idReserva}`)
@@ -71,14 +83,14 @@ export default function BoletaReserva() {
                                     <b>MEDIO DE PAGO</b>
                                     <p>PEDIDO: <span className="bold">{reserva.codigoReserva}</span></p>
                                     <p className="no-bold">Pago con tarjeta de Crédito (Visa)</p>
-                                    <p className="no-bold">S/ <span>{totalReserva}</span></p>
+                                    <p className="no-bold">S/ <span>{totalFinal}</span></p>
                                 </div>
                                 <div className="tarjeta info-resumen">
                                     <b>RESUMEN</b>
-                                    <p className="no-bold">{`${categoria.nombre} `}<span>S/ <span>{`${categoria.precioCategoria.toFixed(2)}`}</span></span></p>
-                                    <p className="no-bold">Servicios <span>S/ <span>{`${categoria.costoServicios.toFixed(2)}`}</span></span></p>
-                                    <p className="no-bold">IGV (18%) <span>S/ <span>{`${(categoria.costoTotalCategoria * 0.18).toFixed(2)}`}</span></span></p>
-                                    <p className="no-bold tarjeta-total">Total <span>S/ <span>{totalReserva}</span></span></p>
+                                    <p className="no-bold">{`${categoria.nombre} x ${numeroDiasReservados} dia(s) `}<span>S/ <span>{totalPrecioHabitacion}</span></span></p>
+                                    <p className="no-bold">{`Servicios x ${numeroDiasReservados} dia(s)`} <span>S/ <span>{totalPrecioServicios}</span></span></p>
+                                    <p className="no-bold">IGV (18%) <span>S/ <span>{totalPrecioIGV}</span></span></p>
+                                    <p className="no-bold tarjeta-total">Total <span>S/ <span>{totalFinal}</span></span></p>
                                 </div>
                             </div>
                         </div>

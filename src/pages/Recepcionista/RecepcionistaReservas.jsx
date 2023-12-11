@@ -61,13 +61,20 @@ const RecepcionistaReservas = () => {
               </tr>
             </thead>
             <tbody>
-              {(searchResult ? searchResult : reservas).map((reserva) => (
-                <tr key={reserva.id}>
+              {(searchResult ? searchResult : reservas).map((reserva) => {
+
+                const fechaInicio = new Date(new Date(reserva.detalleReserva[0].checkIn).getTime() + 86400000);
+                const fechaFinal = new Date(new Date(reserva.detalleReserva[0].chackOut).getTime() + 86400000);
+
+                const numeroDiasReservados = Math.round((fechaFinal - fechaInicio) / (1000 * 60 * 60 * 24)) + 1;
+
+                return (
+                  <tr key={reserva.id}>
                   <td>{reserva.id}</td>
                   <td>{reserva.codigoReserva}</td>
                   <td>{reserva.detalleReserva[0].habitaciones.numHabitacion}</td>
                   <td>{reserva.detalleReserva[0].habitaciones.tipoHabitacion.nombre}</td>
-                  <td>{`S/ ${(reserva.total + (reserva.total * 0.18)).toFixed(2)}`}</td>
+                  <td>{`S/ ${((reserva.total + (reserva.total * 0.18)) * numeroDiasReservados).toFixed(2)}`}</td>
                   <td>{reserva.fechaReserva}</td>
                   <td>
                     {reserva.usuario.nombre} {reserva.usuario.apellido}
@@ -76,7 +83,9 @@ const RecepcionistaReservas = () => {
                   <td>{reserva.detalleReserva[0].checkIn}</td>
                   <td>{reserva.detalleReserva[0].chackOut}</td>
                 </tr>
-              ))}
+                )
+              }
+              )}
             </tbody>
           </table>
         </div>
