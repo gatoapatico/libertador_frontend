@@ -6,6 +6,23 @@ export default function Home() {
 
     const [startDate, setStartDate, endDate, setEndDate] = useOutletContext();
 
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if(urlParams.has('services')) {
+        setTimeout(() => {
+            if(document.getElementById("services") != null) {
+                document.getElementById("services").scrollIntoView({ behavior: 'smooth'});
+            }   
+        }, 1);
+    }
+    else if(urlParams.has('rooms')) {
+        setTimeout(() => {
+            if(document.getElementById("rooms") != null) {
+                document.getElementById("rooms").scrollIntoView({ behavior: 'smooth'});
+            }   
+        }, 1);
+    }
+
     return (
         <div className='home'>
             <Landing
@@ -14,7 +31,7 @@ export default function Home() {
                 endDate={endDate}
                 setEndDate={setEndDate}
             />
-            <section className="services">
+            <section className="services" id="services">
                 <h1>Nuestros servicios</h1>
                 <div className="services-cards">
                     <div className="service">
@@ -47,7 +64,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="rooms">
+            <section className="rooms" id="rooms">
                 <h1>Nuestras Habitaciones</h1>
                 <div className="room-cards">
                     <div className="room">
