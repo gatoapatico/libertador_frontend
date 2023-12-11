@@ -52,7 +52,7 @@ export default function BoletaReserva() {
                                     <p className="encabezado-titulo">HOTEL LIBERTADOR - COMPROBANTE DE PAGO</p>
                                     <p className="tarjeta-pedido">
                                         Reserva Confirmada: 
-                                        <span className="tarjeta-pedido-codigo"> d757978e2c</span> | 
+                                        <span className="tarjeta-pedido-codigo"> {reserva.codigoReserva}</span> | 
                                         <span className="tarjeta-pedido-fecha"> {dateFormat(reserva.fechaReserva, "dd mmmm yyyy")}</span>
                                     </p>
                                 </div>
@@ -69,7 +69,7 @@ export default function BoletaReserva() {
                                 </div>
                                 <div className="tarjeta medio-pago">
                                     <b>MEDIO DE PAGO</b>
-                                    <p>PEDIDO: <span className="bold">d757978e2c</span></p>
+                                    <p>PEDIDO: <span className="bold">{reserva.codigoReserva}</span></p>
                                     <p className="no-bold">Pago con tarjeta de Crédito (Visa)</p>
                                     <p className="no-bold">S/ <span>{totalReserva}</span></p>
                                 </div>
@@ -84,7 +84,7 @@ export default function BoletaReserva() {
                         </div>
                         <div className="panel panel3">
                             <div className="info-pedido">
-                                <p>RESERVA: <span>d757978e2c</span></p>
+                                <p>RESERVA: <span>{reserva.codigoReserva}</span></p>
                                 <p>TIPO DE HABITACIÓN: <span>{categoria.nombre}</span></p>
                                 <p>FECHA INGRESO: <span>{dateFormat(checkIn, "dddd, d mmmm yyyy")}</span></p>
                                 <p>FECHA SALIDA: <span>{dateFormat(checkOut, "dddd, d mmmm yyyy")}</span></p>
