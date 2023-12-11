@@ -127,7 +127,7 @@ export default function AdminUsuariosRegistro({ cargarUsuarios }) {
       </div>
       <div className="input-form">
         <input
-          type="text"
+          type="password"
           id="txtContrasena"
           name="contrasena"
           placeholder="Ingrese una contraseña"
