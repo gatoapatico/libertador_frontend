@@ -24,6 +24,9 @@ const RecepcionistaReservas = () => {
     const data = await response.json();
     setSearchResult(data);
   };
+  const handleShowAll = () => {
+    setSearchResult(null); // Restablecer el estado de búsqueda
+  };
   return (
     <div className="recepcionista-reservas">
       <h1>RESERVAS</h1>
@@ -36,6 +39,7 @@ const RecepcionistaReservas = () => {
           onChange={(e) => setDni(e.target.value)}
         />
         <button onClick={handleSearch}>Buscar</button>
+        {searchResult && <button onClick={handleShowAll}>Mostrar Todo</button>}
       </div>
       <div className="panels">
         <div className="usuarios-tabla">
@@ -52,33 +56,19 @@ const RecepcionistaReservas = () => {
               </tr>
             </thead>
             <tbody>
-              {searchResult
-                ? searchResult.map((reserva) => (
-                    <tr key={reserva.id}>
-                      <td>{reserva.id}</td>
-                      <td>{reserva.total}</td>
-                      <td>{reserva.fechaReserva}</td>
-                      <td>
-                        {reserva.usuario.nombre} {reserva.usuario.apellido}
-                      </td>
-                      <td>{reserva.usuario.dni}</td>
-                      <td>{reserva.detalleReserva[0].checkIn}</td>
-                      <td>{reserva.detalleReserva[0].chackOut}</td>
-                    </tr>
-                  ))
-                : reservas.map((reserva) => (
-                    <tr key={reserva.id}>
-                      <td>{reserva.id}</td>
-                      <td>{reserva.total}</td>
-                      <td>{reserva.fechaReserva}</td>
-                      <td>
-                        {reserva.usuario.nombre} {reserva.usuario.apellido}
-                      </td>
-                      <td>{reserva.usuario.dni}</td>
-                      <td>{reserva.detalleReserva[0].checkIn}</td>
-                      <td>{reserva.detalleReserva[0].chackOut}</td>
-                    </tr>
-                  ))}
+              {(searchResult ? searchResult : reservas).map((reserva) => (
+                <tr key={reserva.id}>
+                  <td>{reserva.id}</td>
+                  <td>{reserva.total}</td>
+                  <td>{reserva.fechaReserva}</td>
+                  <td>
+                    {reserva.usuario.nombre} {reserva.usuario.apellido}
+                  </td>
+                  <td>{reserva.usuario.dni}</td>
+                  <td>{reserva.detalleReserva[0].checkIn}</td>
+                  <td>{reserva.detalleReserva[0].chackOut}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
