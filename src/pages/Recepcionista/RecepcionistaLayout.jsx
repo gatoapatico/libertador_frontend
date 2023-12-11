@@ -26,6 +26,7 @@ export default function RecepcionistaLayout() {
                 <ul className="navbar">
                     <li><NavLink to={"."}>Reservas<IoIosArrowUp className="icono" /></NavLink></li>
                     <li><NavLink to={"habitaciones"}>Habitaciones<IoIosArrowUp className="icono" /></NavLink></li>
+                    <li><NavLink to={"usuarios"}>Usuarios<IoIosArrowUp className="icono" /></NavLink></li>
                     <li><button className="btn-logout" onClick={handleLogOut}>Log Out<FaUser className="icono-logout" /></button></li>
                 </ul>
             </div>
