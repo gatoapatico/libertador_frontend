@@ -17,6 +17,7 @@ import AdminUsuarios from "./pages/Admin/AdminUsuarios";
 import RecepcionistaLayout from "./pages/Recepcionista/RecepcionistaLayout";
 import RecepcionistaReservas from "./pages/Recepcionista/RecepcionistaReservas";
 import RecepcionistaHabitaciones from "./pages/Recepcionista/RecepcionistaHabitaciones";
+import RecepcionistaUsuarios from "./pages/Recepcionista/RecepcionistaUsuarios";
 
 export default function App() {
     return (
@@ -41,6 +42,7 @@ export default function App() {
                 <Route path="recepcionista" element={<RecepcionistaLayout />}>
                     <Route index element={<RecepcionistaReservas />} />
                     <Route path="habitaciones" element={<RecepcionistaHabitaciones />} />
+                    <Route path="usuarios" element={<RecepcionistaUsuarios />} />
                 </Route>
             </Routes>
         </BrowserRouter>
