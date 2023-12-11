@@ -17,6 +17,8 @@ const RecepcionistaReservas = () => {
     fetchReservas();
   }, []);
 
+  console.log(reservas);
+
   const handleSearch = async () => {
     const response = await fetch(
       `http://localhost:8080/api/reservas/dni/${dni}`
@@ -47,7 +49,10 @@ const RecepcionistaReservas = () => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Total</th>
+                <th>Codigo de Reserva</th>
+                <th>Numero de Habitación</th>
+                <th>Tipo de Habitación</th>
+                <th>Total Pago</th>
                 <th>Fecha Reserva</th>
                 <th>Usuario</th>
                 <th>DNI</th>
@@ -59,7 +64,10 @@ const RecepcionistaReservas = () => {
               {(searchResult ? searchResult : reservas).map((reserva) => (
                 <tr key={reserva.id}>
                   <td>{reserva.id}</td>
-                  <td>{reserva.total}</td>
+                  <td>{reserva.codigoReserva}</td>
+                  <td>{reserva.detalleReserva[0].habitaciones.numHabitacion}</td>
+                  <td>{reserva.detalleReserva[0].habitaciones.tipoHabitacion.nombre}</td>
+                  <td>{`S/ ${(reserva.total + (reserva.total * 0.18)).toFixed(2)}`}</td>
                   <td>{reserva.fechaReserva}</td>
                   <td>
                     {reserva.usuario.nombre} {reserva.usuario.apellido}
