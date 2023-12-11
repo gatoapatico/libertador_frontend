@@ -9,7 +9,6 @@ import BoletaReserva from "./pages/Cliente/BoletaReserva";
 
 import AdminLayout from "./pages/Admin/AdminLayout";
 import AdminHabitaciones from "./pages/Admin/AdminHabitaciones";
-import AdminSalones from "./pages/Admin/AdminSalones";
 import AdminCategorias from "./pages/Admin/AdminCategorias";
 import AdminServicios from "./pages/Admin/AdminServicios";
 import AdminUsuarios from "./pages/Admin/AdminUsuarios";
@@ -33,7 +32,6 @@ export default function App() {
                 <Route path="admin" element={<AdminLayout />}>
                     <Route index element={<AdminUsuarios />} />
                     <Route path="habitaciones" element={<AdminHabitaciones />} />
-                    <Route path="salones" element={<AdminSalones />} />
                     <Route path="categorias" element={<AdminCategorias />} />
                     <Route path="servicios" element={<AdminServicios />} />
                 </Route>
