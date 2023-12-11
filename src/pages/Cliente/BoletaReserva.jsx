@@ -91,7 +91,7 @@ export default function BoletaReserva() {
                             </div>
                             <div className="info-reserva">
                                 <div className="imagen">
-                                    <img src={`/images/rooms/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
+                                    <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
                                 </div>
                                 <div className="info">
                                     <h3>{categoria.nombre}</h3>

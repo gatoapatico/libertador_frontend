@@ -165,7 +165,7 @@ export default function Reserva() {
         return (
             <div key={nanoid()} className={styleHabitacion}>
                 <div className="habitacion-imagen">
-                    <img src={`images/rooms/${fotosEl[0]}`} alt={`foto ${categoria.nombre}`} />
+                    <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${fotosEl[0]}`} alt={`foto ${categoria.nombre}`} />
                 </div>
                 <div className="habitacion-info">
                     <h3>{categoria.nombre}</h3>

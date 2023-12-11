@@ -12,7 +12,7 @@ export default function DetalleHabitacion({ handlePopDetalle, categoriaPop }) {
                 key={imagen}
                 className={index === 0 ? "selected" : ""}
                 onClick={(e) => handleImageChange(e.target)}
-                src={`images/rooms/${imagen}`}
+                src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${imagen}`}
                 alt={`foto ${imagen}`}
             />
         )
@@ -28,7 +28,7 @@ export default function DetalleHabitacion({ handlePopDetalle, categoriaPop }) {
 
     return (
         <div className="popup-detallehabitacion">
-            <img className="image-big" src={`images/rooms/${bigImage}`} alt={`foto ${categoriaPop.nombre}`} />
+            <img className="image-big" src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${bigImage}`} alt={`foto ${categoriaPop.nombre}`} />
             <div className="info">
                 <div className="imagenes">
                     {imagenesEl}

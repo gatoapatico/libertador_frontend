@@ -208,7 +208,7 @@ export default function Pago() {
         <div className="panel-categoria">
           <h1>{categoria.nombre}</h1>
           <img
-            src={`images/rooms/${categoria.foto[0].nombre}`}
+            src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`}
             alt={`Foto ${categoria.nombre}`}
           />
           <div className="detalle-reserva">
