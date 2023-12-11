@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminUsuariosRegistro from "../admin/AdminUsuariosRegistro";
-import AdminUsuariosModificar from "../admin/AdminUsuariosModificar";
 
 
 
