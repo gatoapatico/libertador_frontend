@@ -201,10 +201,10 @@ export default function Reserva() {
                     <div className="reservas-user">
                         <div className="inputs-user">
                             <div className="input">
-                                <i className="bi bi-person-standing"></i>
+                                {/* <i className="bi bi-person-standing"></i> */}
                                 <div className="input-info">
-                                    <h4>Huéspedes</h4>
-                                    <p>1 adulto</p>
+                                    <h4>FECHAS DE RESERVA</h4>
+                                    <p></p>
                                 </div>
                             </div>
                             <div className="fechas">
