@@ -25,7 +25,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/categorias')
+        fetch('http://localhost:8080/categorias')
             .then(res => res.json())
             .then(data => setCategorias(data));
     }, []);
@@ -33,9 +33,9 @@ export default function Home() {
     const listaCategorias = categorias.map(categoria => {
         return (
             <div key={`${categoria.id}-${categoria.nombre}`} className="room">
-                <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
+                <img src={`/images/rooms/${categoria.imagenes[0].path}`} alt={`Foto ${categoria.nombre}`} />
                 <h2>{categoria.nombre}</h2>
-                <p>{categoria.descripcion_breve}</p>
+                <p>{categoria.descripcionBreve}</p>
             </div>
         )
     });
