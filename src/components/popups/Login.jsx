@@ -11,9 +11,9 @@ export default function Login({ handleExit, openRegistro }) {
 
     function userlogin(e) {
         e.preventDefault();
-        const usuario = { email, contrasena };
+        const usuario = { "email": email, "password": contrasena };
 
-        fetch("http://localhost:8080/api/usuarios/login", {
+        fetch("http://localhost:8080/usuarios/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(usuario),
@@ -21,6 +21,7 @@ export default function Login({ handleExit, openRegistro }) {
         .then((res) => {
             if (!res.ok) {
                 setIsFail(true);
+                res.json().then(data => console.log(data));
                 throw new Error(`HTTP error! Status: ${res.status}`);
             }
             return res.json();
