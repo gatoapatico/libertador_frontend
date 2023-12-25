@@ -99,7 +99,8 @@ export default function Reserva() {
     useEffect(() => {
 
         async function getCategoriasByHabitaciones() {
-            const res = await fetch(`http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=${checkInDate}&fechaCheckOut=${checkOutDate}`);
+            /* const res = await fetch(`http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=${checkInDate}&fechaCheckOut=${checkOutDate}`); */
+            const res = await fetch(`http://localhost:8080/habitaciones/disponibles`);
             const data = await res.json();
 
             let dataIndexCategoriasDisponibles = {}
@@ -108,7 +109,7 @@ export default function Reserva() {
                 if(habitacion.disponibilidad === "Disponible") {
                     dataIndexCategoriasDisponibles = {
                         ...dataIndexCategoriasDisponibles,
-                        [habitacion.tipoHabitacion.id] : !dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] ? 1 : dataIndexCategoriasDisponibles[habitacion.tipoHabitacion.id] + 1
+                        [habitacion.categoria.id] : !dataIndexCategoriasDisponibles[habitacion.categoria.id] ? 1 : dataIndexCategoriasDisponibles[habitacion.categoria.id] + 1
                     }
                 }
             });
@@ -116,7 +117,7 @@ export default function Reserva() {
         }
 
         async function seteoDeCategorias(dataIndexCategoriasDisponibles) {
-            const res = await fetch('http://localhost:8080/api/categorias');
+            const res = await fetch('http://localhost:8080/categorias');
             const data = await res.json();
 
             const categoriasDisponibles = data.map(categoria => {
@@ -147,7 +148,7 @@ export default function Reserva() {
             )
         })
 
-        const fotosEl = categoria.foto.map(foto => foto.nombre);
+        const fotosEl = categoria.imagenes.map(imagen => imagen.path);
 
         let txtHabitacionesDisponibles = "";
         let txtBtnReservar = "";
@@ -177,7 +178,7 @@ export default function Reserva() {
         return (
             <div key={nanoid()} className={styleHabitacion}>
                 <div className="habitacion-imagen">
-                    <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${fotosEl[0]}`} alt={`foto ${categoria.nombre}`} />
+                    <img src={`/images/rooms/${fotosEl[0]}`} alt={`foto ${categoria.nombre}`} />
                 </div>
                 <div className="habitacion-info">
                     <h3>{categoria.nombre}</h3>
@@ -193,7 +194,7 @@ export default function Reserva() {
                             <h4><i className="bi bi-credit-card-fill"></i>Depósito obligatorio</h4>
                         </div>
                         <div className="precio-reserva">
-                            <h1>S/{categoria.precioCategoria.toFixed(2)}</h1>
+                            <h1>S/{categoria.precio.toFixed(2)}</h1>
                             <p>Por noche</p>
                             <p>Impuestos y tasas excluidos</p>
                             <button disabled={isDisabled} className={btnStyles} onClick={() => handleReserva(categoria)}>{txtBtnReservar}</button>

@@ -4,7 +4,7 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 export default function DetalleHabitacion({ handlePopDetalle, categoriaPop }) {
 
 
-    const fotosEl = categoriaPop.foto.map(foto => foto.nombre);
+    const fotosEl = categoriaPop.imagenes.map(imagen => imagen.path);
 
     const imagenesEl = fotosEl.map((imagen, index) => {
         return (
@@ -12,7 +12,7 @@ export default function DetalleHabitacion({ handlePopDetalle, categoriaPop }) {
                 key={imagen}
                 className={index === 0 ? "selected" : ""}
                 onClick={(e) => handleImageChange(e.target)}
-                src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${imagen}`}
+                src={`/images/rooms/${imagen}`}
                 alt={`foto ${imagen}`}
             />
         )
@@ -34,7 +34,7 @@ export default function DetalleHabitacion({ handlePopDetalle, categoriaPop }) {
                     {imagenesEl}
                 </div>
                 <h1>{categoriaPop.nombre.toUpperCase()}</h1>
-                <p>{categoriaPop.descripcion_larga}</p>
+                <p>{categoriaPop.descripcionLarga}</p>
             </div>
             <span onClick={handlePopDetalle}><IoCloseCircleSharp /></span>
         </div>
