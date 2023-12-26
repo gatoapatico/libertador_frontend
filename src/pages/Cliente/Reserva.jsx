@@ -46,8 +46,8 @@ export default function Reserva() {
     let totalFinal;
 
     if(categoriaSelected != null) {
-        totalPrecioHabitacion = (categoriaSelected.precioCategoria * numeroDiasReservados).toFixed(2);
-        totalPrecioServicios = (categoriaSelected.costoServicios * numeroDiasReservados).toFixed(2);
+        totalPrecioHabitacion = (categoriaSelected.precio * numeroDiasReservados).toFixed(2);
+        totalPrecioServicios = (categoriaSelected.servicios.reduce((totalServicios, servicio) => totalServicios + servicio.costo, 0) * numeroDiasReservados).toFixed(2);
         totalPrecioIGV = ((parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios)) * 0.18).toFixed(2);
         totalFinal = (parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios) + parseFloat(totalPrecioIGV)).toFixed(2);
     }

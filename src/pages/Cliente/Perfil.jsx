@@ -18,26 +18,31 @@ export default function Perfil() {
     ];
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/usuarios/${user.id}`)
+        fetch(`http://localhost:8080/usuarios/${user.id}`)
             .then(res => res.json())
             .then(data => setReservas(data.reservas));
     }, []);
 
     const listaReservas = reservas.map((reserva, index) => {
 
-        const fechaInicio = new Date(new Date(reserva.detalleReserva[0].checkIn).getTime() + 86400000);
-        const fechaFinal = new Date(new Date(reserva.detalleReserva[0].chackOut).getTime() + 86400000);
+        const fechaInicio = new Date(new Date(reserva.checkIn).getTime() + 86400000);
+        const fechaFinal = new Date(new Date(reserva.checkOut).getTime() + 86400000);
 
         const numeroDiasReservados = Math.round((fechaFinal - fechaInicio) / (1000 * 60 * 60 * 24)) + 1;
+
+        const precioCategoria = reserva.habitacion.categoria.precio;
+        const precioServicios = reserva.habitacion.categoria.servicios.reduce((totalCosto, servicio) => totalCosto + servicio.costo, 0);
+        const precioIGV = (precioCategoria + precioServicios) * 0.18;
+        const precioTotal = precioCategoria + precioServicios + precioIGV;
 
         return (
             <tr key={`${reserva.id}-${reserva.fechaReserva}`}>
                 <td>{index + 1}</td>
-                <td>{dateFormat(new Date(new Date(reserva.detalleReserva[0].checkIn).getTime() + 86400000), "dd mmmm yyyy")}</td>
-                <td>{dateFormat(new Date(new Date(reserva.detalleReserva[0].chackOut).getTime() + 86400000), "dd mmmm yyyy")}</td>
+                <td>{dateFormat(new Date(new Date(reserva.checkIn).getTime() + 86400000), "dd mmmm yyyy")}</td>
+                <td>{dateFormat(new Date(new Date(reserva.checkOut).getTime() + 86400000), "dd mmmm yyyy")}</td>
                 <td>{reserva.codigoReserva}</td>
-                <td>{`S/ ${((reserva.total + (reserva.total * 0.18)) * numeroDiasReservados).toFixed(2)}`}</td>
-                <td>{reserva.detalleReserva[0].habitaciones.tipoHabitacion.nombre}</td>
+                <td>{`S/ ${(precioTotal * numeroDiasReservados).toFixed(2)}`}</td>
+                <td>{reserva.habitacion.categoria.nombre}</td>
                 {/* <td><a><i className="bi bi-arrow-right-square-fill"></i>Ver</a></td> */}
             </tr>
         )
