@@ -65,20 +65,26 @@ export default function Pago() {
 
     function handlePago() {
         codigoReserva = uuidv4().split("-")[0];
-        const reservaObjeto = {
-            usuario: {
-                id: user.id,
-            },
-            fechaReserva: dateFormat(new Date(), "yyyy-mm-dd"),
-            codigoReserva: codigoReserva,
-        };
 
         const habitacionLibre = categoria.habitaciones.filter(
             (habitacion) =>
                 !habitacion.fechasReservadas.includes(dateFormat(checkIn, "yyyy-mm-dd"))
         )[0];
 
-        fetch("http://localhost:8080/api/reservas", {
+        const reservaObjeto = {
+            "codigoReserva" : codigoReserva,
+            "fechaReserva" : dateFormat(new Date(), "yyyy-mm-dd"),
+            "checkIn" : dateFormat(checkIn, "yyyy-mm-dd"),
+            "checkOut" : dateFormat(checkOut, "yyyy-mm-dd"),
+            "usuario" : {
+                "id" : user.id,
+            },
+            "habitacion" : {
+                "id" : habitacionLibre.id
+            }
+        };
+
+        fetch("http://localhost:8080/reservas", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reservaObjeto),
@@ -91,46 +97,17 @@ export default function Pago() {
                 return res.json();
             })
             .then((data) => {
-                const reservaID = data.idReserva;
+                const reservaID = data.id;
 
-                const detalleObjeto = {
-                    checkIn: dateFormat(checkIn, "yyyy-mm-dd"),
-                    chackOut: dateFormat(checkOut, "yyyy-mm-dd"),
-                    habitaciones: {
-                        id: habitacionLibre.id,
-                    },
-                    reserva: {
-                        id: data.idReserva,
-                    },
+                const objeto = {
+                    checkIn: checkIn,
+                    checkOut: checkOut,
+                    categoria: { ...categoria },
+                    idReserva: reservaID,
                 };
-
-                fetch("http://localhost:8080/api/detalles", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(detalleObjeto),
-                })
-                    .then((res) => {
-                        if (!res.ok) {
-                            console.log("Falló en el fetch de creacion de detalle reserva!");
-                            throw new Error(`HTTP error! Status: ${res.status}`);
-                        }
-                        return res.json();
-                    })
-                    .then((data) => {
-                        console.log("Creación de detalle reserva con exito!");
-                        
-                        const objeto = {
-                            checkIn: checkIn,
-                            checkOut: checkOut,
-                            categoria: { ...categoria },
-                            idReserva: reservaID,
-                        };
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                        navigate("/boleta-reserva", { state: objeto });
-                    })
-                    .catch((error) => {
-                        console.error("Error:", error.message);
-                    });
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                navigate("/boleta-reserva", { state: objeto });
+                
             })
             .catch((error) => {
                 console.error("Error:", error.message);

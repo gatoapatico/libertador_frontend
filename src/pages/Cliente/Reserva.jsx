@@ -99,8 +99,7 @@ export default function Reserva() {
     useEffect(() => {
 
         async function getCategoriasByHabitaciones() {
-            /* const res = await fetch(`http://localhost:8080/api/habitaciones/disponibles?fechaCheckIn=${checkInDate}&fechaCheckOut=${checkOutDate}`); */
-            const res = await fetch(`http://localhost:8080/habitaciones/disponibles`);
+            const res = await fetch(`http://localhost:8080/habitaciones/disponibles?checkin=${checkInDate}&checkout=${checkOutDate}`);
             const data = await res.json();
 
             let dataIndexCategoriasDisponibles = {}
