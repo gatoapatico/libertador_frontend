@@ -35,14 +35,14 @@ export default function BoletaReserva() {
     let totalFinal;
 
     if(categoria != null) {
-        totalPrecioHabitacion = (categoria.precioCategoria * numeroDiasReservados).toFixed(2);
-        totalPrecioServicios = (categoria.costoServicios * numeroDiasReservados).toFixed(2);
+        totalPrecioHabitacion = (categoria.precio * numeroDiasReservados).toFixed(2);
+        totalPrecioServicios = (categoria.servicios.reduce((totalServicios, servicio) => totalServicios + servicio.costo, 0) * numeroDiasReservados).toFixed(2);
         totalPrecioIGV = ((parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios)) * 0.18).toFixed(2);
         totalFinal = (parseFloat(totalPrecioHabitacion) + parseFloat(totalPrecioServicios) + parseFloat(totalPrecioIGV)).toFixed(2);
     }
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/reservas/${idReserva}`)
+        fetch(`http://localhost:8080/reservas/${idReserva}`)
             .then(res => res.json())
             .then(data => setReserva(data));
     }, []);
@@ -103,11 +103,11 @@ export default function BoletaReserva() {
                             </div>
                             <div className="info-reserva">
                                 <div className="imagen">
-                                    <img src={`https://hotel-libetador.s3.us-east-2.amazonaws.com/${categoria.foto[0].nombre}`} alt={`Foto ${categoria.nombre}`} />
+                                    <img src={`/images/rooms/${categoria.imagenes[0].path}`} alt={`Foto ${categoria.nombre}`} />
                                 </div>
                                 <div className="info">
                                     <h3>{categoria.nombre}</h3>
-                                    <p>{categoria.descripcion_breve}</p>
+                                    <p>{categoria.descripcionBreve}</p>
                                     <h4>Servicios incluidos:</h4>
                                     <ul>
                                         {listaServicios}
