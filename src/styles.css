@@ -165,7 +165,7 @@ section {
 
         & .landing {
             height: 90vh;
-            background-image: url('images/landing_bg.png');
+            background-image: url('/images/landing_bg.png');
             background-position-x: center;
             background-position-y: center;
             background-color: #6b6b6b;
