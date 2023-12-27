@@ -1193,7 +1193,7 @@ section {
 
         & .login-details {
             width: 50%;
-            background-image: url('images/popups/login-img.jpg');
+            background-image: url('/images/popups/login-img.jpg');
             background-size: cover;
             color: white;
             /* display: flex;
@@ -1300,7 +1300,7 @@ section {
 
         & .registro-details {
             width: 50%;
-            background-image: url('images/popups/signup-img.png');
+            background-image: url('/images/popups/signup-img.png');
             background-size: cover;
             color: white;
             /* display: flex;
