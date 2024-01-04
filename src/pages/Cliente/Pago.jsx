@@ -84,7 +84,7 @@ export default function Pago() {
             }
         };
 
-        fetch("http://localhost:8080/reservas", {
+        fetch("https://libertador-backend.azurewebsites.net/reservas", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reservaObjeto),

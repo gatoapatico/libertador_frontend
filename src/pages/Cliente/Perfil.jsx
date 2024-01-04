@@ -18,7 +18,7 @@ export default function Perfil() {
     ];
 
     useEffect(() => {
-        fetch(`http://localhost:8080/usuarios/${user.id}`)
+        fetch(`https://libertador-backend.azurewebsites.net/usuarios/${user.id}`)
             .then(res => res.json())
             .then(data => setReservas(data.reservas));
     }, []);

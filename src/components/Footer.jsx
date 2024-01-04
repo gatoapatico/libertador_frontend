@@ -57,7 +57,7 @@ export default function Footer() {
             "telefono": telefonoI
         }
 
-        fetch("http://localhost:8080/api/informes", {
+        fetch("https://libertador-backend.azurewebsites.net/informes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objetoInforme),
