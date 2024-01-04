@@ -99,7 +99,7 @@ export default function Registro({ handleExit, openLogin }) {
     }
 
     function registerNewUser() {
-        fetch("http://localhost:8080/usuarios", {
+        fetch("https://libertador-backend.azurewebsites.net/usuarios", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(usuario),

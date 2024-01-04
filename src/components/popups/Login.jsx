@@ -13,7 +13,7 @@ export default function Login({ handleExit, openRegistro }) {
         e.preventDefault();
         const usuario = { "email": email, "password": contrasena };
 
-        fetch("http://localhost:8080/usuarios/login", {
+        fetch("https://libertador-backend.azurewebsites.net/usuarios/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(usuario),

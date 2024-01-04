@@ -42,7 +42,7 @@ export default function BoletaReserva() {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:8080/reservas/${idReserva}`)
+        fetch(`https://libertador-backend.azurewebsites.net/reservas/${idReserva}`)
             .then(res => res.json())
             .then(data => setReserva(data));
     }, []);

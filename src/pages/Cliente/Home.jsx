@@ -25,7 +25,7 @@ export default function Home() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/categorias')
+        fetch('https://libertador-backend.azurewebsites.net/categorias')
             .then(res => res.json())
             .then(data => setCategorias(data));
     }, []);

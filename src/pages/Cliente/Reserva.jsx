@@ -99,7 +99,7 @@ export default function Reserva() {
     useEffect(() => {
 
         async function getCategoriasByHabitaciones() {
-            const res = await fetch(`http://localhost:8080/habitaciones/disponibles?checkin=${checkInDate}&checkout=${checkOutDate}`);
+            const res = await fetch(`https://libertador-backend.azurewebsites.net/habitaciones/disponibles?checkin=${checkInDate}&checkout=${checkOutDate}`);
             const data = await res.json();
 
             let dataIndexCategoriasDisponibles = {}
@@ -116,7 +116,7 @@ export default function Reserva() {
         }
 
         async function seteoDeCategorias(dataIndexCategoriasDisponibles) {
-            const res = await fetch('http://localhost:8080/categorias');
+            const res = await fetch('https://libertador-backend.azurewebsites.net/categorias');
             const data = await res.json();
 
             const categoriasDisponibles = data.map(categoria => {
